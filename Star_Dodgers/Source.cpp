@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <Windows.h>
 #include <iostream>
+#include "EasySFML.h"
 
 int main() {
 
