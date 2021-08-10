@@ -13,11 +13,11 @@ IF (WIN32)
 ENDIF()
 
 # Find SFML shared libraries
-find_package(SFML 2.5.1)
+find_package(SFML 2.5.1 COMPONENTS graphics system window)
 
 add_executable(Star_Dodgers Source.cpp)
 link_directories(Star_Dodgers SFML-2.5.1/lib)
-target_link_libraries(Star_Dodgers sfml-main )
+target_link_libraries(Star_Dodgers sfml-graphics sfml-window sfml-system )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

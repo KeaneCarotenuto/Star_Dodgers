@@ -1,10 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Star_Dodgers.dir/Source.cpp.obj"
-  "CMakeFiles/Star_Dodgers.dir/Source.cpp.obj.d"
-  "Star_Dodgers.exe"
-  "Star_Dodgers.exe.manifest"
+  "CMakeFiles/Star_Dodgers.dir/Source.cpp.o"
+  "CMakeFiles/Star_Dodgers.dir/Source.cpp.o.d"
+  "Star_Dodgers"
   "Star_Dodgers.pdb"
-  "libStar_Dodgers.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

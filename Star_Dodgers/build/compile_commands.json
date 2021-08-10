@@ -1,7 +1,7 @@
 [
 {
-  "directory": "D:/Users/mds000020d/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
-  "command": "D:\\Users\\mds000020d\\scoop\\apps\\MSYS2\\2021-06-04\\mingw64\\bin\\x86_64-w64-mingw32-g++.exe   -g -o CMakeFiles\\Star_Dodgers.dir\\Source.cpp.obj -c D:\\Users\\mds000020d\\Documents\\Repos\\Star_Dodgers\\Star_Dodgers\\Source.cpp",
-  "file": "D:/Users/mds000020d/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
 }
 ]

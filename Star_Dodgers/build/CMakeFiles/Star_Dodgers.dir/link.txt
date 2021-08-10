@@ -1,3 +1,1 @@
-D:\Users\mds000020d\scoop\apps\cmake\3.21.1\bin\cmake.exe -E rm -f CMakeFiles\Star_Dodgers.dir/objects.a
-D:\Users\mds000020d\scoop\apps\MSYS2\2021-06-04\mingw64\bin\ar.exe qc CMakeFiles\Star_Dodgers.dir/objects.a @CMakeFiles\Star_Dodgers.dir\objects1.rsp
-D:\Users\mds000020d\scoop\apps\MSYS2\2021-06-04\mingw64\bin\x86_64-w64-mingw32-g++.exe -g -Wl,--whole-archive CMakeFiles\Star_Dodgers.dir/objects.a -Wl,--no-whole-archive -o Star_Dodgers.exe -Wl,--out-implib,libStar_Dodgers.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Star_Dodgers.dir\linklibs.rsp
+/usr/bin/c++ -g -rdynamic CMakeFiles/Star_Dodgers.dir/Source.cpp.o -o Star_Dodgers  /usr/lib/libsfml-graphics.so.2.5.1 /usr/lib/libsfml-window.so.2.5.1 /usr/lib/libsfml-system.so.2.5.1 

@@ -4,17 +4,17 @@
 
 
 # Configuration directories and files
-SourceDirectory: D:/Users/mds000020d/Documents/Repos/Star_Dodgers/Star_Dodgers
-BuildDirectory: D:/Users/mds000020d/Documents/Repos/Star_Dodgers/Star_Dodgers/build
+SourceDirectory: /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers
+BuildDirectory: /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: 410C005
+Site: Nerys-Workstation
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Win32-mingw32-make
+BuildName: Linux-c++
 
 # Subprojects
 LabelsForSubprojects: 
@@ -26,8 +26,8 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "D:/Users/mds000020d/scoop/apps/cmake/3.21.1/bin/cmake.exe" "D:/Users/mds000020d/Documents/Repos/Star_Dodgers/Star_Dodgers"
-MakeCommand: D:/Users/mds000020d/scoop/apps/cmake/3.21.1/bin/cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
+ConfigureCommand: "/usr/bin/cmake" "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers"
+MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: D:/Users/mds000020d/scoop/apps/MSYS2/2021-06-04/mingw64/bin/x86_64-w64-mingw32-g++.exe
-CompilerVersion: 10.3.0
+Compiler: /usr/bin/c++
+CompilerVersion: 11.1.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
@@ -80,7 +80,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: D:/Users/mds000020d/scoop/apps/MSYS2/2021-06-04/mingw64/bin/gcov.exe
+CoverageCommand: /usr/bin/gcov
 CoverageExtraFlags: -l
 
 # Testing options

@@ -49,9 +49,10 @@
 //==========================================================
 ////////////////////////////////////////////////////////////
 #pragma once
-#include <SFML\System.hpp>
-#include <SFML\Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
+#include <cmath>
 
 // --------------------------------------------------------------------------------
 /// <summary>
@@ -62,6 +63,7 @@
 class CGameObject
 {
 	friend class CObjectController;
+
 public:
 	// ********************************************************************************
 	/// <summary>
@@ -69,14 +71,14 @@ public:
 	/// </summary>
 	/// <param name="_fDeltaTime">Type: Float, Time since last frame</param>
 	// ********************************************************************************
-	virtual void Update(float _fDeltaTime) {};
+	virtual void Update(float _fDeltaTime){};
 
 	// ********************************************************************************
 	/// <summary>
 	/// This method is called at fixed intervals if it is defined in a derived class
 	/// </summary>
 	// ********************************************************************************
-	virtual void FixedUpdate() {};
+	virtual void FixedUpdate(){};
 
 	// ********************************************************************************
 	/// <summary>
@@ -84,10 +86,11 @@ public:
 	/// </summary>
 	/// <param name="_fDeltaTime">Type: Float, Time since last frame</param>
 	// ********************************************************************************
-	virtual void LateUpdate(float _fDeltaTime) {};
+	virtual void LateUpdate(float _fDeltaTime){};
 
 	/// <summary>Stores whether the derived object is enabled</summary>
 	bool bIsEnabled = true;
+
 protected:
 	// ********************************************************************************
 	/// <summary>
@@ -110,12 +113,13 @@ protected:
 	/// <returns></returns>
 	// ********************************************************************************
 	virtual ~CGameObject();
+
 private:
 	/// <summary>Pointer to the next CGameObject in the linked list of updatable objects</summary>
-	CGameObject* m_pNext;
+	CGameObject *m_pNext;
 
 	/// <summary>Pointer to the previous CGameObject in the linked list of updatable objects</summary>
-	CGameObject* m_pPrev;
+	CGameObject *m_pPrev;
 };
 // --------------------------------------------------------------------------------
 /// <summary>
@@ -125,8 +129,8 @@ private:
 class CObjectController
 {
 	friend class CGameObject;
-public:
 
+public:
 	// ********************************************************************************
 	/// <summary>
 	/// <para>
@@ -180,6 +184,7 @@ public:
 	/// </para></param>
 	// ********************************************************************************
 	static void LateUpdate(float _fDeltaTime);
+
 private:
 	/// <summary>Measures the time between frames</summary>
 	static sf::Clock deltaClock;
@@ -202,7 +207,7 @@ private:
 	/// Type: CGameObject Pointer
 	/// </para></param>
 	// ********************************************************************************
-	static void AddUpdater(CGameObject* _updateable);
+	static void AddUpdater(CGameObject *_updateable);
 
 	// ********************************************************************************
 	/// <summary>
@@ -216,7 +221,7 @@ private:
 	/// Type: CGameObject Pointer
 	/// </para></param>
 	// ********************************************************************************
-	static void RemoveUpdater(CGameObject* _updateable);
+	static void RemoveUpdater(CGameObject *_updateable);
 
 	// ********************************************************************************
 	/// <summary>
@@ -227,7 +232,7 @@ private:
 	/// </summary>
 	/// <returns>Value of type: CGameObject Pointer</returns>
 	// ********************************************************************************
-	static CGameObject** GetHead();
+	static CGameObject **GetHead();
 };
 // --------------------------------------------------------------------------------
 /// <summary>
@@ -238,8 +243,8 @@ class CWindowUtilities
 {
 public:
 	/// <summary>A vector of all the objects to be drawn this frame</summary>
-	static std::vector<sf::Drawable*> ToDrawList;
-	static std::vector<CGameObject*> ToDeleteList;
+	static std::vector<sf::Drawable *> ToDrawList;
+	static std::vector<CGameObject *> ToDeleteList;
 
 	static sf::Vector2f ScreenCentre;
 	static float RenderDistance;
@@ -256,6 +261,6 @@ public:
 	/// Type: sf::Drawable Pointer
 	/// </para></param>
 	// ********************************************************************************
-	static void Draw(sf::Drawable* Draw);
-	static void Draw(sf::Drawable* Draw, sf::Vector2f Pos);
+	static void Draw(sf::Drawable *Draw);
+	static void Draw(sf::Drawable *Draw, sf::Vector2f Pos);
 };

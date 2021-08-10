@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/Users/mds000020d/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp" "CMakeFiles/Star_Dodgers.dir/Source.cpp.obj" "gcc" "CMakeFiles/Star_Dodgers.dir/Source.cpp.obj.d"
+  "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp" "CMakeFiles/Star_Dodgers.dir/Source.cpp.o" "gcc" "CMakeFiles/Star_Dodgers.dir/Source.cpp.o.d"
   )
 
 # Targets to which this target links.
