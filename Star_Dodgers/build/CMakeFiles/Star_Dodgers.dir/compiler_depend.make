@@ -320,6 +320,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
   /usr/include/c++/11.1.0/iostream \
   /usr/include/c++/11.1.0/istream \
   /usr/include/c++/11.1.0/bits/istream.tcc \
+  ../CGamepad.h \
+  ../IGamepadInput.h \
   ../EasySFML.h \
   /usr/include/c++/11.1.0/cmath \
   /usr/include/math.h \
@@ -377,6 +379,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/include/bits/math-vector.h:
 
 /usr/include/c++/11.1.0/cmath:
+
+../IGamepadInput.h:
 
 /usr/include/SFML/Audio/SoundFileWriter.hpp:
 
@@ -1031,6 +1035,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/lib/gcc/x86_64-pc-linux-gnu/11.1.0/include/stdarg.h:
 
 /usr/include/SFML/Window/Keyboard.hpp:
+
+../CGamepad.h:
 
 /usr/include/SFML/Window/Mouse.hpp:
 

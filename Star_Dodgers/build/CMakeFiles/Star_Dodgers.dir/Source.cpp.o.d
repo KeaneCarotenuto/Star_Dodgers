@@ -265,4 +265,6 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: \
  /usr/include/c++/11.1.0/tr1/modified_bessel_func.tcc \
  /usr/include/c++/11.1.0/tr1/poly_hermite.tcc \
  /usr/include/c++/11.1.0/tr1/poly_laguerre.tcc \
- /usr/include/c++/11.1.0/tr1/riemann_zeta.tcc
+ /usr/include/c++/11.1.0/tr1/riemann_zeta.tcc \
+ /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGamepad.h \
+ /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/IGamepadInput.h

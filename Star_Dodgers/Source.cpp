@@ -4,6 +4,7 @@
 #include <string>
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
+#include "CGamepad.h"
 
 int main()
 {

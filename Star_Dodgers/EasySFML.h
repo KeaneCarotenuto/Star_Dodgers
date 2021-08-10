@@ -48,7 +48,8 @@
 //    E-mail    : NerysThamm@gmail.com
 //==========================================================
 ////////////////////////////////////////////////////////////
-#pragma once
+#ifndef EASYSFML_H
+#define EASYSFML_H
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -264,3 +265,5 @@ public:
 	static void Draw(sf::Drawable *Draw);
 	static void Draw(sf::Drawable *Draw, sf::Vector2f Pos);
 };
+
+#endif
