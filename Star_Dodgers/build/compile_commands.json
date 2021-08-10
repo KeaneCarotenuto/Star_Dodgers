@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
-  "command": "/usr/bin/c++   -g -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
+  "command": "/usr/bin/c++   -O3 -DNDEBUG -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
   "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
 }
 ]

@@ -23,7 +23,7 @@ enum class Button
 
 struct GamepadButtonEvent
 {
-    enum EventType
+    enum class EventType
     {
         PRESSED,
         RELEASED,
@@ -35,7 +35,7 @@ struct GamepadButtonEvent
 class IGamepadInput
 {
 public:
-    virtual void OnButtonInput(GamepadButtonEvent _event) = 0;
+    virtual void OnButtonInput(GamepadButtonEvent _event);
 
 protected:
     IGamepadInput();

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <map>
 #include "IGamepadInput.h"
+#include "EasySFML.h"
 
 #define SOUTH_BUTTON 0
 #define EAST_BUTTON 1
@@ -32,9 +33,9 @@
 #define RIGHT_TRIGGER sf::Joystick::R
 
 #define DPAD_X sf::Joystick::PovX
-#define DPAD_X sf::Joystick::PovY
+#define DPAD_Y sf::Joystick::PovY
 
-class CGamepad
+class CGamepad : CGameObject
 {
 public:
     CGamepad(int _gamepadIndex);
@@ -50,4 +51,10 @@ public:
 
 private:
     std::map<std::string, IGamepadInput> m_Bindings;
+    int m_GamepadIndex;
+    void Update(float _fDeltaTime);
+    bool m_WasPressedLastFrame[13];
+    bool m_CurrentlyPressed[13];
+    bool m_PressedThisFrame[13];
+    bool m_ReleasedThisFrame[13];
 };

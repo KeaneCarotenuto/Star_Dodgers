@@ -148,6 +148,7 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
   /usr/include/bits/select.h \
   /usr/include/bits/types/sigset_t.h \
   /usr/include/alloca.h \
+  /usr/include/bits/stdlib-bsearch.h \
   /usr/include/bits/stdlib-float.h \
   /usr/include/c++/11.1.0/bits/std_abs.h \
   /usr/include/c++/11.1.0/cstdio \
@@ -157,6 +158,7 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
   /usr/include/bits/types/struct_FILE.h \
   /usr/include/bits/types/cookie_io_functions_t.h \
   /usr/include/bits/stdio_lim.h \
+  /usr/include/bits/stdio.h \
   /usr/include/c++/11.1.0/cerrno \
   /usr/include/errno.h \
   /usr/include/bits/errno.h \
@@ -318,14 +320,71 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
   /usr/include/c++/11.1.0/iostream \
   /usr/include/c++/11.1.0/istream \
   /usr/include/c++/11.1.0/bits/istream.tcc \
-  ../EasySFML.h
+  ../EasySFML.h \
+  /usr/include/c++/11.1.0/cmath \
+  /usr/include/math.h \
+  /usr/include/bits/math-vector.h \
+  /usr/include/bits/libm-simd-decl-stubs.h \
+  /usr/include/bits/flt-eval-method.h \
+  /usr/include/bits/fp-logb.h \
+  /usr/include/bits/fp-fast.h \
+  /usr/include/bits/mathcalls-helper-functions.h \
+  /usr/include/bits/mathcalls.h \
+  /usr/include/bits/mathcalls-narrow.h \
+  /usr/include/bits/iscanonical.h \
+  /usr/include/c++/11.1.0/bits/specfun.h \
+  /usr/include/c++/11.1.0/limits \
+  /usr/include/c++/11.1.0/tr1/gamma.tcc \
+  /usr/include/c++/11.1.0/tr1/special_function_util.h \
+  /usr/include/c++/11.1.0/tr1/bessel_function.tcc \
+  /usr/include/c++/11.1.0/tr1/beta_function.tcc \
+  /usr/include/c++/11.1.0/tr1/ell_integral.tcc \
+  /usr/include/c++/11.1.0/tr1/exp_integral.tcc \
+  /usr/include/c++/11.1.0/tr1/hypergeometric.tcc \
+  /usr/include/c++/11.1.0/tr1/legendre_function.tcc \
+  /usr/include/c++/11.1.0/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/11.1.0/tr1/poly_hermite.tcc \
+  /usr/include/c++/11.1.0/tr1/poly_laguerre.tcc \
+  /usr/include/c++/11.1.0/tr1/riemann_zeta.tcc
 
+
+/usr/include/c++/11.1.0/tr1/riemann_zeta.tcc:
+
+/usr/include/c++/11.1.0/tr1/poly_hermite.tcc:
+
+/usr/include/c++/11.1.0/tr1/modified_bessel_func.tcc:
+
+/usr/include/c++/11.1.0/tr1/hypergeometric.tcc:
+
+/usr/include/c++/11.1.0/tr1/exp_integral.tcc:
+
+/usr/include/c++/11.1.0/tr1/ell_integral.tcc:
+
+/usr/include/c++/11.1.0/tr1/beta_function.tcc:
+
+/usr/include/c++/11.1.0/tr1/special_function_util.h:
+
+/usr/include/c++/11.1.0/limits:
+
+/usr/include/bits/iscanonical.h:
+
+/usr/include/bits/mathcalls-helper-functions.h:
+
+/usr/include/bits/fp-logb.h:
+
+/usr/include/bits/libm-simd-decl-stubs.h:
+
+/usr/include/bits/math-vector.h:
+
+/usr/include/c++/11.1.0/cmath:
 
 /usr/include/SFML/Audio/SoundFileWriter.hpp:
 
 /usr/include/SFML/Audio/SoundFileReader.hpp:
 
 /usr/include/SFML/Audio/SoundFileFactory.inl:
+
+/usr/include/bits/mathcalls.h:
 
 /usr/include/SFML/Audio/SoundRecorder.hpp:
 
@@ -373,6 +432,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 
 /usr/include/SFML/Graphics/Vertex.hpp:
 
+/usr/include/c++/11.1.0/bits/specfun.h:
+
 /usr/include/SFML/Graphics/VertexArray.hpp:
 
 /usr/include/SFML/Graphics/View.hpp:
@@ -382,6 +443,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/include/SFML/Graphics/Rect.inl:
 
 /usr/include/SFML/Graphics/Rect.hpp:
+
+/usr/include/math.h:
 
 /usr/include/SFML/Graphics/Transform.hpp:
 
@@ -398,6 +461,12 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/include/SFML/Window/WindowHandle.hpp:
 
 /usr/include/SFML/Window/Window.hpp:
+
+/usr/include/SFML/Graphics/Font.hpp:
+
+/usr/include/SFML/Window/VideoMode.hpp:
+
+/usr/include/SFML/Window/Touch.hpp:
 
 /usr/include/c++/11.1.0/bits/range_access.h:
 
@@ -671,6 +740,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 
 /usr/include/c++/11.1.0/bits/cpp_type_traits.h:
 
+/usr/include/bits/fp-fast.h:
+
 /usr/include/wctype.h:
 
 /usr/include/sched.h:
@@ -707,15 +778,23 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 
 /usr/include/c++/11.1.0/bits/exception_ptr.h:
 
+/usr/include/c++/11.1.0/tr1/legendre_function.tcc:
+
+/usr/include/bits/stdlib-bsearch.h:
+
 /usr/include/bits/types/locale_t.h:
 
 /usr/include/c++/11.1.0/bits/nested_exception.h:
+
+/usr/include/c++/11.1.0/tr1/poly_laguerre.tcc:
 
 /usr/include/bits/endian.h:
 
 /usr/include/c++/11.1.0/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/11.1.0/utility:
+
+/usr/include/c++/11.1.0/tr1/bessel_function.tcc:
 
 /usr/include/c++/11.1.0/ext/new_allocator.h:
 
@@ -750,6 +829,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/include/c++/11.1.0/bits/stl_map.h:
 
 /usr/include/c++/11.1.0/bits/ranges_base.h:
+
+/usr/include/bits/flt-eval-method.h:
 
 /usr/include/c++/11.1.0/stdexcept:
 
@@ -801,11 +882,11 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 
 /usr/include/bits/types/cookie_io_functions_t.h:
 
+/usr/include/bits/stdio.h:
+
 /usr/include/c++/11.1.0/pstl/glue_algorithm_defs.h:
 
 /usr/include/c++/11.1.0/array:
-
-/usr/include/SFML/Window/Touch.hpp:
 
 /usr/include/linux/errno.h:
 
@@ -836,6 +917,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/include/c++/11.1.0/string_view:
 
 /usr/include/SFML/System/InputStream.hpp:
+
+/usr/include/bits/mathcalls-narrow.h:
 
 /usr/include/SFML/System/NonCopyable.hpp:
 
@@ -939,6 +1022,8 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 
 /usr/include/SFML/Window/ContextSettings.hpp:
 
+/usr/include/c++/11.1.0/tr1/gamma.tcc:
+
 /usr/include/SFML/System/String.inl:
 
 /usr/include/SFML/Window/Event.hpp:
@@ -952,7 +1037,3 @@ CMakeFiles/Star_Dodgers.dir/Source.cpp.o: ../Source.cpp \
 /usr/include/bits/types/struct_timespec.h:
 
 /usr/include/SFML/Window/Sensor.hpp:
-
-/usr/include/SFML/Graphics/Font.hpp:
-
-/usr/include/SFML/Window/VideoMode.hpp:
