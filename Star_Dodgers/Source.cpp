@@ -5,10 +5,10 @@
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
 #include "CGamepad.h"
+#include "CGameSettings.h"
 
 int main()
 {
-
 	//Creating Different Windows
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
 
@@ -29,6 +29,12 @@ int main()
 			{
 				window.close();
 			}
+
+			/*if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
+			{
+				// check if a disconnected controller first
+				//CGameSettings::AddController();
+			}*/
 		}
 
 		window.clear();
