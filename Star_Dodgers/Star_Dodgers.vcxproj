@@ -147,7 +147,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CGamepad.cpp" />
+    <ClCompile Include="CGameSettings.cpp" />
+    <ClCompile Include="EasySFML.cpp" />
+    <ClCompile Include="IGamepadInput.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CGamepad.h" />
+    <ClInclude Include="CGameSettings.h" />
+    <ClInclude Include="EasySFML.h" />
+    <ClInclude Include="IGamepadInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

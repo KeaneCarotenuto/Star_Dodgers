@@ -39,7 +39,7 @@ int main()
 
 		window.clear();
 		window.display();
-		//CObjectController::UpdateObjects();
+		CObjectController::UpdateObjects();
 
 		sf::Time elapsed = clock.restart();
 	}

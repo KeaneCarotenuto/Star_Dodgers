@@ -14,11 +14,11 @@ std::shared_ptr<CGamepad> CGameSettings::m_masterController;
 // adds controller to m_connectedController vector
 void CGameSettings::AddController()
 {
-	//CGamepad* newController = new CGamepad(m_controllerCount);
+	CGamepad* newController = new CGamepad(m_controllerCount);
 	if (sf::Joystick::isConnected(m_controllerCount))
 	{
 		// this ensures that there is a valid sf::Joystick to link the controller to before it is added to the vector
-		m_connectedControllers.push_back(std::make_shared<CGamepad>(new CGamepad(m_controllerCount)));
+		m_connectedControllers.push_back(std::shared_ptr<CGamepad>(newController));
 
 		// if no controllers have been connected, set this controller as the master controller
 		if (m_masterController == nullptr)

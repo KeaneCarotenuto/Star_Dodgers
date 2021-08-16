@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __IGAMEPAD_INPUT_H__
+#define __IGAMEPAD_INPUT_H__
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -36,8 +38,10 @@ struct GamepadButtonEvent
 class IGamepadInput
 {
 public:
-    virtual void OnButtonInput(GamepadButtonEvent _event);
+    void OnButtonInput(GamepadButtonEvent _event);  // was virtual
 
 protected:
     IGamepadInput();
 };
+
+#endif //  __IGAMEPAD_INPUT_H__
