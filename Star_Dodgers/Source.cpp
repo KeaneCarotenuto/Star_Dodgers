@@ -6,6 +6,8 @@
 #include "EasySFML.h"
 #include "CGamepad.h"
 #include "CGameSettings.h"
+#include "CMainMenu.h"
+#include "IGamepadInput.h"
 
 int main()
 {
@@ -17,6 +19,8 @@ int main()
 	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	sf::Clock clock;
+
+	CMainMenu menu;
 
 	while (window.isOpen() == true)
 	{
@@ -40,6 +44,12 @@ int main()
 		}
 
 		window.clear();
+
+		/*for (int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
+		{
+			window.draw(*CWindowUtilities::ToDrawList[i]);
+		}*/
+
 		window.display();
 		CObjectController::UpdateObjects();
 

@@ -3,6 +3,7 @@
 #define __CGAME_SETTINGS_H__
 
 #include <SFML/Window/Joystick.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include "CGamepad.h"
 #include <vector>
 
@@ -13,14 +14,15 @@ public:
 	CGameSettings(void);
 	~CGameSettings(void);
 
+	// controller functions
 	static void AddController();
 	static int GetControllerCount();
 	static void SetMasterController(std::shared_ptr<CGamepad> _master);
 	static void SetMasterController(int _controllerNum);
 	static std::shared_ptr<CGamepad> GetMasterController();
 
-
 private:
+	// controller variables
 	static std::vector<std::shared_ptr<CGamepad>> m_connectedControllers;
 	static int m_controllerCount;
 	static std::shared_ptr<CGamepad> m_masterController;

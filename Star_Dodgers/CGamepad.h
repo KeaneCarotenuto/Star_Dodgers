@@ -53,8 +53,8 @@ public:
     void Unbind(std::string _name);
 
 private:
-    std::map<std::string, IGamepadInput> m_Bindings;
     int m_GamepadIndex;
+    std::map<std::string, IGamepadInput> m_Bindings;
     void Update(float _fDeltaTime);
 	bool m_WasPressedLastFrame[13] = { false, false, false,false, false, false, false, false, false, false, false, false, false };
 	bool m_CurrentlyPressed[13] = { false, false, false,false, false, false, false, false, false, false, false, false, false };

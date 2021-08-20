@@ -21,7 +21,7 @@ public:
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
 
-	void SetController(CGamepad _controller) { m_controller = std::make_shared<CGameObject>(_controller); }
+	void SetController(CGamepad _controller) { m_controller = std::make_shared<CGamepad>(_controller); }
 	void SetTeam(Team _team) { m_currentTeam = _team; }
 	void SetTeam(int _team) { m_currentTeam = (Team)_team; }
 	// set current scene for controller binding
