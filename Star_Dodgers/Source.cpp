@@ -30,11 +30,13 @@ int main()
 				window.close();
 			}
 
-			/*if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
+			// if a joystic is disconnected. wait for it to be reconnected or exit game
+
+			if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
 			{
 				// check if a disconnected controller first
-				//CGameSettings::AddController();
-			}*/
+				CGameSettings::AddController();
+			}
 		}
 
 		window.clear();

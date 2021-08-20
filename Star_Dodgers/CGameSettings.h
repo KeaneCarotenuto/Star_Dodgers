@@ -7,7 +7,7 @@
 #include <vector>
 
 // this class contains all values and functions for adjusting the game settings like controllers, volumes, and resolutions
-class CGameSettings : public CGameObject
+class CGameSettings
 {
 public:
 	CGameSettings(void);
