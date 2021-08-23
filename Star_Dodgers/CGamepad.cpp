@@ -68,6 +68,7 @@ bool CGamepad::GetButtonDown(Button _button)
         return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) >= 100.f;
         break;
     default:
+        return false;
         break;
     }
 }

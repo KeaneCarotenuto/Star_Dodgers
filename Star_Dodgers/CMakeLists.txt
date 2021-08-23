@@ -15,7 +15,7 @@ ENDIF()
 # Find SFML shared libraries
 find_package(SFML 2.5.1 COMPONENTS graphics system window)
 
-add_executable(Star_Dodgers Source.cpp)
+add_executable(Star_Dodgers Source.cpp EasySFML.cpp)
 link_directories(Star_Dodgers SFML-2.5.1/lib)
 target_link_libraries(Star_Dodgers sfml-graphics sfml-window sfml-system )
 

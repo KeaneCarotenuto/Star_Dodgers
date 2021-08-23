@@ -1,3 +1,5 @@
+#ifndef CGAMEPAD_H
+#define CGAMEPAD_H
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -58,3 +60,4 @@ private:
     bool m_PressedThisFrame[13];
     bool m_ReleasedThisFrame[13];
 };
+#endif
