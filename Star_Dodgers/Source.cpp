@@ -25,6 +25,8 @@ int main()
 	sf::Clock clock;
 
 	InputTest test;
+	sf::CircleShape circle(10.0f);
+	circle.setPosition(0, 0);
 
 	CGameSettings::Initialise(); // initial game settings setup
 	CMainMenu menu;				 // first scene
@@ -51,15 +53,18 @@ int main()
 			}
 		}
 
+		circle.setPosition(circle.getPosition() + (gamepad.GetLeftStick() * 0.1f));
 		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
 			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
+
+		CResourceHolder::GetWindow()->draw(circle);
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-		std::cout << "X: " + std::to_string(gamepad.GetLeftStick().x) + " Y: " + std::to_string(gamepad.GetLeftStick().y) << std::endl;
+		//std::cout << "X: " + std::to_string(gamepad.GetLeftStick().x) + " Y: " + std::to_string(gamepad.GetLeftStick().y) << std::endl;
 		//std::cout << "Hello form after UpdateObjects" << std::endl;
 	}
 
