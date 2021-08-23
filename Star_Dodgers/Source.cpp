@@ -44,11 +44,14 @@ int main()
 			}
 		}
 
+		circle.setPosition(circle.getPosition() + (gamepad.GetLeftStick() * 0.1f));
 		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
 			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
+
+		CResourceHolder::GetWindow()->draw(circle);
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();

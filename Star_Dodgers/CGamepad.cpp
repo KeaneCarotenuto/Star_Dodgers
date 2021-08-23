@@ -37,11 +37,11 @@ sf::Vector2f CGamepad::GetRightStick()
 }
 float CGamepad::GetLeftTrigger()
 {
-    return sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) / 100.f;
+    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) / 100.f) + 1) / 2;
 }
 float CGamepad::GetRightTrigger()
 {
-    return sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f;
+    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f) + 1) / 2;
 }
 bool CGamepad::GetButtonPressed(Button _button)
 {
