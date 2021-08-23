@@ -5,19 +5,28 @@
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
 #include "CGamepad.h"
+#include "CGameSettings.h"
+#include "CMainMenu.h"
+#include "IGamepadInput.h"
+#include "CResourceHolder.h"
 
-//TEST
 int main()
 {
 
 	//Creating Different Windows
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
 
-	sf::Image icon;
-	icon.loadFromFile("Resources/icon.png");
-	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	// create all resources that the project will use
+	CResourceHolder::Initialise();
+
+	// set icon
+	sf::Image* icon = CResourceHolder::GetImage("icon.png");
+	window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 
 	sf::Clock clock;
+
+	CGameSettings::Initialise(); // initial game settings setup
+	CMainMenu menu;  // first scene
 
 	while (window.isOpen() == true)
 	{
@@ -30,10 +39,23 @@ int main()
 			{
 				window.close();
 			}
+
+			// if a joystick is disconnected. wait for it to be reconnected or exit game
+
+			if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
+			{
+				// check if a disconnected controller first
+				CGameSettings::AddController();
+			}
 		}
 
 		window.clear();
+		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
+		{
+			window.draw(*CWindowUtilities::ToDrawList[i]);
+		}
 		window.display();
+
 		CObjectController::UpdateObjects();
 
 		sf::Time elapsed = clock.restart();

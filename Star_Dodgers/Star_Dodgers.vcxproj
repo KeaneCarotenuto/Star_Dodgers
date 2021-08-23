@@ -89,6 +89,8 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +147,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CGamepad.cpp" />
+    <ClCompile Include="CGameSettings.cpp" />
+    <ClCompile Include="CMainMenu.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CResourceHolder.cpp" />
+    <ClCompile Include="EasySFML.cpp" />
+    <ClCompile Include="IGamepadInput.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CGamepad.h" />
+    <ClInclude Include="CGameSettings.h" />
+    <ClInclude Include="CMainMenu.h" />
+    <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CResourceHolder.h" />
+    <ClInclude Include="EasySFML.h" />
+    <ClInclude Include="IGamepadInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

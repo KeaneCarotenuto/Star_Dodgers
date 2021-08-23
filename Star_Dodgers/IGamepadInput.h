@@ -1,3 +1,6 @@
+#ifndef __IGAMEPAD_INPUT_H__
+#define __IGAMEPAD_INPUT_H__
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -35,8 +38,24 @@ struct GamepadButtonEvent
 class IGamepadInput
 {
 public:
-    virtual void OnButtonInput(GamepadButtonEvent _event);
+    virtual void OnButtonInput(GamepadButtonEvent _event) {};
 
 protected:
-    IGamepadInput();
+    IGamepadInput() {};
 };
+
+class MainMenuInput : public IGamepadInput
+{
+public:
+    MainMenuInput() {};
+    ~MainMenuInput() {};
+
+    void OnButtonInput(GamepadButtonEvent _event);
+    
+    int m_selectedItem = 0;   // used to show which item is highlighted / selected
+
+private:
+    const int m_totalItems = 4;  // the total options in the menu
+};
+
+#endif //  __IGAMEPAD_INPUT_H__

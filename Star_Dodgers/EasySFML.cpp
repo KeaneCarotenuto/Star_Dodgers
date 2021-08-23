@@ -152,7 +152,7 @@ void CWindowUtilities::Draw(sf::Drawable *Draw)
 	ToDrawList.push_back(Draw); //Add the object to the draw list
 }
 
-void CWindowUtilities::Draw(sf::Drawable *Draw, sf::Vector2f Pos)
+void CWindowUtilities::Draw(sf::Drawable* Draw, sf::Vector2f Pos)
 {
 
 	if (sqrt(pow(Pos.x - ScreenCentre.x, 2) + pow(Pos.y - ScreenCentre.y, 2)) <= RenderDistance)
