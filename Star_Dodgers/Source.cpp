@@ -8,14 +8,10 @@
 #include "CGameSettings.h"
 #include "CMainMenu.h"
 #include "CResourceHolder.h"
-#include "Test.h"
 
 int main()
 {
-
-	//Creating Different Windows
-	//sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
-	// create all resources that the project will use including font, sound, images and te render window
+	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();
 
 	// set icon
@@ -24,12 +20,9 @@ int main()
 
 	sf::Clock clock;
 
-	InputTest test;
-
 	CGameSettings::Initialise(); // initial game settings setup
 	CMainMenu menu;				 // first scene
-	CGamepad gamepad(0);
-	gamepad.Bind(&test, "test");
+
 	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
 		sf::Event event;
@@ -59,8 +52,6 @@ int main()
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-		std::cout << "X: " + std::to_string(gamepad.GetLeftStick().x) + " Y: " + std::to_string(gamepad.GetLeftStick().y) << std::endl;
-		//std::cout << "Hello form after UpdateObjects" << std::endl;
 	}
 
 	return 0;

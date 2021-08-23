@@ -173,23 +173,23 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 		{
 			switch (m_selectedItem)
 			{
-			case 0:
+			case 0: // play
 			{
 				break;
-			} // play
-			case 1:
+			}
+			case 1: // controls
 			{
 				break;
-			} // controls
-			case 2:
+			}
+			case 2: // settings
 			{
 				break;
-			} // settings
-			case 3:
+			}
+			case 3: // quit game
 			{
 				CResourceHolder::GetWindow()->close();
 				break;
-			} // quit game
+			}
 			}
 		}
 	}

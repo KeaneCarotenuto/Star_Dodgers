@@ -11,9 +11,9 @@
 #include "IGamepadInput.h"
 #include "EasySFML.h"
 
-#define SOUTH_BUTTON 0
-#define EAST_BUTTON 1
-#define WEST_BUTTON 2
+#define WEST_BUTTON 0
+#define SOUTH_BUTTON 1
+#define EAST_BUTTON 2
 #define NORTH_BUTTON 3
 
 #define LEFT_SHOULDER_BUTTON 4

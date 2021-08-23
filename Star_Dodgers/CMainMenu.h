@@ -18,7 +18,6 @@ public:
 
 private:
 	bool m_canBindController = false;
-	//MainMenuInput m_input;
 	int m_selectedItem;
 	const int m_totalItems = 4;
 
@@ -30,19 +29,5 @@ private:
 	sf::Text *m_settingsButton;
 	sf::Text *m_quitButton;
 };
-
-/*class MainMenuInput : public IGamepadInput
-{
-public:
-	MainMenuInput() {};
-	~MainMenuInput() {};
-
-	void OnButtonInput(GamepadButtonEvent _event);
-
-	int m_selectedItem = 0;   // used to show which item is highlighted / selected
-
-private:
-	const int m_totalItems = 4;  // the total options in the menu
-};*/
 
 #endif // __CMAINMENU_H__
