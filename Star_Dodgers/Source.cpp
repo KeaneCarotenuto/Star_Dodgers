@@ -7,8 +7,8 @@
 #include "CGamepad.h"
 #include "CGameSettings.h"
 #include "CMainMenu.h"
-#include "IGamepadInput.h"
 #include "CResourceHolder.h"
+#include "Test.h"
 
 int main()
 {
@@ -19,19 +19,17 @@ int main()
 	CResourceHolder::Initialise();
 
 	// set icon
-<<<<<<< HEAD
 	sf::Image *icon = CResourceHolder::GetImage("icon.png");
-	window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
-=======
-	sf::Image* icon = CResourceHolder::GetImage("icon.png");
 	CResourceHolder::GetWindow()->setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
->>>>>>> 2135d79e746d74ee9103684dc78ffbca388bbe08
 
 	sf::Clock clock;
 
+	InputTest test;
+
 	CGameSettings::Initialise(); // initial game settings setup
 	CMainMenu menu;				 // first scene
-
+	CGamepad gamepad(0);
+	gamepad.Bind(&test, "test");
 	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
 		sf::Event event;
@@ -52,27 +50,17 @@ int main()
 				CGameSettings::AddController();
 			}
 		}
-<<<<<<< HEAD
-		CObjectController::UpdateObjects();
-		window.clear();
-=======
 
 		CResourceHolder::GetWindow()->clear();
->>>>>>> 2135d79e746d74ee9103684dc78ffbca388bbe08
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
 			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
 		CResourceHolder::GetWindow()->display();
 
-<<<<<<< HEAD
-=======
 		CObjectController::UpdateObjects();
 
-		std::cout << "Hello form after UpdateObjects" << std::endl;
-
->>>>>>> 2135d79e746d74ee9103684dc78ffbca388bbe08
-		sf::Time elapsed = clock.restart();
+		//std::cout << "Hello form after UpdateObjects" << std::endl;
 	}
 
 	return 0;

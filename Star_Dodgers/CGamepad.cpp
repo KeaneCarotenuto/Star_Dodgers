@@ -78,7 +78,7 @@ bool CGamepad::GetButtonReleased(Button _button)
 {
     return m_ReleasedThisFrame[(int)_button];
 }
-void CGamepad::Bind(IGamepadInput _objectToBind, std::string _name)
+void CGamepad::Bind(IGamepadInput *_objectToBind, std::string _name)
 {
     m_Bindings.emplace(_name, _objectToBind);
 }
@@ -89,32 +89,32 @@ void CGamepad::Unbind(std::string _name)
 
 void CGamepad::Update(float _fDeltaTime)
 {
-    for (size_t i = 0; i < 13; i++)
+    for (int i = 0; i < 13; i++)
     {
         m_CurrentlyPressed[i] = GetButtonDown((Button)i);
-        m_PressedThisFrame[i] = m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i];
-        m_ReleasedThisFrame[i] = !m_CurrentlyPressed[i] && m_WasPressedLastFrame[i];
+        m_PressedThisFrame[i] = (m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i]);
+        m_ReleasedThisFrame[i] = (!m_CurrentlyPressed[i] && m_WasPressedLastFrame[i]);
         m_WasPressedLastFrame[i] = m_CurrentlyPressed[i];
     }
 
-    std::map<std::string, IGamepadInput>::iterator it = m_Bindings.begin();
+    std::map<std::string, IGamepadInput *>::iterator it = m_Bindings.begin();
     while (it != m_Bindings.end())
     {
-        for (size_t i = 0; i < 13; i++)
+        for (int i = 0; i < 13; i++)
         {
             if (m_PressedThisFrame[i])
             {
                 GamepadButtonEvent event;
                 event.button = (Button)i;
                 event.type = GamepadButtonEvent::EventType::PRESSED;
-                it->second.OnButtonInput(event);
+                it->second->OnButtonInput(event);
             }
             if (m_ReleasedThisFrame[i])
             {
                 GamepadButtonEvent event;
                 event.button = (Button)i;
                 event.type = GamepadButtonEvent::EventType::RELEASED;
-                it->second.OnButtonInput(event);
+                it->second->OnButtonInput(event);
             }
         }
         it++;

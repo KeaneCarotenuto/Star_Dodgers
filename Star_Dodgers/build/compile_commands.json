@@ -31,12 +31,12 @@
 },
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
-  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/IGamepadInput.cpp",
-  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/IGamepadInput.cpp"
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
 },
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
-  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
-  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/Test.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Test.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Test.cpp"
 }
 ]

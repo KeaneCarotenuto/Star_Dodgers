@@ -15,8 +15,8 @@
 #define WEST_BUTTON 2
 #define NORTH_BUTTON 3
 
-#define RIGHT_SHOULDER_BUTTON 4
-#define LEFT_SHOULDER_BUTTON 5
+#define LEFT_SHOULDER_BUTTON 4
+#define RIGHT_SHOULDER_BUTTON 5
 
 #define BACK_BUTTON 6
 #define START_BUTTON 7
@@ -39,6 +39,8 @@
 
 class CGamepad : CGameObject
 {
+    friend class IGamepadInput;
+
 public:
     CGamepad(int _gamepadIndex);
     sf::Vector2f GetLeftStick();
@@ -48,11 +50,11 @@ public:
     bool GetButtonPressed(Button _button);
     bool GetButtonDown(Button _button);
     bool GetButtonReleased(Button _button);
-    void Bind(IGamepadInput _objectToBind, std::string _name);
+    void Bind(IGamepadInput *_objectToBind, std::string _name);
     void Unbind(std::string _name);
 
 private:
-    std::map<std::string, IGamepadInput> m_Bindings;
+    std::map<std::string, IGamepadInput *> m_Bindings;
     int m_GamepadIndex;
     void Update(float _fDeltaTime);
     bool m_WasPressedLastFrame[13];
