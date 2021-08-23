@@ -153,7 +153,6 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CResourceHolder.cpp" />
     <ClCompile Include="EasySFML.cpp" />
-    <ClCompile Include="IGamepadInput.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>

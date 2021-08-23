@@ -15,6 +15,7 @@ public:
 	~CResourceHolder(void);
 
 	static void Initialise();
+	static sf::RenderWindow* GetWindow();
 	static void CreateImage(std::string _name);
 	static sf::Image* GetImage(std::string _name);
 	static void CreateFont(std::string _name);
@@ -23,6 +24,7 @@ public:
 	// sound assets too maybe
 
 private:
+	static sf::RenderWindow* m_window;
 	static std::map<std::string, sf::Image*> m_imageMap;
 	static std::map<std::string, sf::Font*> m_fontMap;
 };
