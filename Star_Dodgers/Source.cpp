@@ -7,25 +7,29 @@
 #include "CGamepad.h"
 #include "CGameSettings.h"
 #include "CMainMenu.h"
-#include "IGamepadInput.h"
 #include "CResourceHolder.h"
+#include "Test.h"
 
 int main()
 {
+
 	//Creating Different Windows
 	//sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
 	// create all resources that the project will use including font, sound, images and te render window
 	CResourceHolder::Initialise();
 
 	// set icon
-	sf::Image* icon = CResourceHolder::GetImage("icon.png");
+	sf::Image *icon = CResourceHolder::GetImage("icon.png");
 	CResourceHolder::GetWindow()->setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 
 	sf::Clock clock;
 
-	CGameSettings::Initialise(); // initial game settings setup
-	CMainMenu menu;  // first scene
+	InputTest test;
 
+	CGameSettings::Initialise(); // initial game settings setup
+	CMainMenu menu;				 // first scene
+	CGamepad gamepad(0);
+	gamepad.Bind(&test, "test");
 	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
 		sf::Event event;
@@ -55,10 +59,8 @@ int main()
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-
-		std::cout << "Hello form after UpdateObjects" << std::endl;
-
-		sf::Time elapsed = clock.restart();
+		std::cout << "X: " + std::to_string(gamepad.GetLeftStick().x) + " Y: " + std::to_string(gamepad.GetLeftStick().y) << std::endl;
+		//std::cout << "Hello form after UpdateObjects" << std::endl;
 	}
 
 	return 0;

@@ -16,7 +16,6 @@ public:
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
 
-
 private:
 	bool m_canBindController = false;
 	//MainMenuInput m_input;
@@ -26,10 +25,10 @@ private:
 	sf::Color m_highlight;
 	sf::Color m_neutral;
 
-	sf::Text* m_playButton;
-	sf::Text* m_controlsButton;
-	sf::Text* m_settingsButton;
-	sf::Text* m_quitButton;
+	sf::Text *m_playButton;
+	sf::Text *m_controlsButton;
+	sf::Text *m_settingsButton;
+	sf::Text *m_quitButton;
 };
 
 /*class MainMenuInput : public IGamepadInput

@@ -9,7 +9,7 @@ CMainMenu::CMainMenu()
 	m_canBindController = (CGameSettings::GetMasterController() == nullptr) ? false : true;
 
 	// get font and set colours
-	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
+	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
 	m_highlight = sf::Color::Cyan;
 	m_neutral = sf::Color::White;
 
@@ -38,15 +38,13 @@ CMainMenu::CMainMenu()
 
 CMainMenu::~CMainMenu()
 {
-
 }
-
 
 void CMainMenu::Update(float _fDeltaTime)
 {
 	if (m_canBindController)
 	{
-		CGameSettings::GetMasterController()->Bind(*dynamic_cast<IGamepadInput*>(this), "MainMenu");
+		CGameSettings::GetMasterController()->Bind(dynamic_cast<IGamepadInput *>(this), "MainMenu");
 		m_canBindController = false;
 	}
 
@@ -89,14 +87,11 @@ void CMainMenu::Update(float _fDeltaTime)
 
 void CMainMenu::FixedUpdate()
 {
-
 }
 
 void CMainMenu::LateUpdate(float _fDeltaTime)
 {
-
 }
-
 
 void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 {
@@ -161,7 +156,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 
 			// if the selected item is in the left-most column, set it to the right-most. if it is not in the left-most,
 			// set it to next option
-			if (remainder == 0)  // left-most
+			if (remainder == 0) // left-most
 			{
 				m_selectedItem += 1;
 			}
@@ -178,13 +173,25 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 		{
 			switch (m_selectedItem)
 			{
-			case 0: {break; } // play
-			case 1: {break; } // controls
-			case 2: {break; } // settings
-			case 3: { CResourceHolder::GetWindow()->close(); break; } // quit game
+			case 0:
+			{
+				break;
+			} // play
+			case 1:
+			{
+				break;
+			} // controls
+			case 2:
+			{
+				break;
+			} // settings
+			case 3:
+			{
+				CResourceHolder::GetWindow()->close();
+				break;
+			} // quit game
 			}
 		}
 	}
 	}
 }
-

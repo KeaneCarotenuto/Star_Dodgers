@@ -7,7 +7,7 @@
 #include <string>
 #include <SFML/Window/Joystick.hpp>
 
-enum class Button
+enum Button
 {
     NORTH,
     EAST,
@@ -37,11 +37,10 @@ struct GamepadButtonEvent
 
 class IGamepadInput
 {
-public:
-    virtual void OnButtonInput(GamepadButtonEvent _event) {};
+    friend class CGamepad;
 
 protected:
-    IGamepadInput() {};
+    virtual void OnButtonInput(GamepadButtonEvent _event){};
 };
 
 #endif //  __IGAMEPAD_INPUT_H__

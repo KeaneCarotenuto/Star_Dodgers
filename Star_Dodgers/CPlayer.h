@@ -3,6 +3,7 @@
 
 #include "EasySFML.h"
 #include "CGamepad.h"
+#include <memory>
 
 enum class Team
 {
@@ -32,4 +33,3 @@ private:
 };
 
 #endif // __CPLAYER_H__
-

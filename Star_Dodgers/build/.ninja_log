@@ -1,0 +1,12 @@
+# ninja log v5
+1	714	1629704058422030968	CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o	5e9adefe427380d0
+2	1281	1629692386471153069	CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o	110e590f7c287929
+1	781	1629704058488697061	CMakeFiles/Star_Dodgers.dir/CGameSettings.cpp.o	c5f2cd95e8d64d2b
+1	567	1629690197426335572	CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o	b5a37b6d8da76afd
+6	101	1629706745871512889	build.ninja	7bf99a0cdf4fd51e
+821	928	1629704058632029160	Star_Dodgers	94a4043bdc1e58a
+1	821	1629704058528696716	CMakeFiles/Star_Dodgers.dir/Source.cpp.o	68905e84d00a23cf
+1	790	1629704058498696975	CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o	6b998cbc9584850
+2	1118	1629692386307820973	CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o	9d392841174d411a
+1	799	1629704058505363584	CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o	7e03c7a3518933f3
+0	490	1629700617164838410	CMakeFiles/Star_Dodgers.dir/Test.cpp.o	c4dc0af2f62e462
