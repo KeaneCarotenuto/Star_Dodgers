@@ -69,9 +69,6 @@
     <ClCompile Include="EasySFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IGamepadInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

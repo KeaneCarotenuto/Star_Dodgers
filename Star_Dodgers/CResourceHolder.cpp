@@ -4,11 +4,23 @@
 CResourceHolder::CResourceHolder(void) {}
 CResourceHolder::~CResourceHolder(void) {}
 
+// static variables
+sf::RenderWindow *CResourceHolder::m_window = nullptr;
+std::map<std::string, sf::Image *> CResourceHolder::m_imageMap;
+std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
+
 // create resources that will be used later in the project
 void CResourceHolder::Initialise()
 {
+	m_window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
+
 	CreateImage("icon.png");
 	CreateFont("comic.ttf");
+}
+
+sf::RenderWindow *CResourceHolder::GetWindow()
+{
+	return (m_window);
 }
 
 void CResourceHolder::CreateImage(std::string _name)
@@ -76,6 +88,3 @@ sf::Font *CResourceHolder::GetFont(std::string _name)
 		return (nullptr);
 	}
 }
-
-std::map<std::string, sf::Image *> CResourceHolder::m_imageMap;
-std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
