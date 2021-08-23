@@ -14,6 +14,7 @@ public:
 	~CGameSettings(void);
 
 	// controller functions
+	static void Initialise();
 	static void AddController();
 	static int GetControllerCount();
 	static void SetMasterController(std::shared_ptr<CGamepad> _master);

@@ -9,7 +9,24 @@ CGameSettings::~CGameSettings(void) {}
 std::vector<std::shared_ptr<CGamepad>> CGameSettings::m_connectedControllers;
 int CGameSettings::m_controllerCount = 0;
 // controller used to navigate settings so that system does not get overwhelmed or confused with multiple inputs
-std::shared_ptr<CGamepad> CGameSettings::m_masterController;
+std::shared_ptr<CGamepad> CGameSettings::m_masterController = nullptr;
+
+// this function ensures that all starting settings are correct and that all connected controllers are detected
+void CGameSettings::Initialise()
+{
+	for (unsigned int joystick = 0; joystick < 8; joystick++)
+	{
+		// ensures a maximum of 4 controllers are connected
+		if (m_controllerCount < 5)
+		{
+			if (sf::Joystick::isConnected(joystick)) 
+			{
+				// assigns connected controller to a CGamepad object
+				AddController();
+			}
+		}
+	}
+}
 
 // adds controller to m_connectedController vector
 void CGameSettings::AddController()

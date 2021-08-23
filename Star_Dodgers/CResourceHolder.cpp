@@ -4,6 +4,13 @@
 CResourceHolder::CResourceHolder(void) {}
 CResourceHolder::~CResourceHolder(void) {}
 
+// create resources that will be used later in the project
+void CResourceHolder::Initialise()
+{
+	CreateImage("icon.png");
+	CreateFont("comic.ttf");
+}
+
 void CResourceHolder::CreateImage(std::string _name)
 {
 	std::string path = "Resources/Images/";
@@ -69,7 +76,6 @@ sf::Font* CResourceHolder::GetFont(std::string _name)
 		return(nullptr);
 	}
 }
-
 
 std::map<std::string, sf::Image*> CResourceHolder::m_imageMap;
 std::map<std::string, sf::Font*> CResourceHolder::m_fontMap;

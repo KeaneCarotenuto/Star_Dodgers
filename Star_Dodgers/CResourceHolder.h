@@ -14,6 +14,7 @@ public:
 	CResourceHolder(void);
 	~CResourceHolder(void);
 
+	static void Initialise();
 	static void CreateImage(std::string _name);
 	static sf::Image* GetImage(std::string _name);
 	static void CreateFont(std::string _name);

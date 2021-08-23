@@ -24,10 +24,10 @@ private:
 	sf::Color m_highlight;
 	sf::Color m_neutral;
 
-	sf::Text m_playButton;
-	sf::Text m_controlsButton;
-	sf::Text m_settingsButton;
-	sf::Text m_quitButton;
+	sf::Text* m_playButton;
+	sf::Text* m_controlsButton;
+	sf::Text* m_settingsButton;
+	sf::Text* m_quitButton;
 };
 
 #endif // __CMAINMENU_H__
