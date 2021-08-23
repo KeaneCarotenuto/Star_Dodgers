@@ -30,10 +30,10 @@ CMainMenu::CMainMenu()
 	m_quitButton.setPosition(950, 650);
 	m_quitButton.setFillColor(m_neutral);
 
-	/*CWindowUtilities::Draw(new sf::Text(m_playButton));
+	CWindowUtilities::Draw(new sf::Text(m_playButton));
 	CWindowUtilities::Draw(new sf::Text(m_controlsButton));
 	CWindowUtilities::Draw(new sf::Text(m_settingsButton));
-	CWindowUtilities::Draw(new sf::Text(m_quitButton));*/
+	CWindowUtilities::Draw(new sf::Text(m_quitButton));
 }
 
 CMainMenu::~CMainMenu()

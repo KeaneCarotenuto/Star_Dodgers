@@ -3,7 +3,6 @@
 #define __CGAME_SETTINGS_H__
 
 #include <SFML/Window/Joystick.hpp>
-#include <SFML/Graphics/Font.hpp>
 #include "CGamepad.h"
 #include <vector>
 

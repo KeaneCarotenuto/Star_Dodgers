@@ -45,10 +45,10 @@ int main()
 
 		window.clear();
 
-		/*for (int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
+		for (int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
 			window.draw(*CWindowUtilities::ToDrawList[i]);
-		}*/
+		}
 
 		window.display();
 		CObjectController::UpdateObjects();
