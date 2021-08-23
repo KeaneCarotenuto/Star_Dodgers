@@ -59,7 +59,7 @@ int main()
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-
+		std::cout << "X: " + std::to_string(gamepad.GetLeftStick().x) + " Y: " + std::to_string(gamepad.GetLeftStick().y) << std::endl;
 		//std::cout << "Hello form after UpdateObjects" << std::endl;
 	}
 

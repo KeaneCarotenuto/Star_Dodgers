@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <string>
+#include <cmath>
 #include <SFML/Window/Joystick.hpp>
 #include <algorithm>
 #include <map>
