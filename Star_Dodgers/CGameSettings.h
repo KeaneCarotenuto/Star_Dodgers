@@ -1,10 +1,11 @@
-#pragma once
+
 #ifndef __CGAME_SETTINGS_H__
 #define __CGAME_SETTINGS_H__
 
 #include <SFML/Window/Joystick.hpp>
 #include "CGamepad.h"
 #include <vector>
+#include <memory>
 
 // this class contains all values and functions for adjusting the game settings like controllers, volumes, and resolutions
 class CGameSettings
@@ -28,4 +29,4 @@ private:
 	static std::shared_ptr<CGamepad> m_masterController;
 };
 
-#endif  // __CGAME_SETTINGS_H__
+#endif // __CGAME_SETTINGS_H__

@@ -1,12 +1,42 @@
 [
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
-  "command": "/usr/bin/c++ -O3 -DNDEBUG -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
-  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CGameSettings.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGameSettings.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGameSettings.cpp"
 },
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
-  "command": "/usr/bin/c++ -O3 -DNDEBUG -o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/EasySFML.cpp",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGamepad.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGamepad.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CMainMenu.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CMainMenu.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPlayer.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPlayer.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CResourceHolder.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CResourceHolder.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/EasySFML.cpp",
   "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/EasySFML.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/IGamepadInput.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/IGamepadInput.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/Source.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp"
 }
 ]

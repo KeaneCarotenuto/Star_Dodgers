@@ -3,8 +3,8 @@
 CGamepad::CGamepad(int _gamepadIndex)
 {
     m_GamepadIndex = _gamepadIndex;
-	
-    std::cout << "Controller " << _gamepadIndex << " connected"<< std::endl;
+
+    std::cout << "Controller " << _gamepadIndex << " connected" << std::endl;
 }
 sf::Vector2f CGamepad::GetLeftStick()
 {
@@ -117,5 +117,6 @@ void CGamepad::Update(float _fDeltaTime)
                 it->second.OnButtonInput(event);
             }
         }
+        it++;
     }
 }

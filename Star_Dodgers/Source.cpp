@@ -20,13 +20,13 @@ int main()
 	CResourceHolder::Initialise();
 
 	// set icon
-	sf::Image* icon = CResourceHolder::GetImage("icon.png");
+	sf::Image *icon = CResourceHolder::GetImage("icon.png");
 	window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 
 	sf::Clock clock;
 
 	CGameSettings::Initialise(); // initial game settings setup
-	CMainMenu menu;  // first scene
+	CMainMenu menu;				 // first scene
 
 	while (window.isOpen() == true)
 	{
@@ -48,15 +48,13 @@ int main()
 				CGameSettings::AddController();
 			}
 		}
-
+		CObjectController::UpdateObjects();
 		window.clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
 			window.draw(*CWindowUtilities::ToDrawList[i]);
 		}
 		window.display();
-
-		CObjectController::UpdateObjects();
 
 		sf::Time elapsed = clock.restart();
 	}

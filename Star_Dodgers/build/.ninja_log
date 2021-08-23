@@ -1,5 +1,22 @@
 # ninja log v5
-0	671	1629687495000298855	CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o	92c337c43535817
-2	574	1629687429754181109	CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o	c4946fdc567f0fb0
-1	774	1629687388611193697	CMakeFiles/Star_Dodgers.dir/Source.cpp.o	90ce42d0ae07606c
-0	50	1629687543363225059	Star_Dodgers	86f2d2bb539c6f53
+1	597	1629689169572359376	CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o	462c106bcb285826
+0	723	1629689489096285489	CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o	236b072577e23ade
+1	734	1629689135792649511	CMakeFiles/Star_Dodgers.dir/CGameSettings.cpp.o	bdc71ea1a3aebdb1
+1	507	1629689135565984790	CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o	ce7151621b7dfd8
+0	34	1629690193526372678	build.ninja	7bf99a0cdf4fd51e
+731	876	1629690139753553341	Star_Dodgers	85d8f9d986d8fffd
+1	731	1629690139613554685	CMakeFiles/Star_Dodgers.dir/Source.cpp.o	b5363f12e78315b3
+1	849	1629689135905981869	CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o	4df9be11e1a34ee2
+1	608	1629689135665983931	CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o	42025185d357b9c2
+1	726	1629689135782649596	CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o	e9e656af4e1704e6
+1	567	1629690197426335572	CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o	b5a37b6d8da76afd
+1	693	1629690197553001034	CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o	9d392841174d411a
+1	731	1629690197589667351	CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o	5e9adefe427380d0
+1	737	1629690197596333955	CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o	110e590f7c287929
+1	738	1629690197599667257	CMakeFiles/Star_Dodgers.dir/Source.cpp.o	68905e84d00a23cf
+1	748	1629690197609667162	CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o	6b998cbc9584850
+0	765	1629690197626333670	CMakeFiles/Star_Dodgers.dir/CGameSettings.cpp.o	c5f2cd95e8d64d2b
+0	769	1629690197629666971	CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o	7e03c7a3518933f3
+769	882	1629690197739665926	Star_Dodgers	77826a251fbf544e
+1	826	1629690720994836998	CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o	7e03c7a3518933f3
+826	1006	1629690721171502070	Star_Dodgers	77826a251fbf544e
