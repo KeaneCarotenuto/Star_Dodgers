@@ -1,4 +1,4 @@
-#include "CGameSettings.h"
+#include "CGameManager.h"
 #include "CResourceHolder.h"
 #include "CMainMenu.h"
 
@@ -6,7 +6,7 @@ CMainMenu::CMainMenu()
 {
 	// bind master controller to input settings
 	m_selectedItem = 0;
-	m_canBindController = (CGameSettings::GetMasterController() == nullptr) ? false : true;
+	m_canBindController = (CGameManager::GetMasterController() == nullptr) ? false : true;
 
 	// get font and set colours
 	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
@@ -38,13 +38,14 @@ CMainMenu::CMainMenu()
 
 CMainMenu::~CMainMenu()
 {
+	
 }
 
 void CMainMenu::Update(float _fDeltaTime)
 {
 	if (m_canBindController)
 	{
-		CGameSettings::GetMasterController()->Bind(dynamic_cast<IGamepadInput *>(this), "MainMenu");
+		CGameManager::GetMasterController()->Bind(dynamic_cast<IGamepadInput *>(this), "MainMenu");
 		m_canBindController = false;
 	}
 

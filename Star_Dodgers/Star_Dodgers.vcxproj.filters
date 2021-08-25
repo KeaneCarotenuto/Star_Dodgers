@@ -78,6 +78,9 @@
     <ClCompile Include="CResourceHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CLobby.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGamepad.h">
@@ -100,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="CResourceHolder.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneBase.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CLobby.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

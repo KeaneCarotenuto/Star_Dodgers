@@ -7,7 +7,7 @@
 #include <string>
 #include <SFML/Window/Joystick.hpp>
 
-enum Button
+enum class Button
 {
     NORTH,
     EAST,

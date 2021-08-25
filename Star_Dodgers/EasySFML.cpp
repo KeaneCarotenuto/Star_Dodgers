@@ -161,6 +161,11 @@ void CWindowUtilities::Draw(sf::Drawable *Draw, sf::Vector2f Pos)
 	}
 }
 
+void CWindowUtilities::Destroy(CGameObject* _gameObj)
+{
+	ToDeleteList.push_back(_gameObj); // add object to the delete list
+}
+
 sf::Vector2f CWindowUtilities::ScreenCentre = sf::Vector2f(50, 50);
 
 float CWindowUtilities::RenderDistance = 1500;

@@ -5,7 +5,7 @@
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
 #include "CGamepad.h"
-#include "CGameSettings.h"
+#include "CGameManager.h"
 #include "CMainMenu.h"
 #include "CResourceHolder.h"
 
@@ -20,7 +20,7 @@ int main()
 
 	sf::Clock clock;
 
-	CGameSettings::Initialise(); // initial game settings setup
+	CGameManager::Initialise(); // initial game settings setup
 	CMainMenu menu;				 // first scene
 
 	while (CResourceHolder::GetWindow()->isOpen() == true)
@@ -36,22 +36,23 @@ int main()
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
+			//if ((event.type == sf::Event::JoystickDisconnected) && ((CGameManager::GetControllerCount() == 4) || (CGameManager::GetControllerCount() == 2)))
+			//{
 
-			if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
+			//}
+
+			if ((event.type == sf::Event::JoystickConnected) && (CGameManager::GetControllerCount() < 5))
 			{
 				// check if a disconnected controller first
-				CGameSettings::AddController();
+				CGameManager::AddController();
 			}
 		}
 
-		circle.setPosition(circle.getPosition() + (gamepad.GetLeftStick() * 0.1f));
 		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
 			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
-
-		CResourceHolder::GetWindow()->draw(circle);
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();

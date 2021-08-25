@@ -1,18 +1,18 @@
 #include <SFML/Window/Joystick.hpp>
-#include "CGameSettings.h"
+#include "CGameManager.h"
 
-CGameSettings::CGameSettings(void) {}
+CGameManager::CGameManager(void) {}
 
-CGameSettings::~CGameSettings(void) {}
+CGameManager::~CGameManager(void) {}
 
 //static variables
-std::vector<std::shared_ptr<CGamepad>> CGameSettings::m_connectedControllers;
-int CGameSettings::m_controllerCount = 0;
+std::vector<std::shared_ptr<CGamepad>> CGameManager::m_connectedControllers;
+int CGameManager::m_controllerCount = 0;
 // controller used to navigate settings so that system does not get overwhelmed or confused with multiple inputs
-std::shared_ptr<CGamepad> CGameSettings::m_masterController = nullptr;
+std::shared_ptr<CGamepad> CGameManager::m_masterController = nullptr;
 
 // this function ensures that all starting settings are correct and that all connected controllers are detected
-void CGameSettings::Initialise()
+void CGameManager::Initialise()
 {
 	for (unsigned int joystick = 0; joystick < 8; joystick++)
 	{
@@ -29,7 +29,7 @@ void CGameSettings::Initialise()
 }
 
 // adds controller to m_connectedController vector
-void CGameSettings::AddController()
+void CGameManager::AddController()
 {
 	CGamepad* newController = new CGamepad(m_controllerCount);
 	if (sf::Joystick::isConnected(m_controllerCount))
@@ -47,25 +47,31 @@ void CGameSettings::AddController()
 }
 
 // this function returns m_controllerCount
-int CGameSettings::GetControllerCount()
+int CGameManager::GetControllerCount()
 {
 	return(m_controllerCount);
 }
 
 // sets a controller as a master controller using a shared_ptr of that controller
-void CGameSettings::SetMasterController(std::shared_ptr<CGamepad> _master)
+void CGameManager::SetMasterController(std::shared_ptr<CGamepad> _master)
 {
 	m_masterController = _master;
 }
 
 // sets a controller as the masterController using its assigned int to find then assigne it
-void CGameSettings::SetMasterController(int _controllerNum)
+void CGameManager::SetMasterController(int _controllerNum)
 {
 	m_masterController = m_connectedControllers[_controllerNum];
 }
 
 // gets the current master controller
-std::shared_ptr<CGamepad> CGameSettings::GetMasterController()
+std::shared_ptr<CGamepad> CGameManager::GetMasterController()
 {
 	return(m_masterController);
+}
+
+// returns a pointer to a specified controller
+std::shared_ptr<CGamepad> CGameManager::GetController(int _controllerNum)
+{
+	return(m_connectedControllers[_controllerNum]);
 }

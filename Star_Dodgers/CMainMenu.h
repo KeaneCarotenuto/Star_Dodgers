@@ -4,8 +4,9 @@
 
 #include "EasySFML.h"
 #include "IGamepadInput.h"
+#include "CSceneBase.h"
 
-class CMainMenu : public CGameObject, public IGamepadInput
+class CMainMenu : public CSceneBase
 {
 public:
 	CMainMenu();

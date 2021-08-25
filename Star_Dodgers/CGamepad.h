@@ -1,5 +1,6 @@
 #ifndef CGAMEPAD_H
 #define CGAMEPAD_H
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -58,9 +59,11 @@ private:
     std::map<std::string, IGamepadInput *> m_Bindings;
     int m_GamepadIndex;
     void Update(float _fDeltaTime);
-    bool m_WasPressedLastFrame[13];
-    bool m_CurrentlyPressed[13];
-    bool m_PressedThisFrame[13];
-    bool m_ReleasedThisFrame[13];
+
+    // error handling - initialise to remove C26495 warning
+    bool m_WasPressedLastFrame[13]; // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_CurrentlyPressed[13];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_PressedThisFrame[13];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_ReleasedThisFrame[13];   // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
 };
 #endif

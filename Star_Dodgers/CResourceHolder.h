@@ -15,9 +15,14 @@ public:
 	~CResourceHolder(void);
 
 	static void Initialise();
+
 	static sf::RenderWindow* GetWindow();
+	static sf::Vector2u GetWindowSize();
+
 	static void CreateImage(std::string _name);
 	static sf::Image* GetImage(std::string _name);
+	static void CreateTexture(std::string _name);
+	static sf::Texture* GetTexture(std::string _name);
 	static void CreateFont(std::string _name);
 	static sf::Font* GetFont(std::string _name);
 
@@ -26,6 +31,7 @@ public:
 private:
 	static sf::RenderWindow* m_window;
 	static std::map<std::string, sf::Image*> m_imageMap;
+	static std::map<std::string, sf::Texture*> m_textureMap;
 	static std::map<std::string, sf::Font*> m_fontMap;
 };
 
