@@ -199,15 +199,15 @@ build CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o: CXX_COMPILER__Star_Dodgers_Deb
   OBJECT_DIR = CMakeFiles/Star_Dodgers.dir
   OBJECT_FILE_DIR = CMakeFiles/Star_Dodgers.dir
 
-build CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/IGamepadInput.cpp || cmake_object_order_depends_target_Star_Dodgers
-  DEP_FILE = CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o.d
+build CMakeFiles/Star_Dodgers.dir/Source.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp || cmake_object_order_depends_target_Star_Dodgers
+  DEP_FILE = CMakeFiles/Star_Dodgers.dir/Source.cpp.o.d
   FLAGS = -g
   INCLUDES = -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers
   OBJECT_DIR = CMakeFiles/Star_Dodgers.dir
   OBJECT_FILE_DIR = CMakeFiles/Star_Dodgers.dir
 
-build CMakeFiles/Star_Dodgers.dir/Source.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Source.cpp || cmake_object_order_depends_target_Star_Dodgers
-  DEP_FILE = CMakeFiles/Star_Dodgers.dir/Source.cpp.o.d
+build CMakeFiles/Star_Dodgers.dir/Test.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/Test.cpp || cmake_object_order_depends_target_Star_Dodgers
+  DEP_FILE = CMakeFiles/Star_Dodgers.dir/Test.cpp.o.d
   FLAGS = -g
   INCLUDES = -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers
   OBJECT_DIR = CMakeFiles/Star_Dodgers.dir
@@ -221,7 +221,7 @@ build CMakeFiles/Star_Dodgers.dir/Source.cpp.o: CXX_COMPILER__Star_Dodgers_Debug
 #############################################
 # Link the executable Star_Dodgers
 
-build Star_Dodgers: CXX_EXECUTABLE_LINKER__Star_Dodgers_Debug CMakeFiles/Star_Dodgers.dir/CGameSettings.cpp.o CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o CMakeFiles/Star_Dodgers.dir/IGamepadInput.cpp.o CMakeFiles/Star_Dodgers.dir/Source.cpp.o | /usr/lib/libsfml-graphics.so.2.5.1 /usr/lib/libsfml-window.so.2.5.1 /usr/lib/libsfml-system.so.2.5.1
+build Star_Dodgers: CXX_EXECUTABLE_LINKER__Star_Dodgers_Debug CMakeFiles/Star_Dodgers.dir/CGameSettings.cpp.o CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o CMakeFiles/Star_Dodgers.dir/Source.cpp.o CMakeFiles/Star_Dodgers.dir/Test.cpp.o | /usr/lib/libsfml-graphics.so.2.5.1 /usr/lib/libsfml-window.so.2.5.1 /usr/lib/libsfml-system.so.2.5.1
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = /usr/lib/libsfml-graphics.so.2.5.1  /usr/lib/libsfml-window.so.2.5.1  /usr/lib/libsfml-system.so.2.5.1

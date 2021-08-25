@@ -4,11 +4,38 @@
 CResourceHolder::CResourceHolder(void) {}
 CResourceHolder::~CResourceHolder(void) {}
 
+// static variables
+sf::RenderWindow *CResourceHolder::m_window = nullptr;
+std::map<std::string, sf::Image *> CResourceHolder::m_imageMap;
+std::map<std::string, sf::Texture*> CResourceHolder::m_textureMap;
+std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
+
 // create resources that will be used later in the project
 void CResourceHolder::Initialise()
 {
+	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+	m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::Default);
+
 	CreateImage("icon.png");
+	CreateTexture("P1.png");
+	CreateTexture("P2.png");
+	CreateTexture("P3.png");
+	CreateTexture("P4.png");
+	CreateTexture("BackButton.png");
+	CreateTexture("X-Ready.png");
+
 	CreateFont("comic.ttf");
+	
+}
+
+sf::RenderWindow *CResourceHolder::GetWindow()
+{
+	return (m_window);
+}
+
+sf::Vector2u CResourceHolder::GetWindowSize()
+{
+	return(m_window->getSize());
 }
 
 void CResourceHolder::CreateImage(std::string _name)
@@ -40,6 +67,39 @@ sf::Image *CResourceHolder::GetImage(std::string _name)
 	else
 	{
 		std::cout << "Image: " << _name << " has not been created yet." << std::endl;
+		return (nullptr);
+	}
+}
+
+void CResourceHolder::CreateTexture(std::string _name)
+{
+	std::string path = "Resources/Images/";
+
+	// check that this image is not already in map
+	std::map<std::string, sf::Texture*>::iterator iter = m_textureMap.find(_name);
+	if (iter != m_textureMap.end())
+	{
+		std::cout << "Texture: " << _name << " has already been created. " << std::endl;
+	}
+	else
+	{
+		sf::Texture* newTexture = new sf::Texture();
+		newTexture->loadFromFile(path + _name);
+		m_textureMap.insert(std::pair<std::string, sf::Texture*>(_name, newTexture));
+	}
+}
+
+sf::Texture* CResourceHolder::GetTexture(std::string _name)
+{
+	// make sure texture is in map
+	std::map<std::string, sf::Texture*>::iterator iter = m_textureMap.find(_name);
+	if (iter != m_textureMap.end())
+	{
+		return (iter->second);
+	}
+	else
+	{
+		std::cout << "Texture: " << _name << " has not been created yet." << std::endl;
 		return (nullptr);
 	}
 }
@@ -76,6 +136,3 @@ sf::Font *CResourceHolder::GetFont(std::string _name)
 		return (nullptr);
 	}
 }
-
-std::map<std::string, sf::Image *> CResourceHolder::m_imageMap;
-std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;

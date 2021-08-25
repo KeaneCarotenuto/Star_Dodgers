@@ -244,7 +244,6 @@ class CWindowUtilities
 {
 public:
 	/// <summary>A vector of all the objects to be drawn this frame</summary>
-	//static std::vector<sf::Drawable *> ToDrawList;
 	static std::vector<sf::Drawable *> ToDrawList;
 	static std::vector<CGameObject *> ToDeleteList;
 
@@ -265,6 +264,20 @@ public:
 	// ********************************************************************************
 	static void Draw(sf::Drawable *Draw);
 	static void Draw(sf::Drawable *Draw, sf::Vector2f Pos);
+
+	// ********************************************************************************
+	/// <summary>
+	/// <para>
+	/// Function name: Destroy
+	/// Function is part of Class: CWindowUtilities
+	/// Adds an object to the collection of things to be destroyed/deleted next frame
+	/// </para>
+	/// </summary>
+	/// <param name="_gameObj"><para>
+	/// Type: CGameObject pointer
+	/// </para></param>
+	// ********************************************************************************
+	static void Destroy(CGameObject* _gameObj);
 };
 
 #endif

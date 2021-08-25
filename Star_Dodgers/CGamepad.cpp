@@ -8,19 +8,40 @@ CGamepad::CGamepad(int _gamepadIndex)
 }
 sf::Vector2f CGamepad::GetLeftStick()
 {
-    return sf::Vector2f(sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_X) / 100.f, sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_Y) / 100.f);
+    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_X) / 100.f;
+    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_Y) / 100.f;
+    if (std::abs(x) < 0.01f)
+    {
+        x = 0;
+    }
+    if (std::abs(y) < 0.01f)
+    {
+        y = 0;
+    }
+
+    return sf::Vector2f(x, y);
 }
 sf::Vector2f CGamepad::GetRightStick()
 {
-    return sf::Vector2f(sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_X) / 100.f, sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_Y) / 100.f);
+    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_X) / 100.f;
+    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_Y) / 100.f;
+    if (std::abs(x) < 0.1f)
+    {
+        x = 0;
+    }
+    if (std::abs(y) < 0.1f)
+    {
+        y = 0;
+    }
+    return sf::Vector2f(x, y);
 }
 float CGamepad::GetLeftTrigger()
 {
-    return sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) / 100.f;
+    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) / 100.f) + 1) / 2;
 }
 float CGamepad::GetRightTrigger()
 {
-    return sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f;
+    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f) + 1) / 2;
 }
 bool CGamepad::GetButtonPressed(Button _button)
 {
@@ -58,10 +79,10 @@ bool CGamepad::GetButtonDown(Button _button)
         return sf::Joystick::isButtonPressed(m_GamepadIndex, MIDDLE_BUTTON);
         break;
     case Button::DPAD_UP:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) <= -100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) >= 100.f;
         break;
     case Button::DPAD_DOWN:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) >= 100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) <= -100.f;
         break;
     case Button::DPAD_LEFT:
         return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) <= -100.f;
@@ -78,45 +99,54 @@ bool CGamepad::GetButtonReleased(Button _button)
 {
     return m_ReleasedThisFrame[(int)_button];
 }
-void CGamepad::Bind(IGamepadInput _objectToBind, std::string _name)
+void CGamepad::Bind(IGamepadInput *_objectToBind, std::string _name)
 {
     m_Bindings.emplace(_name, _objectToBind);
 }
 void CGamepad::Unbind(std::string _name)
 {
-    m_Bindings.erase(_name);
+    m_toUnbind.push_back(_name);
+    //m_Bindings.erase(_name);
 }
 
 void CGamepad::Update(float _fDeltaTime)
 {
-    for (size_t i = 0; i < 13; i++)
+    for (int i = 0; i < 13; i++)
     {
         m_CurrentlyPressed[i] = GetButtonDown((Button)i);
-        m_PressedThisFrame[i] = m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i];
-        m_ReleasedThisFrame[i] = !m_CurrentlyPressed[i] && m_WasPressedLastFrame[i];
+        m_PressedThisFrame[i] = (m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i]);
+        m_ReleasedThisFrame[i] = (!m_CurrentlyPressed[i] && m_WasPressedLastFrame[i]);
         m_WasPressedLastFrame[i] = m_CurrentlyPressed[i];
     }
 
-    std::map<std::string, IGamepadInput>::iterator it = m_Bindings.begin();
+    std::map<std::string, IGamepadInput *>::iterator it = m_Bindings.begin();
     while (it != m_Bindings.end())
     {
-        for (size_t i = 0; i < 13; i++)
+        for (int i = 0; i < 13; i++)
         {
             if (m_PressedThisFrame[i])
             {
                 GamepadButtonEvent event;
                 event.button = (Button)i;
                 event.type = GamepadButtonEvent::EventType::PRESSED;
-                it->second.OnButtonInput(event);
+                event.gamepadIndex = m_GamepadIndex;
+                it->second->OnButtonInput(event);
             }
             if (m_ReleasedThisFrame[i])
             {
                 GamepadButtonEvent event;
                 event.button = (Button)i;
                 event.type = GamepadButtonEvent::EventType::RELEASED;
-                it->second.OnButtonInput(event);
+                event.gamepadIndex = m_GamepadIndex;
+                it->second->OnButtonInput(event);
             }
         }
         it++;
     }
+
+    for (unsigned int i = 0; i < m_toUnbind.size(); i++)
+    {
+        m_Bindings.erase(m_toUnbind[i]);
+    }
+    m_toUnbind.clear();
 }

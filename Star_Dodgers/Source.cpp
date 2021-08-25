@@ -5,58 +5,59 @@
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
 #include "CGamepad.h"
-#include "CGameSettings.h"
+#include "CGameManager.h"
 #include "CMainMenu.h"
-#include "IGamepadInput.h"
 #include "CResourceHolder.h"
 
 int main()
 {
-
-	//Creating Different Windows
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
-
-	// create all resources that the project will use
+	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();
 
 	// set icon
 	sf::Image *icon = CResourceHolder::GetImage("icon.png");
-	window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
+	CResourceHolder::GetWindow()->setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 
 	sf::Clock clock;
 
-	CGameSettings::Initialise(); // initial game settings setup
-	CMainMenu menu;				 // first scene
+	CGameManager::Initialise(); // initial game settings setup
+	//CMainMenu menu;				 // first scene
+	CGameManager::ChangeActiveScene<CMainMenu>();
 
-	while (window.isOpen() == true)
+	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
 		sf::Event event;
 
 		//Quit
-		while (window.pollEvent(event))
+		while (CResourceHolder::GetWindow()->pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 			{
-				window.close();
+				CResourceHolder::GetWindow()->close();
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
+			//if ((event.type == sf::Event::JoystickDisconnected) && ((CGameManager::GetControllerCount() == 4) || (CGameManager::GetControllerCount() == 2)))
+			//{
 
-			if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
+			//}
+
+			if ((event.type == sf::Event::JoystickConnected) && (CGameManager::GetControllerCount() < 5))
 			{
 				// check if a disconnected controller first
-				CGameSettings::AddController();
+				CGameManager::AddController();
 			}
 		}
-		CObjectController::UpdateObjects();
-		window.clear();
+
+		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
-			window.draw(*CWindowUtilities::ToDrawList[i]);
+			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
-		window.display();
+		CResourceHolder::GetWindow()->display();
 
-		sf::Time elapsed = clock.restart();
+		CObjectController::UpdateObjects();
+		CGameManager::DeleteNonActiveScenes();
 	}
 
 	return 0;

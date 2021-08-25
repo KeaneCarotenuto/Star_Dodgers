@@ -1,22 +1,24 @@
 #ifndef CGAMEPAD_H
 #define CGAMEPAD_H
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <string>
+#include <cmath>
 #include <SFML/Window/Joystick.hpp>
 #include <algorithm>
 #include <map>
 #include "IGamepadInput.h"
 #include "EasySFML.h"
 
-#define SOUTH_BUTTON 0
-#define EAST_BUTTON 1
-#define WEST_BUTTON 2
+#define WEST_BUTTON 0
+#define SOUTH_BUTTON 1
+#define EAST_BUTTON 2
 #define NORTH_BUTTON 3
 
-#define RIGHT_SHOULDER_BUTTON 4
-#define LEFT_SHOULDER_BUTTON 5
+#define LEFT_SHOULDER_BUTTON 4
+#define RIGHT_SHOULDER_BUTTON 5
 
 #define BACK_BUTTON 6
 #define START_BUTTON 7
@@ -39,6 +41,8 @@
 
 class CGamepad : CGameObject
 {
+    friend class IGamepadInput;
+
 public:
     CGamepad(int _gamepadIndex);
     sf::Vector2f GetLeftStick();
@@ -48,16 +52,19 @@ public:
     bool GetButtonPressed(Button _button);
     bool GetButtonDown(Button _button);
     bool GetButtonReleased(Button _button);
-    void Bind(IGamepadInput _objectToBind, std::string _name);
+    void Bind(IGamepadInput *_objectToBind, std::string _name);
     void Unbind(std::string _name);
 
 private:
-    std::map<std::string, IGamepadInput> m_Bindings;
+    std::map<std::string, IGamepadInput *> m_Bindings;
+    std::vector<std::string> m_toUnbind;
     int m_GamepadIndex;
     void Update(float _fDeltaTime);
-    bool m_WasPressedLastFrame[13];
-    bool m_CurrentlyPressed[13];
-    bool m_PressedThisFrame[13];
-    bool m_ReleasedThisFrame[13];
+
+    // error handling - initialise to remove C26495 warning
+    bool m_WasPressedLastFrame[13]; // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_CurrentlyPressed[13];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_PressedThisFrame[13];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_ReleasedThisFrame[13];   // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
 };
 #endif
