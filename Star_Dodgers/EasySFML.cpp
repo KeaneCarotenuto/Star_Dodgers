@@ -171,3 +171,5 @@ sf::Vector2f CWindowUtilities::ScreenCentre = sf::Vector2f(50, 50);
 float CWindowUtilities::RenderDistance = 1500;
 
 std::vector<sf::Drawable *> CWindowUtilities::ToDrawList;
+
+std::vector<CGameObject*> CWindowUtilities::ToDeleteList;

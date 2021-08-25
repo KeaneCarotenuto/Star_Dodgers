@@ -63,9 +63,6 @@
     <ClCompile Include="CGamepad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CGameSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EasySFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,15 +75,12 @@
     <ClCompile Include="CResourceHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLobby.cpp">
-      <Filter>Source Files\Scenes</Filter>
+    <ClCompile Include="CGameManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGamepad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CGameSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EasySFML.h">
@@ -107,8 +101,8 @@
     <ClInclude Include="CSceneBase.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="CLobby.h">
-      <Filter>Header Files\Scenes</Filter>
+    <ClInclude Include="CGameManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

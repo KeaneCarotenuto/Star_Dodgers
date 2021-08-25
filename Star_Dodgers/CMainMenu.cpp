@@ -8,6 +8,7 @@ CMainMenu::CMainMenu()
 	m_selectedItem = 0;
 	m_canBindController = (CGameManager::GetMasterController() == nullptr) ? false : true;
 
+
 	// get font and set colours
 	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
 	m_highlight = sf::Color::Cyan;

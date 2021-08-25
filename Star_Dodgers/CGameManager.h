@@ -11,6 +11,9 @@
 class CGameManager
 {
 public:
+	CGameManager(void);
+	~CGameManager(void);
+
 	static void Initialise();
 
 	//scene functions
@@ -25,9 +28,6 @@ public:
 
 
 private:
-	CGameManager(void);
-	~CGameManager(void);
-
 	// scene variabless
 
 	// controller variables
