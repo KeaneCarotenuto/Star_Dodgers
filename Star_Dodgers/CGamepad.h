@@ -57,6 +57,7 @@ public:
 
 private:
     std::map<std::string, IGamepadInput *> m_Bindings;
+    std::vector<std::string> m_toUnbind;
     int m_GamepadIndex;
     void Update(float _fDeltaTime);
 

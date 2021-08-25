@@ -79,10 +79,10 @@ bool CGamepad::GetButtonDown(Button _button)
         return sf::Joystick::isButtonPressed(m_GamepadIndex, MIDDLE_BUTTON);
         break;
     case Button::DPAD_UP:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) <= -100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) >= 100.f;
         break;
     case Button::DPAD_DOWN:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) >= 100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) <= -100.f;
         break;
     case Button::DPAD_LEFT:
         return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) <= -100.f;
@@ -105,7 +105,8 @@ void CGamepad::Bind(IGamepadInput *_objectToBind, std::string _name)
 }
 void CGamepad::Unbind(std::string _name)
 {
-    m_Bindings.erase(_name);
+    m_toUnbind.push_back(_name);
+    //m_Bindings.erase(_name);
 }
 
 void CGamepad::Update(float _fDeltaTime)
@@ -140,4 +141,10 @@ void CGamepad::Update(float _fDeltaTime)
         }
         it++;
     }
+
+    for (unsigned int i = 0; i < m_toUnbind.size(); i++)
+    {
+        m_Bindings.erase(m_toUnbind[i]);
+    }
+    m_toUnbind.clear();
 }

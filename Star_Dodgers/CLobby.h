@@ -6,6 +6,8 @@
 #include "CSceneBase.h"
 #include "CGamepad.h"
 
+class CPlayer;
+
 enum class PlayerTeam
 {
 	UNDECIDED = 0,
@@ -13,22 +15,11 @@ enum class PlayerTeam
 	BLUE = 2
 };
 
-struct PlayerIcon
+struct LobbyPlayer
 {
-	sf::Vector2f position;
-	std::shared_ptr<CGamepad> controller;
-	
-	sf::Text name;
-	sf::Sprite icon;
-	
+	std::shared_ptr<CPlayer> playerPtr;
+	sf::Text* playerReady;
 	bool isReady;
-	sf::Sprite notReady;
-	sf::Text ready;
-	PlayerTeam team;
-
-	sf::Color individual;
-	sf::RectangleShape container;
-
 };
 
 class CLobby : public CSceneBase
@@ -44,16 +35,25 @@ public:
 
 private:
 	bool m_canLoadGame = false;
+	bool m_canUnbindMasterController = true;
 	int m_currentPlayers = 0;
 	sf::Color m_neutral;
 
 	sf::Text* m_title;
 	sf::Text* m_subtitle;
-	sf::Text* m_ready;
+	sf::Text* m_nextSceneCondition;
+	sf::Sprite* m_pressX;
 	sf::Sprite* m_back;
+	sf::Text* m_teamLabels[3] = { nullptr, nullptr, nullptr };
+	sf::VertexArray* m_teamSeperators[2];
 
-	std::vector<PlayerIcon> m_players;
-	
+	sf::Rect<float> m_lobby;       // the area where player icons are displayed
+	sf::Vector2f m_lobbyGaps[3];   // space between players in lobby
+
+	std::vector<LobbyPlayer> m_players;
+	int m_redTeamCount = 0, m_blueTeamCount = 0, m_undecidedCount = 0;
+
+	float m_nextSceneCountdown = 0.0f;
 };
 
 #endif  // __CLOBBY_H__

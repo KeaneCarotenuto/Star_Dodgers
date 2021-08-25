@@ -1,5 +1,6 @@
 #include "CGameManager.h"
 #include "CResourceHolder.h"
+#include "CLobby.h"
 #include "CMainMenu.h"
 
 CMainMenu::CMainMenu()
@@ -7,7 +8,6 @@ CMainMenu::CMainMenu()
 	// bind master controller to input settings
 	m_selectedItem = 0;
 	m_canBindController = (CGameManager::GetMasterController() == nullptr) ? false : true;
-
 
 	// get font and set colours
 	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
@@ -39,7 +39,29 @@ CMainMenu::CMainMenu()
 
 CMainMenu::~CMainMenu()
 {
-	
+	for (unsigned int ele = 0; ele < CWindowUtilities::ToDrawList.size(); ele++)
+	{
+		if (CWindowUtilities::ToDrawList[ele] == m_playButton)
+		{
+			// if play button is found in ToDrawList, create an iterator pointing to the position of the play button then
+			// erase the element at the iterator and the 3 elements after it so that all buttons are removed from the list
+			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::ToDrawList.begin() + ele;
+			CWindowUtilities::ToDrawList.erase(iter, iter + 4);
+			break;
+		}
+	}
+
+	delete m_playButton;
+	m_playButton = 0;
+
+	delete m_controlsButton; 
+	m_controlsButton = 0;
+
+	delete m_settingsButton;
+	m_settingsButton = 0;
+
+	delete m_quitButton;
+	m_quitButton = 0;
 }
 
 void CMainMenu::Update(float _fDeltaTime)
@@ -120,7 +142,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			int remainder = (m_selectedItem + 10) % 2;
-
+			
 			// if the selected item is in the right-most column, set it to the left-most. if it is not in the right-most,
 			// set it to the next column
 			if (remainder == 0) // left-most
@@ -155,7 +177,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			int remainder = (m_selectedItem + 10) % 2;
-
+			
 			// if the selected item is in the left-most column, set it to the right-most. if it is not in the left-most,
 			// set it to next option
 			if (remainder == 0) // left-most
@@ -177,6 +199,9 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 			case 0: // play
 			{
+				CGameManager::ChangeActiveScene<CLobby>();
+				CGameManager::GetMasterController()->Unbind("MainMenu");
+				
 				break;
 			}
 			case 1: // controls

@@ -149,6 +149,8 @@
   <ItemGroup>
     <ClCompile Include="CGamepad.cpp" />
     <ClCompile Include="CGameManager.cpp" />
+    <ClCompile Include="CGameScene.cpp" />
+    <ClCompile Include="CLobby.cpp" />
     <ClCompile Include="CMainMenu.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CResourceHolder.cpp" />
@@ -158,6 +160,8 @@
   <ItemGroup>
     <ClInclude Include="CGamepad.h" />
     <ClInclude Include="CGameManager.h" />
+    <ClInclude Include="CGameScene.h" />
+    <ClInclude Include="CLobby.h" />
     <ClInclude Include="CMainMenu.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CResourceHolder.h" />

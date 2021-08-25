@@ -13,15 +13,16 @@ std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
 // create resources that will be used later in the project
 void CResourceHolder::Initialise()
 {
-	m_window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
+	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+	m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::Default);
 
 	CreateImage("icon.png");
-	CreateImage("P1.png");
-	CreateImage("P2.png");
-	CreateImage("P3.png");
-	CreateImage("P4.png");
-	CreateImage("BackButton.png");
-	CreateImage("X-Ready.png");
+	CreateTexture("P1.png");
+	CreateTexture("P2.png");
+	CreateTexture("P3.png");
+	CreateTexture("P4.png");
+	CreateTexture("BackButton.png");
+	CreateTexture("X-Ready.png");
 
 	CreateFont("comic.ttf");
 	

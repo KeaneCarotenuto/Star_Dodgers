@@ -1,4 +1,5 @@
 #include <SFML/Window/Joystick.hpp>
+#include "CSceneBase.h"
 #include "CGameManager.h"
 
 CGameManager::CGameManager(void) {}
@@ -10,6 +11,9 @@ std::vector<std::shared_ptr<CGamepad>> CGameManager::m_connectedControllers;
 int CGameManager::m_controllerCount = 0;
 // controller used to navigate settings so that system does not get overwhelmed or confused with multiple inputs
 std::shared_ptr<CGamepad> CGameManager::m_masterController = nullptr;
+// scene currently running - controls which objects are added to CObjectController to be updated
+CSceneBase* CGameManager::m_activeScene = nullptr;
+std::vector<CSceneBase*> CGameManager::m_scenesToDestroy;
 
 // this function ensures that all starting settings are correct and that all connected controllers are detected
 void CGameManager::Initialise()
@@ -74,4 +78,15 @@ std::shared_ptr<CGamepad> CGameManager::GetMasterController()
 std::shared_ptr<CGamepad> CGameManager::GetController(int _controllerNum)
 {
 	return(m_connectedControllers[_controllerNum]);
+}
+
+// deletes / destorys the non acticve scene in the scenesToClear vector
+void CGameManager::DeleteNonActiveScenes()
+{
+	for (unsigned int i = 0; i < m_scenesToDestroy.size(); i++)
+	{
+		m_scenesToDestroy[i]->~CSceneBase();
+	}
+
+	m_scenesToDestroy.clear();
 }
