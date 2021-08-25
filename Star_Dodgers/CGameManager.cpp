@@ -83,10 +83,10 @@ std::shared_ptr<CGamepad> CGameManager::GetController(int _controllerNum)
 // deletes / destorys the non acticve scene in the scenesToClear vector
 void CGameManager::DeleteNonActiveScenes()
 {
-	for (unsigned int i = 0; i < m_scenesToDestroy.size(); i++)
+	while(m_scenesToDestroy.size() > 0)
 	{
-		m_scenesToDestroy[i]->~CSceneBase();
+		CSceneBase* tempScene = m_scenesToDestroy[m_scenesToDestroy.size() - 1];
+		m_scenesToDestroy.pop_back();
+		tempScene->~CSceneBase();
 	}
-
-	m_scenesToDestroy.clear();
 }

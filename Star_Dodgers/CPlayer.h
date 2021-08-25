@@ -9,8 +9,8 @@
 enum class Team
 {
 	RED = 0,
-	BLUE = 1,
-	UNDECIDED = 2
+	UNDECIDED = 1,
+	BLUE = 2
 };
 
 class CPlayer : public CGameObject

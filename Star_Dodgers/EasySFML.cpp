@@ -57,6 +57,7 @@ void CObjectController::Update(float _fDeltaTime)
 	//Traverse until the starting node is reached
 	CGameObject *pHead = *GetHead();
 	CGameObject *pCurrent = pHead;
+	
 	if (pCurrent)
 	{
 		do
