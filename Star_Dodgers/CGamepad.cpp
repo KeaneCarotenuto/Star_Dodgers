@@ -129,6 +129,7 @@ void CGamepad::Update(float _fDeltaTime)
                 GamepadButtonEvent event;
                 event.button = (Button)i;
                 event.type = GamepadButtonEvent::EventType::PRESSED;
+                event.gamepadIndex = m_GamepadIndex;
                 it->second->OnButtonInput(event);
             }
             if (m_ReleasedThisFrame[i])
@@ -136,6 +137,7 @@ void CGamepad::Update(float _fDeltaTime)
                 GamepadButtonEvent event;
                 event.button = (Button)i;
                 event.type = GamepadButtonEvent::EventType::RELEASED;
+                event.gamepadIndex = m_GamepadIndex;
                 it->second->OnButtonInput(event);
             }
         }
