@@ -10,15 +10,15 @@ class CPlayer;
 
 enum class PlayerTeam
 {
-	UNDECIDED = 0,
-	RED = 1,
+	RED = 0,
+	UNDECIDED = 1,
 	BLUE = 2
 };
 
 struct LobbyPlayer
 {
 	std::shared_ptr<CPlayer> playerPtr;
-	sf::Text* playerReady;
+	sf::Text* readyText;
 	bool isReady;
 };
 
@@ -32,6 +32,9 @@ public:
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
 	void OnButtonInput(GamepadButtonEvent _event);
+
+	void CalculateGaps();
+	void AddPlayer(sf::Vector2f _startPos, int _controllerIndex);
 
 private:
 	bool m_canLoadGame = false;
@@ -47,8 +50,8 @@ private:
 	sf::Text* m_teamLabels[3] = { nullptr, nullptr, nullptr };
 	sf::VertexArray* m_teamSeperators[2];
 
-	sf::Rect<float> m_lobby;       // the area where player icons are displayed
-	sf::Vector2f m_lobbyGaps[3];   // space between players in lobby
+	sf::Rect<float> m_lobby;             // the area where player icons are displayed
+	sf::Vector2f m_lobbyGaps[3];         // space between players in lobby
 
 	std::vector<LobbyPlayer> m_players;
 	int m_redTeamCount = 0, m_blueTeamCount = 0, m_undecidedCount = 0;

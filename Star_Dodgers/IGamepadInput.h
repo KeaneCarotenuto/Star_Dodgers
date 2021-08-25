@@ -33,6 +33,7 @@ struct GamepadButtonEvent
     };
     EventType type;
     Button button;
+    int gamepadIndex;
 };
 
 class IGamepadInput

@@ -9,12 +9,12 @@ CLobby::CLobby()
 	m_neutral = sf::Color(125, 125, 125, 150);
 
 	m_title = new sf::Text("Join Game", *font, 50);
-	m_title->setPosition((float)(CResourceHolder::GetWindowSize().x - 500) / 2.0f, 5.0f);
+	m_title->setPosition((float)(CResourceHolder::GetWindowSize().x - 450) / 2.0f, 5.0f);
 	m_title->setFillColor(sf::Color::White);
 	CWindowUtilities::Draw(m_title);
 
 	m_subtitle = new sf::Text("Please Select team", *font, 30);
-	m_subtitle->setPosition((float)(CResourceHolder::GetWindowSize().x - 480) / 2.0f, 60.0f);
+	m_subtitle->setPosition((float)(CResourceHolder::GetWindowSize().x - 540) / 2.0f, 60.0f);
 	m_subtitle->setFillColor(sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255));
 	CWindowUtilities::Draw(m_subtitle);
 
@@ -24,16 +24,10 @@ CLobby::CLobby()
 	m_lobby.left = 0.0f;
 	m_lobby.top = 130.0f;
 
-	for (int i = 0; i < 3; i++)
-	{
-		float playerSize = (i != 1) ? 170 : 70;
-		int playerCount = CGameManager::GetControllerCount();
-		float width = (((m_lobby.width - 2.0f) / 3.0f) - playerSize) / 2.0f;
-		float height = (m_lobby.height - (4.0f * (float)playerCount)) / (float)(playerCount + 1);
-		m_lobbyGaps[i] = sf::Vector2f(width, height);
-	}
+	// calculate gaps
+	CalculateGaps();
 
-	// team section headers
+	// team sections
 	float sectionWidth = m_lobby.width / 3.0f;
 	for (int i = 0; i < 3; i++)
 	{
@@ -44,7 +38,7 @@ CLobby::CLobby()
 		else { label = "Blue Team"; colour = sf::Color::Blue;}
 
 		m_teamLabels[i] = new sf::Text(label, *font, 30);
-		float xPos = (i * sectionWidth) + ((sectionWidth - (label.size() * 30.0f)) / 2.0f); // middle of section
+		float xPos = (i * sectionWidth) + ((sectionWidth - ((label.size() - 1.0f) * 30.0f)) / 2.0f); // middle of section
 		m_teamLabels[i]->setPosition(xPos, 95.0f);
 		m_teamLabels[i]->setFillColor(colour);
 
@@ -87,23 +81,7 @@ CLobby::CLobby()
 	sf::Vector2f startPos = firstLine[0].position + m_lobbyGaps[1];
 	for (unsigned int cont = 0; cont < CGameManager::GetControllerCount(); cont++)
 	{
-		std::string playerLabel = "P" + std::to_string(cont + 1);
-		sf::Vector2f position = startPos + sf::Vector2f(0.0f, startPos.y * cont) + sf::Vector2f(0.0f, m_lobbyGaps[1].y * cont);
-		CPlayer playerObj = CPlayer(CGameManager::GetController(cont), playerLabel + ".png", Team::UNDECIDED, position);
-		playerObj.SetSize(sf::Vector2f(70, 70));
-
-		sf::Text* readyText = new sf::Text("", *font, 15);
-		readyText->setPosition(playerObj.GetPosition() + sf::Vector2f(0, playerObj.GetRect().height + 5.0f));
-		readyText->setFillColor(m_neutral);
-
-		LobbyPlayer newPlayer = { std::make_shared<CPlayer>(playerObj), readyText, false };
-		m_players.push_back(newPlayer);
-		
-		CWindowUtilities::Draw(newPlayer.playerPtr->GetSprite());
-		CWindowUtilities::Draw(newPlayer.playerReady);
-
-		m_currentPlayers += 1;
-		m_undecidedCount += 1;
+		AddPlayer(startPos, cont);
 	}
 }
 
@@ -148,19 +126,61 @@ CLobby::~CLobby()
 
 void CLobby::Update(float _fDeltaTime)
 {
-	/*if (m_canUnbindMasterController)
+	// check if new controllers have been connected and add players accordingly
+	if (m_currentPlayers < CGameManager::GetControllerCount())
 	{
-		CGameManager::GetMasterController()->Unbind("MainMenu");
-		m_canUnbindMasterController = false;
-	}*/
+		sf::VertexArray firstLine = *m_teamSeperators[0];
+		sf::Vector2f startPos = firstLine[0].position + m_lobbyGaps[1];
 
-	// set undecided players to not ready
+		int playersToAdd = CGameManager::GetControllerCount() - m_currentPlayers;
+		for (int i = 0; i < playersToAdd; i++)
+		{
+			AddPlayer(startPos, m_currentPlayers);
+		}
+	}
+
+	// recalculate gaps
+	CalculateGaps();
+
+	// set position, size and ready
 	for (unsigned int ele = 0; ele < m_players.size(); ele++)
 	{
-		if (m_players[ele].playerPtr->GetTeam() == Team::UNDECIDED)
+		sf::Vector2f position;
+		sf::Vector2f scale; 
+		std::string playerText;
+
+		if (m_players[ele].playerPtr->GetTeam() == Team::RED) 
 		{
-			m_players[ele].isReady = false;
+			position = m_lobbyGaps[0] + sf::Vector2f(0.0f, m_lobbyGaps[0].y * m_redTeamCount) 
+				+ sf::Vector2f(0.0f, m_lobbyGaps[0].y * m_redTeamCount);
+			scale = sf::Vector2f(150, 150);
+			playerText = (m_players[ele].isReady) ? "<Ready>" : "<Not Ready";
 		}
+		else if (m_players[ele].playerPtr->GetTeam() == Team::BLUE)
+		{
+			position = m_lobbyGaps[2] + sf::Vector2f(0.0f, m_lobbyGaps[2].y * m_blueTeamCount)
+				+ sf::Vector2f(0.0f, m_lobbyGaps[2].y * m_blueTeamCount);
+			scale = sf::Vector2f(150, 150);
+			playerText = (m_players[ele].isReady) ? "<Ready>" : "<Not Ready";
+		}
+		else
+		{
+			position = m_lobbyGaps[1] + sf::Vector2f(0.0f, m_lobbyGaps[1].y * m_undecidedCount)
+				+ sf::Vector2f(0.0f, m_lobbyGaps[1].y * m_undecidedCount);
+			scale = sf::Vector2f(70, 70);
+
+			// set undecided players to not ready
+			m_players[ele].isReady = false;
+			playerText = "";
+		}
+
+		m_players[ele].playerPtr->SetPosition(position);
+		m_players[ele].playerPtr->SetSize(scale);
+		
+		sf::Color playerTextColour = (m_players[ele].isReady) ? sf::Color::Green : sf::Color::Magenta;
+		m_players[ele].readyText->setString(playerText);
+		m_players[ele].readyText->setFillColor(playerTextColour);
+		m_players[ele].readyText->setPosition(position.x + ((playerText.size() * 15.0f) / 2.0f), position.y + scale.y + 5.0f);
 	}
 
 	bool isAllPlayersReady = true;
@@ -182,6 +202,7 @@ void CLobby::Update(float _fDeltaTime)
 		m_nextSceneCountdown -= _fDeltaTime;
 		m_nextSceneCondition->setString("Game Starts in " + std::to_string((int)m_nextSceneCountdown));
 		m_nextSceneCondition->setFillColor(sf::Color::Green);
+		m_nextSceneCondition->setPosition((sf::Vector2f)CResourceHolder::GetWindowSize() - sf::Vector2f(300, 38));
 
 		if (m_nextSceneCountdown <= 0.0f)
 		{
@@ -202,13 +223,81 @@ void CLobby::LateUpdate(float _fDeltaTime)
 
 void CLobby::OnButtonInput(GamepadButtonEvent _event)
 {
-	/*switch (_event.button)
-	{
-	case Button::DPAD_LEFT:
-	{
+	int team = (int)m_players[_event.gamepadIndex].playerPtr->GetTeam();
+	std::string readyText = "";
 
-		break;
+	if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+	{
+		switch (_event.button)
+		{
+		case Button::DPAD_LEFT:
+		{
+			if (team > 1) 
+			{ 
+				if ((Team)team == Team::UNDECIDED) { m_undecidedCount -= 1; m_redTeamCount += 1; }
+				else { m_blueTeamCount -= 1; m_undecidedCount += 1; }
+				team -= 1; 
+			}
+			break;
+		}
+		case Button::DPAD_RIGHT:
+		{
+			if (team < 2) 
+			{ 
+				if ((Team)team == Team::RED) { m_redTeamCount -= 1; m_undecidedCount += 1; }
+				else { m_undecidedCount -= 1; m_blueTeamCount += 1; }
+				team += 1; 
+			}
+			break;
+		}
+		case Button::SOUTH:
+		{
+			if (team != (int)Team::UNDECIDED)
+			{
+				m_players[_event.gamepadIndex].isReady = true;
+				m_players[_event.gamepadIndex].readyText->setString("<Ready>");
+				m_players[_event.gamepadIndex].readyText->setFillColor(sf::Color::Green);
+			}
+			break;
+		}
+		}
+
+		m_players[_event.gamepadIndex].playerPtr->SetTeam((Team)team);
 	}
-	}*/
 }
 
+// this function calculates the gaps between the player icons and the edges
+void CLobby::CalculateGaps()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		float playerSize = (i != 1) ? 170 : 70;
+		int playerCount = (i == 0) ? m_redTeamCount : (i == 1) ? m_undecidedCount : m_blueTeamCount;
+
+		float width = (((m_lobby.width - 2.0f) / 3.0f) - playerSize) / 2.0f;
+		float height = (m_lobby.height - (playerSize * (float)playerCount)) / (float)(playerCount + 1);
+		m_lobbyGaps[i] = sf::Vector2f(width, height);
+	}
+}
+
+// this fucntion adds a player, if a controller is connected during this scene
+void CLobby::AddPlayer(sf::Vector2f _startPos, int _controllerIndex)
+{
+	std::string playerLabel = "P" + std::to_string(_controllerIndex + 1);
+	sf::Vector2f position = _startPos + sf::Vector2f(0.0f, _startPos.y * m_undecidedCount) + sf::Vector2f(0.0f, m_lobbyGaps[1].y * m_undecidedCount);
+	CPlayer playerObj = CPlayer(CGameManager::GetController(_controllerIndex), playerLabel + ".png", Team::UNDECIDED, position);
+	playerObj.SetSize(sf::Vector2f(70, 70));
+
+	sf::Text* readyText = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);
+	readyText->setPosition(playerObj.GetPosition() + sf::Vector2f(0, playerObj.GetRect().height + 5.0f));
+	readyText->setFillColor(m_neutral);
+
+	LobbyPlayer newPlayer = { std::make_shared<CPlayer>(playerObj), readyText, false };
+	m_players.push_back(newPlayer);
+
+	CWindowUtilities::Draw(newPlayer.playerPtr->GetSprite());
+	CWindowUtilities::Draw(newPlayer.readyText);
+
+	m_currentPlayers += 1;
+	m_undecidedCount += 1;
+}
