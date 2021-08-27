@@ -1,11 +1,12 @@
 #include "CPlayer.h"
 
-CPlayer::CPlayer(std::shared_ptr<CGamepad> _controller, std::string _texName, Team _team, sf::Vector2f _pos)
+CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos)
 {
-	SetController(_controller);
+	SetController(_controllerIndex);
 	SetSprite(_texName);
 	SetTeam(_team);
 	SetPosition(_pos);
+	SetIsReady(false);
 }
 
 CPlayer::~CPlayer()

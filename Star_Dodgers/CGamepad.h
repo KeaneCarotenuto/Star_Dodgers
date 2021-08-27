@@ -54,6 +54,7 @@ public:
     bool GetButtonReleased(Button _button);
     void Bind(IGamepadInput *_objectToBind, std::string _name);
     void Unbind(std::string _name);
+    int GetIndex() const { return(m_GamepadIndex); }
 
 private:
     std::map<std::string, IGamepadInput *> m_Bindings;
