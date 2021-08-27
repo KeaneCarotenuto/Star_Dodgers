@@ -58,7 +58,7 @@ void CObjectController::Update(float _fDeltaTime)
 	CGameObject *pHead = *GetHead();
 	CGameObject *pCurrent = pHead;
 	
-	if (pCurrent)
+	if (pCurrent != nullptr)
 	{
 		do
 		{
@@ -67,7 +67,7 @@ void CObjectController::Update(float _fDeltaTime)
 				pCurrent->Update(_fDeltaTime); //Call update on each object
 			}
 			pCurrent = pCurrent->m_pNext;
-		} while (pCurrent != pHead);
+		} while (pCurrent != pHead && pCurrent!=nullptr);
 	}
 }
 
@@ -76,7 +76,7 @@ void CObjectController::FixedUpdate()
 	//Traverse until the starting node is reached
 	CGameObject *pHead = *GetHead();
 	CGameObject *pCurrent = pHead;
-	if (pCurrent)
+	if (pCurrent != nullptr)
 	{
 		do
 		{
@@ -85,7 +85,7 @@ void CObjectController::FixedUpdate()
 				pCurrent->FixedUpdate(); //Call FixedUpdate on each object
 			}
 			pCurrent = pCurrent->m_pNext;
-		} while (pCurrent != pHead);
+		} while (pCurrent != pHead && pCurrent!= nullptr);
 	}
 }
 
@@ -94,7 +94,7 @@ void CObjectController::LateUpdate(float _fDeltaTime)
 	//Traverse until the starting node is reached
 	CGameObject *pHead = *GetHead();
 	CGameObject *pCurrent = pHead;
-	if (pCurrent)
+	if (pCurrent != nullptr)
 	{
 		do
 		{
@@ -103,7 +103,7 @@ void CObjectController::LateUpdate(float _fDeltaTime)
 				pCurrent->LateUpdate(_fDeltaTime); //Call LateUpdate on each object
 			}
 			pCurrent = pCurrent->m_pNext;
-		} while (pCurrent != pHead);
+		} while (pCurrent != pHead && pCurrent != nullptr);
 	}
 }
 

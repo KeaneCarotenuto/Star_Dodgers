@@ -5,6 +5,7 @@
 
 #include "CSceneBase.h"
 #include "CGamepad.h"
+#include "CGameScene.h"
 
 class CPlayer;
 

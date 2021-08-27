@@ -134,7 +134,7 @@ CLobby::~CLobby()
 		CPlayer* tempPlayer = m_players[m_players.size() - 1].playerPtr.get();
 		m_players.pop_back();
 		
-		tempPlayer->~CPlayer();
+		//tempPlayer->~CPlayer();
 	}
 }
 
@@ -196,7 +196,7 @@ void CLobby::Update(float _fDeltaTime)
 		m_players[ele].readyText->setFillColor(playerTextColour);
 		m_players[ele].readyText->setPosition(position.x + (m_players[ele].readyText->getGlobalBounds().width / 2.0f), position.y + scale.y + 5.0f);
 	}
-
+	m_canLoadGame = true;
 	bool isAllPlayersReady = true;
 	// check if players are ready
 	for (unsigned int ele = 0; ele < m_players.size(); ele++)
@@ -206,10 +206,10 @@ void CLobby::Update(float _fDeltaTime)
 	}
 
 	// if there is an odd number of players, the game cannot start
-	if ((m_currentPlayers % 2) != 0)
+	/*if ((m_currentPlayers % 2) != 0)
 	{
 		m_canLoadGame = false;
-	}
+	}*/
 
 	if (m_canLoadGame)
 	{
@@ -220,13 +220,12 @@ void CLobby::Update(float _fDeltaTime)
 
 		if (m_nextSceneCountdown <= 0.0f)
 		{
-			//CGameManager::ChangeActiveScene<CGameScene>();
-
 			// unbind controllers
 			for (int cont = 0; cont < CGameManager::GetControllerCount(); cont++)
 			{
 				CGameManager::GetController(cont)->Unbind("Lobby");
 			}
+			CGameManager::ChangeActiveScene<CGameScene>(m_currentPlayers);
 		}
 	}
 }
