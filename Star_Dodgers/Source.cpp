@@ -23,7 +23,6 @@ int main()
 	CGameManager::Initialise(); // initial game settings setup
 	//CMainMenu menu;				 // first scene
 	CGameManager::ChangeActiveScene<CMainMenu>();
-	
 
 	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
