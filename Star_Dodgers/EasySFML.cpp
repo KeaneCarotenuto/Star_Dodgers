@@ -41,6 +41,8 @@ float CObjectController::fixedTime = 0.0f;
 
 void CObjectController::UpdateObjects()
 {
+	ToDeleteList.clear();
+
 	deltaTime = deltaClock.restart().asSeconds(); //Get the time delta and restart the clock
 	fixedTime += deltaTime;						  //Add the delta time to fixedTime.
 	Update(deltaTime);							  //Call the Update method on derived classes that have implemented it
@@ -54,10 +56,11 @@ void CObjectController::UpdateObjects()
 
 void CObjectController::Update(float _fDeltaTime)
 {
+
 	//Traverse until the starting node is reached
 	CGameObject *pHead = *GetHead();
 	CGameObject *pCurrent = pHead;
-	
+
 	if (pCurrent)
 	{
 		do
@@ -162,9 +165,9 @@ void CWindowUtilities::Draw(sf::Drawable *Draw, sf::Vector2f Pos)
 	}
 }
 
-void CWindowUtilities::Destroy(CGameObject* _gameObj)
+void CObjectController::Destroy(CGameObject *_gameObj)
 {
-	ToDeleteList.push_back(_gameObj); // add object to the delete list
+	ToDeleteList.push_back(*_gameObj); // add object to the delete list
 }
 
 sf::Vector2f CWindowUtilities::ScreenCentre = sf::Vector2f(50, 50);
@@ -173,4 +176,4 @@ float CWindowUtilities::RenderDistance = 1500;
 
 std::vector<sf::Drawable *> CWindowUtilities::ToDrawList;
 
-std::vector<CGameObject*> CWindowUtilities::ToDeleteList;
+std::vector<CGameObject> CObjectController::ToDeleteList;
