@@ -7,7 +7,7 @@ CMainMenu::CMainMenu()
 {
 	// bind master controller to input settings
 	m_selectedItem = 0;
-	m_canBindController = (CGameManager::GetMasterController() == nullptr) ? false : true;
+	m_canBindController = (CGameManager::GetInstance()->GetMasterController() == nullptr) ? false : true;
 
 	// get font and set colours
 	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
@@ -68,7 +68,7 @@ void CMainMenu::Update(float _fDeltaTime)
 {
 	if (m_canBindController)
 	{
-		CGameManager::GetMasterController()->Bind(dynamic_cast<IGamepadInput *>(this), "MainMenu");
+		CGameManager::GetInstance()->GetMasterController()->Bind(dynamic_cast<IGamepadInput *>(this), "MainMenu");
 		m_canBindController = false;
 	}
 
@@ -199,8 +199,8 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 			case 0: // play
 			{
-				CGameManager::ChangeActiveScene<CLobby>();
-				CGameManager::GetMasterController()->Unbind("MainMenu");
+				CGameManager::GetInstance()->ChangeActiveScene<CLobby>();
+				CGameManager::GetInstance()->GetMasterController()->Unbind("MainMenu");
 				
 				break;
 			}
