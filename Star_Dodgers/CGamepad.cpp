@@ -10,13 +10,13 @@ sf::Vector2f CGamepad::GetLeftStick()
 {
     float x = sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_X) / 100.f;
     float y = sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_Y) / 100.f;
-    if (std::abs(x) < 0.01f)
+    if (std::abs(x) < 0.1f)
     {
-        x = 0;
+        x = 0.0f;
     }
-    if (std::abs(y) < 0.01f)
+    if (std::abs(y) < 0.1f)
     {
-        y = 0;
+        y = 0.0f;
     }
 
     return sf::Vector2f(x, y);
@@ -27,11 +27,11 @@ sf::Vector2f CGamepad::GetRightStick()
     float y = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_Y) / 100.f;
     if (std::abs(x) < 0.1f)
     {
-        x = 0;
+        x = 0.0f;
     }
     if (std::abs(y) < 0.1f)
     {
-        y = 0;
+        y = 0.0f;
     }
     return sf::Vector2f(x, y);
 }

@@ -1,19 +1,40 @@
 #include <SFML/Window/Joystick.hpp>
+#include <type_traits>
+#include <typeinfo>
 #include "CSceneBase.h"
+#include "IObserver.h"
+#include "CLobby.h"
 #include "CGameManager.h"
 
-CGameManager::CGameManager(void) {}
+CGameManager::CGameManager() 
+{
+	m_controllerCount = 0;
 
-CGameManager::~CGameManager(void) {}
+	// controller used to navigate settings so that system does not get overwhelmed or confused with multiple inputs
+	m_masterController = nullptr;
+
+	// scene currently running - controls which objects are added to CObjectController to be updated
+	m_activeScene = nullptr;
+	m_isGameplay = false;  // is scene main game mode
+}
+
+CGameManager::~CGameManager() 
+{
+}
 
 //static variables
-std::vector<std::shared_ptr<CGamepad>> CGameManager::m_connectedControllers;
-int CGameManager::m_controllerCount = 0;
-// controller used to navigate settings so that system does not get overwhelmed or confused with multiple inputs
-std::shared_ptr<CGamepad> CGameManager::m_masterController = nullptr;
-// scene currently running - controls which objects are added to CObjectController to be updated
-CSceneBase* CGameManager::m_activeScene = nullptr;
-std::vector<CSceneBase*> CGameManager::m_scenesToDestroy;
+CGameManager* CGameManager::m_gameManagerInstance = nullptr;
+
+// returns a pointer to a single instance of CGameManager
+CGameManager* CGameManager::GetInstance()
+{
+	if (m_gameManagerInstance == nullptr)
+	{
+		m_gameManagerInstance = new CGameManager();
+	}
+
+	return(m_gameManagerInstance);
+}
 
 // this function ensures that all starting settings are correct and that all connected controllers are detected
 void CGameManager::Initialise()
@@ -40,6 +61,7 @@ void CGameManager::AddController()
 	{
 		// this ensures that there is a valid sf::Joystick to link the controller to before it is added to the vector
 		m_connectedControllers.push_back(std::shared_ptr<CGamepad>(newController));
+		NotifyObservers(m_controllerCount, true);
 
 		// if no controllers have been connected, set this controller as the master controller
 		if (m_masterController == nullptr)
@@ -47,6 +69,25 @@ void CGameManager::AddController()
 			SetMasterController(m_connectedControllers[m_controllerCount]);
 		}
 		m_controllerCount++; // increase controllerCount as this controller has been assigned to a CGamepad object
+	}
+}
+
+// checks which controller is disconnected and call notify watchers
+void CGameManager::ControllerDisconnected()
+{
+	for (int cont = 0; cont < m_controllerCount; cont++)
+	{
+		if (!sf::Joystick::isConnected(cont))
+		{
+			NotifyObservers(cont, m_isGameplay);
+
+			// completely remove controller if not in gameplayMode
+			if (m_isGameplay == false) 
+			{ 
+				m_connectedControllers.erase(m_connectedControllers.begin() + cont); 
+				m_controllerCount -= 1;
+			}
+		}
 	}
 }
 
@@ -78,6 +119,52 @@ std::shared_ptr<CGamepad> CGameManager::GetMasterController()
 std::shared_ptr<CGamepad> CGameManager::GetController(int _controllerNum)
 {
 	return(m_connectedControllers[_controllerNum]);
+}
+
+// this function adds a observer to be notified of changes to the m_connectedControllers vector
+void CGameManager::AddObserver(IObserver* _observer)
+{
+	m_observers.push_back(_observer);
+}
+
+// this function removes a observer of m_connectedControllers vector
+void CGameManager::RemoveObserver(IObserver* _observer)
+{
+	unsigned int watch = -1;
+	for (unsigned int ele = 0; ele < m_observers.size(); ele++)
+	{
+		if (m_observers[ele] == _observer) { watch = ele; break; }
+	}
+
+	if (watch < 0)
+	{
+		m_observers.erase(m_observers.begin() + watch);
+	}
+}
+
+// this function notifies/updates all the observers of the m_connectedControllers vector
+void CGameManager::NotifyObservers(int _controllerIndex, bool _isConnected)
+{
+	std::vector<unsigned int> nullElements;
+
+	for (unsigned int ele = 0; ele < m_observers.size(); ele++)
+	{
+		if (m_observers[ele] == nullptr)
+		{
+			nullElements.push_back(ele);
+		}
+		else
+		{
+			m_observers[ele]->JoystickStatusChange(m_isGameplay, _controllerIndex, _isConnected);
+		}
+	}
+
+	while (nullElements.size() > 0)
+	{
+		int ele = nullElements.size() - 1;
+		RemoveObserver(m_observers[nullElements[ele]]);
+		nullElements.pop_back();
+	}
 }
 
 // deletes / destorys the non acticve scene in the scenesToClear vector

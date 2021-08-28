@@ -154,6 +154,7 @@
     <ClCompile Include="CMainMenu.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CResourceHolder.cpp" />
+    <ClCompile Include="CTeamsManager.cpp" />
     <ClCompile Include="EasySFML.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -166,7 +167,10 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CResourceHolder.h" />
     <ClInclude Include="CSceneBase.h" />
+    <ClInclude Include="CTeamsManager.h" />
     <ClInclude Include="EasySFML.h" />
+    <ClInclude Include="IObservable.h" />
+    <ClInclude Include="IObserver.h" />
     <ClInclude Include="IGamepadInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,18 +4,14 @@
 #define __CLOBBY_H__
 
 #include "CSceneBase.h"
+#include "IObserver.h"
 #include "CGamepad.h"
+#include <map>
 
+// forward declare
 class CPlayer;
 
-struct LobbyPlayer
-{
-	std::shared_ptr<CPlayer> playerPtr;
-	sf::Text* readyText;
-	bool isReady;
-};
-
-class CLobby : public CSceneBase
+class CLobby : public CSceneBase, public IObserver
 {
 public:
 	CLobby();
@@ -25,15 +21,14 @@ public:
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
 
-	void CalculateGaps();
-	void AddPlayer(sf::Vector2f _startPos, int _controllerIndex, int _playerCount);
+	void TeamChange(int _team1, int _team2);
+	void NewPlayer(CPlayer* _player, int _controller);
 
 	void OnButtonInput(GamepadButtonEvent _event);
 
 private:
 	bool m_canLoadGame = false;
 	bool m_canUnbindMasterController = true;
-	int m_currentPlayers = 0;
 	sf::Color m_neutral;
 
 	sf::Text* m_title;
@@ -42,14 +37,11 @@ private:
 	sf::Sprite* m_pressX;
 	sf::Sprite* m_back;
 	sf::Text* m_teamLabels[3] = { nullptr, nullptr, nullptr };
-	sf::VertexArray* m_teamSeperators[2];
+	sf::VertexArray* m_teamSeperators[2] = { nullptr, nullptr };
+	std::map<CPlayer*, sf::Text*> m_playerReadyText;
 
 	sf::Rect<float> m_lobby;             // the area where player icons are displayed
-	sf::Vector2f m_lobbyGaps[3];         // space between players in lobby
-	float m_lobbySegmentsXPos[3];        // position of lobby segement top left
-
-	std::vector<LobbyPlayer> m_players;
-	int m_redTeamCount = 0, m_blueTeamCount = 0, m_undecidedCount = 0;
+	float m_lobbySegmentsLeft[3];     // position of lobby segement top left
 
 	float m_nextSceneCountdown = 0.0f;
 };

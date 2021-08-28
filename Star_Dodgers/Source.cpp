@@ -5,12 +5,17 @@
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
 #include "CGamepad.h"
-#include "CGameManager.h"
-#include "CMainMenu.h"
 #include "CResourceHolder.h"
+#include "CGameManager.h"
+#include "CTeamsManager.h"
+#include "CLobby.h"
+#include <ctime>
+#include "CGameScene.h"
 
 int main()
 {
+	srand((unsigned int)time(NULL));
+
 	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();
 
@@ -20,9 +25,10 @@ int main()
 
 	sf::Clock clock;
 
-	CGameManager::Initialise(); // initial game settings setup
-	//CMainMenu menu;				 // first scene
-	CGameManager::ChangeActiveScene<CMainMenu>();
+	// add observers for managers
+	CGameManager::GetInstance()->AddObserver(CTeamsManager::GetInstance());
+	CGameManager::GetInstance()->Initialise(); // initial game settings setup
+	CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();  // set active scene
 
 	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
@@ -36,16 +42,23 @@ int main()
 				CResourceHolder::GetWindow()->close();
 			}
 
+			// skip straight to game mode - creates players based on number of controllers that are connected
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
+			{
+				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>(CGameManager::GetInstance()->GetControllerCount());
+			}
+
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
-			//if ((event.type == sf::Event::JoystickDisconnected) && ((CGameManager::GetControllerCount() == 4) || (CGameManager::GetControllerCount() == 2)))
-			//{
+			if ((event.type == sf::Event::JoystickDisconnected) && ((CGameManager::GetInstance()->GetControllerCount() == 4) || (CGameManager::GetInstance()->GetControllerCount() == 2)))
+			{
+				//sf::Event::JoystickConnectEvent::joystickId
+				CGameManager::GetInstance()->ControllerDisconnected();
+			}
 
-			//}
-
-			if ((event.type == sf::Event::JoystickConnected) && (CGameManager::GetControllerCount() < 5))
+			if ((event.type == sf::Event::JoystickConnected) && (CGameManager::GetInstance()->GetControllerCount() < 5))
 			{
 				// check if a disconnected controller first
-				CGameManager::AddController();
+				CGameManager::GetInstance()->AddController();
 			}
 		}
 
@@ -57,7 +70,7 @@ int main()
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-		CGameManager::DeleteNonActiveScenes();
+		CGameManager::GetInstance()->DeleteNonActiveScenes();
 	}
 
 	return 0;

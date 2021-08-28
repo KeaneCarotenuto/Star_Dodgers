@@ -9,15 +9,16 @@ class CGameScene : public CSceneBase
 {
 public:
 	CGameScene(int _playerCount);
+	CGameScene();
 	~CGameScene();
 
-	void OnButtonInput(GamepadButtonEvent _event);
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
+	void OnButtonInput(GamepadButtonEvent _event);
 
 private:
-
+	std::vector<int> m_controllerIndex;
 };
 
 #endif  // __CGAME_SCENE_H__
