@@ -91,6 +91,46 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
-	
+	std::shared_ptr<CPlayer> player = CTeamsManager::GetInstance()->GetPlayer(_event.gamepadIndex);
+
+	switch (_event.button)
+	{
+	case Button::SOUTH: // X button - dodge
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			player.get()->Dodge();
+		}
+		break;
+	}
+	case Button::WEST: // curve ball left
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+		}
+		break;
+	}
+	case Button::EAST: // curveball right
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+		}
+		break;
+	}
+	case Button::NORTH: // fast ball
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+		}
+		break;
+	}
+	case Button::RIGHT_SHOULDER: // catch / quick throw
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+		}
+		break;
+	}
+	}
 }
 

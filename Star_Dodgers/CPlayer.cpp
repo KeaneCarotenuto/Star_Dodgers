@@ -47,7 +47,47 @@ CPlayer::~CPlayer()
 
 void CPlayer::Update(float _fDeltaTime)
 {
+	sf::Vector2f desiredVelocityAngle;
 	m_desiredVelocity = m_controller.get()->GetLeftStick();
+
+	// when dodge timer finishes - set cooldown
+	if (m_dodgeTimer < 0.0f)
+	{
+		m_dodgeCooldown = 5.0f;
+		m_dodgeTimer = 0.0f;
+	}
+
+	if (m_controller.get()->GetLeftTrigger() > 0.3f)  // begin charge
+	{
+		m_isChargingThrow = true;
+		m_throwCharge += _fDeltaTime;
+	}
+
+	if ((m_controller.get()->GetLeftTrigger() < 0.3f) && (m_isChargingThrow))
+	{
+		// release throw
+		m_isChargingThrow = false;
+		m_throwCharge = 0.0f;
+	}
+
+	if (!m_isChargingThrow)
+	{
+		// if not currently dodging or charging, move as normal
+		if (m_dodgeTimer == 0.0f)
+		{
+			m_dodgeCooldown -= _fDeltaTime;
+			m_desiredVelocity = m_controller.get()->GetLeftStick();
+			desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
+			m_speed = 1.0f;
+		}
+		else  // dodge
+		{
+			m_dodgeTimer -= _fDeltaTime;
+			m_desiredVelocity = m_lastVelocity;
+			desiredVelocityAngle = m_lastVelocity * m_leftAnalogStickSensitivity;
+			m_speed = 3.0f;
+		}
+	}
 
 	m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
 	float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
@@ -55,7 +95,6 @@ void CPlayer::Update(float _fDeltaTime)
 	newAimAngle /= PI;
 	m_currentAimAngle += (newAimAngle * _fDeltaTime);
 
-	sf::Vector2f desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
 	float newVelAngle = atan2f(desiredVelocityAngle.y, desiredVelocityAngle.x);
 	newVelAngle += PI / 4.0f;
 	newVelAngle *= 180.0f;
@@ -66,6 +105,11 @@ void CPlayer::Update(float _fDeltaTime)
 	m_velocitySprite->setRotation(m_currentVelocityAngle);
 	m_aimSprite->move(m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 	m_velocitySprite->move(m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
+
+	if (m_desiredVelocity != sf::Vector2f(0, 0)) 
+	{
+		m_lastVelocity = m_desiredVelocity;
+	}
 }
 
 void CPlayer::FixedUpdate()
@@ -96,4 +140,12 @@ void CPlayer::SetSize(sf::Vector2f _size)
 	// calculate the scale factor that will be used to get the sprite to the desired size
 	sf::Vector2f scale = sf::Vector2f(_size.x / m_aimSprite->getLocalBounds().width, _size.y / m_aimSprite->getLocalBounds().height);
 	m_aimSprite->setScale(scale);
+}
+
+void CPlayer::Dodge()
+{
+	if (m_dodgeTimer <= 0.0f)
+	{
+		m_dodgeTimer = 3.0f;
+	}
 }
