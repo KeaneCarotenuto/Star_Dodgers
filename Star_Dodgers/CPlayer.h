@@ -40,6 +40,8 @@ public:
 	// scale, transforms and rotations
 	sf::Rect<float> GetRect() { return(m_aimSprite->getGlobalBounds()); }
 
+	void Dodge();
+
 private:
 	std::shared_ptr<CGamepad> m_controller;
 	Team m_team = Team::UNDECIDED;
@@ -50,10 +52,18 @@ private:
 	float m_speed;
 	float m_leftAnalogStickSensitivity;
 	float m_rightAnalogStickSensitivity;
+
 	sf::Vector2f m_desiredVelocity;
+	sf::Vector2f m_lastVelocity;  // velocity before analog stick stopped being triggered
 	sf::Vector2f m_desiredAim;
 	float m_currentAimAngle = 0.0f;
 	float m_currentVelocityAngle = 0.0f;
+
+	float m_dodgeTimer = 0.0f;
+	float m_dodgeCooldown = 0.0f;
+
+	float m_throwCharge = 1.0f;
+	bool m_isChargingThrow = false;
 
 	bool m_shouldDelete = false;
 };

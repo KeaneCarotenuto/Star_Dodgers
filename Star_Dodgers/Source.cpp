@@ -8,6 +8,7 @@
 #include "CResourceHolder.h"
 #include "CGameManager.h"
 #include "CTeamsManager.h"
+#include "CLobby.h"
 #include <ctime>
 #include "CGameScene.h"
 
