@@ -8,9 +8,13 @@
 #include "CResourceHolder.h"
 #include "CGameManager.h"
 #include "CTeamsManager.h"
+#include <ctime>
+#include "CGameScene.h"
 
 int main()
 {
+	srand((unsigned int)time(NULL));
+
 	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();
 
@@ -35,6 +39,12 @@ int main()
 			if (event.type == sf::Event::Closed)
 			{
 				CResourceHolder::GetWindow()->close();
+			}
+
+			// skip straight to game mode - creates players based on number of controllers that are connected
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
+			{
+				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>(CGameManager::GetInstance()->GetControllerCount());
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game

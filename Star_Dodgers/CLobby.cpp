@@ -2,11 +2,7 @@
 #include "CResourceHolder.h"
 #include "CPlayer.h"
 #include "CMainMenu.h"
-
-#include <typeinfo>
-#include <type_traits>
-#include <utility>
-
+#include "CGameScene.h"
 #include "CLobby.h"
 
 CLobby::CLobby()
@@ -188,13 +184,13 @@ void CLobby::LateUpdate(float _fDeltaTime)
 	{
 		if (m_nextSceneCountdown <= 0.0f)
 		{
-			//CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
-
 			// unbind controllers
 			for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 			{
 				CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
 			}
+
+			CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
 		}
 	}
 }
@@ -265,7 +261,7 @@ void CLobby::NewPlayer(CPlayer* _player, int _controller)
 
 	CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
 
-	CWindowUtilities::Draw(_player->GetSprite());
+	CWindowUtilities::Draw(_player->GetAimSprite());
 	CWindowUtilities::Draw(m_playerReadyText.at(_player));
 }
 

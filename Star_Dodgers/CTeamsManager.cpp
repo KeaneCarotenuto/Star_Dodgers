@@ -134,6 +134,34 @@ std::shared_ptr<CPlayer> CTeamsManager::GetPlayer(int _controllerIndex)
 	return(nullptr);
 }
 
+// removes player from all included vectors and maps then calls destructor
+void CTeamsManager::RemovePlayer(std::shared_ptr<CPlayer> _player)
+{
+	std::map<int, std::shared_ptr<CPlayer>>* teamMap = (_player->GetTeam() == Team::UNDECIDED) ? &m_undecided : ((_player->GetTeam() == Team::RED) ? &m_redTeam : &m_blueTeam);
+	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = teamMap->begin();
+	while (iter != teamMap->end())
+	{
+		if (iter->second.get() == _player.get())
+		{
+			break;
+		}
+		++iter;
+	}
+	if (iter != teamMap->end()) { teamMap->erase(iter); }
+
+	int ele = 0;
+	for (; ele < m_allPlayers.size(); ele++)
+	{
+		if(m_allPlayers[ele].get() == _player.get())
+		{
+			break;
+		}
+	}
+	if (ele < m_allPlayers.size()) { m_allPlayers.erase(m_allPlayers.begin() + ele); }
+
+	//_player->~CPlayer();
+}
+
 // returns the total number of players in all teams
 int CTeamsManager::GetPlayerCount()
 {
@@ -166,7 +194,7 @@ void CTeamsManager::JoystickStatusChange(bool _isGameplayScene, int _controllerI
 		m_allPlayers.push_back(playerObj);
 
 		// only add to team if there are observers - only once lobby has been created can players be added this way
-		if(!m_observers.empty()) { AddToTeam(playerObj, Team::UNDECIDED); }
+		if (!m_observers.empty()) { AddToTeam(playerObj, Team::UNDECIDED); }
 	}
 	else if (!_isConnected && _isGameplayScene)
 	{
@@ -176,6 +204,9 @@ void CTeamsManager::JoystickStatusChange(bool _isGameplayScene, int _controllerI
 	else if (!_isConnected && !_isGameplayScene)
 	{
 		// controller disconnects while in lobby or main menu - remove from teams
+		Team team = GetPlayer(_controllerIndex).get()->GetTeam();
+		
+		GetPlayer(_controllerIndex).get()->~CPlayer();
 	}
 }
 

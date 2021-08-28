@@ -27,8 +27,11 @@ public:
 	int GetTeamCount(Team _team);
 	std::map<int, std::shared_ptr<CPlayer>> &GetTeam(Team _team);
 	std::shared_ptr<CPlayer> GetPlayer(int _controllerIndex);
+	void RemovePlayer(std::shared_ptr<CPlayer> _player);
 	int GetPlayerCount();
 	bool AreAllPlayersReady();
+
+	bool CanSkipLobby() { return(m_isSkipLobby); }
 
 	void JoystickStatusChange(bool _isGameplayScene, int _controllerIndex, bool _isConnected);
 
@@ -47,6 +50,8 @@ private:
 	std::map<int, std::shared_ptr<CPlayer>> m_blueTeam;
 	std::map<int, std::shared_ptr<CPlayer>> m_undecided;
 	std::vector<std::shared_ptr<CPlayer>> m_allPlayers;
+
+	bool m_isSkipLobby = false;
 };
 
 #endif  // __CTEAMS_MANAGER_H__

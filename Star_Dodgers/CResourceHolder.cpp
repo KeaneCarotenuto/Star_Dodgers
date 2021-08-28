@@ -23,6 +23,7 @@ void CResourceHolder::Initialise()
 	CreateTexture("P4.png");
 	CreateTexture("BackButton.png");
 	CreateTexture("X-Ready.png");
+	CreateTexture("Move_Direction.png");
 
 	CreateFont("comic.ttf");
 	
