@@ -41,6 +41,11 @@ float CObjectController::fixedTime = 0.0f;
 
 void CObjectController::UpdateObjects()
 {
+	for (size_t i = 0; i < ToDeleteList.size(); i++)
+	{
+		delete ToDeleteList[i];
+	}
+
 	ToDeleteList.clear();
 
 	deltaTime = deltaClock.restart().asSeconds(); //Get the time delta and restart the clock
@@ -167,7 +172,7 @@ void CWindowUtilities::Draw(sf::Drawable *Draw, sf::Vector2f Pos)
 
 void CObjectController::Destroy(CGameObject *_gameObj)
 {
-	ToDeleteList.push_back(*_gameObj); // add object to the delete list
+	ToDeleteList.push_back(_gameObj); // add object to the delete list
 }
 
 sf::Vector2f CWindowUtilities::ScreenCentre = sf::Vector2f(50, 50);
@@ -176,4 +181,4 @@ float CWindowUtilities::RenderDistance = 1500;
 
 std::vector<sf::Drawable *> CWindowUtilities::ToDrawList;
 
-std::vector<CGameObject> CObjectController::ToDeleteList;
+std::vector<CGameObject *> CObjectController::ToDeleteList;

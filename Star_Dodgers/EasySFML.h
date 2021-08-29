@@ -203,7 +203,7 @@ private:
 	/// <summary>Measures the time between frames</summary>
 	static sf::Clock deltaClock;
 
-	static std::vector<CGameObject> ToDeleteList;
+	static std::vector<CGameObject *> ToDeleteList;
 
 	/// <summary>The amount of time since the last frame</summary>
 	static float deltaTime;
