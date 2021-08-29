@@ -35,3 +35,14 @@
 3	1585	1630237146481830889	CMakeFiles/Star_Dodgers.dir/CTeamsManager.cpp.o	93b18f6cede964b3
 2	1767	1630237146661829542	CMakeFiles/Star_Dodgers.dir/CLobby.cpp.o	d84344efa50d7984
 1768	2173	1630237147061826548	Star_Dodgers	31a46944b8e392ef
+3	1475	1630238900472037546	CMakeFiles/Star_Dodgers.dir/Test.cpp.o	c4dc0af2f62e462
+3	1626	1630238900625369731	CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o	9d392841174d411a
+3	1768	1630238900765368684	CMakeFiles/Star_Dodgers.dir/Source.cpp.o	68905e84d00a23cf
+2	1834	1630238900832034852	CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o	7e03c7a3518933f3
+3	1870	1630238900865367936	CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o	110e590f7c287929
+2	1871	1630238900868701244	CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o	5e9adefe427380d0
+2	1878	1630238900875367861	CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o	6b998cbc9584850
+2	1907	1630238900905367636	CMakeFiles/Star_Dodgers.dir/CGameScene.cpp.o	b880e6595d123812
+2	1954	1630238900952033954	CMakeFiles/Star_Dodgers.dir/CGameManager.cpp.o	950ab2d1cd451bbf
+3	2109	1630238901108699448	CMakeFiles/Star_Dodgers.dir/CTeamsManager.cpp.o	93b18f6cede964b3
+2	2168	1630238901165365690	CMakeFiles/Star_Dodgers.dir/CLobby.cpp.o	d84344efa50d7984
