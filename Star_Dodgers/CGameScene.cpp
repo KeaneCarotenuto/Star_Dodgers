@@ -121,7 +121,28 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 	{
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
-			player->SetTeam(player->GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+			//BAD CODE HERE!! ONLY BC GETPLAYER() IS NOT WORKING PROPERLY!
+
+			std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
+			while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
+			{
+				std::shared_ptr<CPlayer> _player = iter->second;
+
+				_player->SetTeam(_player->GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+
+				++iter;
+			}
+			iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
+			while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
+			{
+				std::shared_ptr<CPlayer> _player = iter->second;
+
+				_player->SetTeam(_player->GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+
+				++iter;
+			}
+
+			
 		}
 		break;
 	}

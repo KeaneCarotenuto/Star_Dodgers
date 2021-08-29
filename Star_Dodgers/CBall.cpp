@@ -52,8 +52,27 @@ void CBall::FixedUpdate()
 void CBall::AllPlayerCollision()
 {
 	//These two loops should be replaced with a single loop through "CTeamsManager::GetAllPlayers() - But its not working atm."
+	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
+	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
+	{
+		std::shared_ptr<CPlayer> _player = iter->second;
 
-	switch (m_ownerTeam)
+		SpecificPlayerCollision(_player);
+
+		++iter;
+	}
+	iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
+	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
+	{
+		std::shared_ptr<CPlayer> _player = iter->second;
+
+		SpecificPlayerCollision(_player);
+
+		++iter;
+	}
+
+
+	/*switch (m_ownerTeam)
 	{
 	case Team::UNDECIDED: {
 
@@ -61,41 +80,25 @@ void CBall::AllPlayerCollision()
 	}
 
 	case Team::RED: {
-		std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
-		while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
-		{
-			std::shared_ptr<CPlayer> _player = iter->second;
-
-			SpecificPlayerCollision(_player);
-
-			++iter;
-		}
+		
 		break;
 	}
 
 	case Team::BLUE: {
-		std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
-		while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
-		{
-			std::shared_ptr<CPlayer> _player = iter->second;
-
-			SpecificPlayerCollision(_player);
-
-			++iter;
-		}
+		
 		break;
 	}
 
 	default:
 		break;
-	}
+	}*/
 }
 
 void CBall::SpecificPlayerCollision(std::shared_ptr<CPlayer> _player)
 {
-	if (cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
+	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
-		SetPosition({ 0,0 });
+		SetVelocity({ 0,0 });
 
 		SetOwnerTeam(Team::UNDECIDED);
 	}

@@ -47,6 +47,8 @@ public:
 
 	bool IsHeld() { return (m_holder != nullptr);  }
 
+	Team GetOwnerTeam() { return m_ownerTeam; };
+
 private:
 	static std::vector<CBall*> m_allBalls;
 
