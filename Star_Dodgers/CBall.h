@@ -45,6 +45,8 @@ public:
 	void Throw(float _speed = 10.0f);
 	void AllPlayerInteractions();
 
+	bool IsHeld() { return (m_holder != nullptr);  }
+
 private:
 	static std::vector<CBall*> m_allBalls;
 

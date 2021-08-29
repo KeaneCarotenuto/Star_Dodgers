@@ -121,6 +121,7 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 	{
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
+			player->SetTeam(player->GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
 		}
 		break;
 	}
@@ -129,7 +130,7 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			for (CBall* _ball : CBall::GetAllBalls()) {
-				_ball->Throw();
+				//_ball->Throw();
 			}
 		}
 		break;
@@ -139,7 +140,12 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			for (CBall* _ball : CBall::GetAllBalls()) {
-				_ball->AllPlayerInteractions();
+				if (_ball->IsHeld()) {
+					_ball->Throw();
+				}
+				else {
+					_ball->AllPlayerInteractions();
+				}
 			}
 		}
 		break;
