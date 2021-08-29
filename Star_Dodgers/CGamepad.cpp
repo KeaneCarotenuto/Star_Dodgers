@@ -90,6 +90,13 @@ bool CGamepad::GetButtonDown(Button _button)
     case Button::DPAD_RIGHT:
         return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) >= 100.f;
         break;
+    case Button::TRIGGER_LEFT:
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) > 0.0f;
+        break;
+    case Button::TRIGGER_RIGHT:
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) > 0.0f;
+        break;
+
     default:
         return false;
         break;
@@ -111,7 +118,7 @@ void CGamepad::Unbind(std::string _name)
 
 void CGamepad::Update(float _fDeltaTime)
 {
-    for (int i = 0; i < 13; i++)
+    for (int i = 0; i < 15; i++)
     {
         m_CurrentlyPressed[i] = GetButtonDown((Button)i);
         m_PressedThisFrame[i] = (m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i]);
@@ -122,7 +129,7 @@ void CGamepad::Update(float _fDeltaTime)
     std::map<std::string, IGamepadInput *>::iterator it = m_Bindings.begin();
     while (it != m_Bindings.end())
     {
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 15; i++)
         {
             if (m_PressedThisFrame[i])
             {
