@@ -63,9 +63,9 @@ private:
     void Update(float _fDeltaTime);
 
     // error handling - initialise to remove C26495 warning
-    bool m_WasPressedLastFrame[13]; // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
-    bool m_CurrentlyPressed[13];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
-    bool m_PressedThisFrame[13];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
-    bool m_ReleasedThisFrame[13];   // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_WasPressedLastFrame[15]; // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_CurrentlyPressed[15];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_PressedThisFrame[15];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_ReleasedThisFrame[15];   // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
 };
 #endif
