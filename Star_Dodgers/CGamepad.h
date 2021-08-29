@@ -30,11 +30,11 @@
 #define LEFT_STICK_X sf::Joystick::X
 #define LEFT_STICK_Y sf::Joystick::Y
 
-#define RIGHT_STICK_X sf::Joystick::Z
-#define RIGHT_STICK_Y sf::Joystick::R
+#define RIGHT_STICK_X sf::Joystick::U
+#define RIGHT_STICK_Y sf::Joystick::V
 
-#define LEFT_TRIGGER sf::Joystick::V
-#define RIGHT_TRIGGER sf::Joystick::U
+#define LEFT_TRIGGER sf::Joystick::Z
+#define RIGHT_TRIGGER sf::Joystick::R
 
 #define DPAD_X sf::Joystick::PovX
 #define DPAD_Y sf::Joystick::PovY
@@ -54,7 +54,7 @@ public:
     bool GetButtonReleased(Button _button);
     void Bind(IGamepadInput *_objectToBind, std::string _name);
     void Unbind(std::string _name);
-    int GetIndex() const { return(m_GamepadIndex); }
+    int GetIndex() const { return (m_GamepadIndex); }
 
 private:
     std::map<std::string, IGamepadInput *> m_Bindings;
