@@ -1,4 +1,5 @@
 #include "CPlayer.h"
+#include "CBall.h"
 #include "CTeamsManager.h"
 #include "CResourceHolder.h"
 #include <map>
@@ -37,34 +38,40 @@ CGameScene::CGameScene(int _playerCount)
 		// setup UI
 		++iter;
 	}
+
+	CBall* newBall = new CBall();
+
+	newBall->SetVelocity({ 10,-10 });
+	//newBall->SetAcceleration({ 0, 1.0f });
 }
 
-CGameScene::CGameScene()
-{
-	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
-	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
-	{
-		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-		iter->second.get()->AddVelocitySpriteToDrawList();
-		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-		// setup UI
-		++iter;
-	}
-
-	iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
-	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
-	{
-		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-		iter->second.get()->AddVelocitySpriteToDrawList();
-		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-		// setup UI
-		++iter;
-	}
-}
+//Can be deleted?
+//CGameScene::CGameScene()
+//{
+//	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
+//	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
+//	{
+//		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
+//		iter->second.get()->SetSize(sf::Vector2f(50, 50));
+//		iter->second.get()->AddVelocitySpriteToDrawList();
+//		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
+//		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
+//		// setup UI
+//		++iter;
+//	}
+//
+//	iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
+//	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
+//	{
+//		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
+//		iter->second.get()->SetSize(sf::Vector2f(50, 50));
+//		iter->second.get()->AddVelocitySpriteToDrawList();
+//		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
+//		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
+//		// setup UI
+//		++iter;
+//	}
+//}
 
 CGameScene::~CGameScene()
 {
@@ -121,6 +128,9 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 	{
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
+			for (CBall* _ball : CBall::GetAllBalls()) {
+				_ball->Throw();
+			}
 		}
 		break;
 	}
@@ -128,6 +138,9 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 	{
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
+			for (CBall* _ball : CBall::GetAllBalls()) {
+				_ball->AllPlayerInteractions();
+			}
 		}
 		break;
 	}

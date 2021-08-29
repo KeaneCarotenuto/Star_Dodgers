@@ -33,7 +33,7 @@ public:
 	bool IsPlayerReady() { return(m_isReadyToPlay); }
 
 	void SetPosition(sf::Vector2f _pos) { m_aimSprite->setPosition(_pos); m_velocitySprite->setPosition(_pos - sf::Vector2f(5, 5)); }
-	void SetPosition(float _x, float _y) { m_aimSprite->setPosition(_x, _y); m_velocitySprite->setPosition(_x, _y); }
+	//void SetPosition(float _x, float _y) { m_aimSprite->setPosition(_x, _y); m_velocitySprite->setPosition(_x, _y); }
 	sf::Vector2f GetPosition() { return(m_aimSprite->getPosition()); }
 	void SetSize(sf::Vector2f _size);
 	// this function returns the width, height, top coord and right coord of the player sprite taking into account 
@@ -41,6 +41,8 @@ public:
 	sf::Rect<float> GetRect() { return(m_aimSprite->getGlobalBounds()); }
 
 	void Dodge();
+
+	sf::Vector2f GetAim() { return m_desiredAim; };
 
 private:
 	std::shared_ptr<CGamepad> m_controller;

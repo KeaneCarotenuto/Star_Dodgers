@@ -215,7 +215,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 		while (iter != CTeamsManager::GetInstance()->GetTeam((Team)changedTeams[t]).end())
 		{
 			// player icon / sprite size and position
-			iter->second.get()->SetPosition(xPos, yPos);
+			iter->second.get()->SetPosition({ xPos, yPos } );
 			iter->second.get()->SetSize(sf::Vector2f(playerSize, playerSize));
 
 			if (m_playerReadyText.find(iter->second.get()) == m_playerReadyText.end())

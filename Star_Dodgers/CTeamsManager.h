@@ -10,8 +10,8 @@
 
 enum class Team
 {
-	RED = 0,
-	UNDECIDED = 1,
+	UNDECIDED = 0,
+	RED = 1,
 	BLUE = 2
 };
 

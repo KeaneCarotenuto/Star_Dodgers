@@ -20,7 +20,7 @@ int main()
 	CResourceHolder::Initialise();
 
 	// set icon
-	sf::Image *icon = CResourceHolder::GetImage("icon.png");
+	sf::Image *icon = CResourceHolder::GetImage("icon_pixel.PNG");
 	CResourceHolder::GetWindow()->setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 
 	sf::Clock clock;
@@ -29,6 +29,8 @@ int main()
 	CGameManager::GetInstance()->AddObserver(CTeamsManager::GetInstance());
 	CGameManager::GetInstance()->Initialise(); // initial game settings setup
 	CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();  // set active scene
+
+	
 
 	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{

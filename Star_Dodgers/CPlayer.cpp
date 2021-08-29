@@ -8,12 +8,14 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 	SetAimSprite(_texName);
 	SetTeam(_team);
 
-	m_aimSprite->setOrigin(100, 100);
+	//m_aimSprite->setOrigin(0, 0);
 	m_velocitySprite->setTexture(*CResourceHolder::GetTexture("Move_Direction.png"));
 	m_velocitySprite->setScale(0.2, 0.2);
-	m_velocitySprite->setOrigin(150, 150);
+	m_velocitySprite->setOrigin(m_velocitySprite->getLocalBounds().width / 2.0f, m_velocitySprite->getLocalBounds().height / 2.0f);
+	m_aimSprite->setPosition(_pos);
+	m_aimSprite->setOrigin(m_aimSprite->getLocalBounds().width / 2.0f, m_aimSprite->getLocalBounds().height / 2.0f);
 	
-	SetPosition(_pos);
+	//SetPosition(_pos);
 	SetIsReady(false);
 
 	m_speed = 1.0f;
@@ -103,7 +105,7 @@ void CPlayer::Update(float _fDeltaTime)
 
 	m_aimSprite->setRotation(m_currentAimAngle);
 	m_velocitySprite->setRotation(m_currentVelocityAngle);
-	m_aimSprite->move(m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
+	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 	m_velocitySprite->move(m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 
 	if (m_desiredVelocity != sf::Vector2f(0, 0)) 
