@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __CBall_H__
+#define __CBall_H__
+
 #include "EasySFML.h"
 #include "CGamepad.h"
 #include "CResourceHolder.h"
@@ -66,3 +68,4 @@ private:
 	std::shared_ptr<CPlayer> m_holder = nullptr;
 };
 
+#endif // __CBall_H__

@@ -1,4 +1,5 @@
 #include "CPlayer.h"
+#include "CMath.h"
 
 #define PI 3.14159265f
 
@@ -92,10 +93,13 @@ void CPlayer::Update(float _fDeltaTime)
 	}
 
 	m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
-	float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
-	newAimAngle *= 180.0f;
-	newAimAngle /= PI;
-	m_currentAimAngle += (newAimAngle * _fDeltaTime);
+	if (cmath::Mag(m_desiredAim) >= 0.01f) {
+		float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
+		newAimAngle *= 180.0f;
+		newAimAngle /= PI;
+		m_currentAimAngle = newAimAngle;
+	}
+	
 
 	float newVelAngle = atan2f(desiredVelocityAngle.y, desiredVelocityAngle.x);
 	newVelAngle += PI / 4.0f;
@@ -103,7 +107,7 @@ void CPlayer::Update(float _fDeltaTime)
 	newVelAngle /= PI;
 	m_currentVelocityAngle = newVelAngle;
 
-	m_aimSprite->setRotation(m_currentAimAngle);
+	m_aimSprite->setRotation(m_currentAimAngle + 90);
 	m_velocitySprite->setRotation(m_currentVelocityAngle);
 	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 	m_velocitySprite->move(m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
