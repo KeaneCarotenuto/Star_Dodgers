@@ -55,7 +55,7 @@ void CBall::AllPlayerCollision()
 	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
 	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
 	{
-		std::shared_ptr<CPlayer> _player = iter->second;
+		CPlayer* _player = iter->second.get();
 
 		SpecificPlayerCollision(_player);
 
@@ -64,7 +64,7 @@ void CBall::AllPlayerCollision()
 	iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
 	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
 	{
-		std::shared_ptr<CPlayer> _player = iter->second;
+		CPlayer* _player = iter->second.get();
 
 		SpecificPlayerCollision(_player);
 
@@ -94,7 +94,7 @@ void CBall::AllPlayerCollision()
 	}*/
 }
 
-void CBall::SpecificPlayerCollision(std::shared_ptr<CPlayer> _player)
+void CBall::SpecificPlayerCollision(CPlayer* _player)
 {
 	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
@@ -119,7 +119,7 @@ void CBall::AllPlayerInteractions()
 	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
 	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
 	{
-		std::shared_ptr<CPlayer> _player = iter->second;
+		CPlayer* _player = iter->second.get();
 
 		SpecificPlayerInteractions(_player);
 
@@ -128,7 +128,7 @@ void CBall::AllPlayerInteractions()
 	iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
 	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
 	{
-		std::shared_ptr<CPlayer> _player = iter->second;
+		CPlayer* _player = iter->second.get();
 
 		SpecificPlayerInteractions(_player);
 
@@ -136,7 +136,7 @@ void CBall::AllPlayerInteractions()
 	}
 }
 
-void CBall::SpecificPlayerInteractions(std::shared_ptr<CPlayer> _player)
+void CBall::SpecificPlayerInteractions(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryPickup> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
@@ -144,7 +144,7 @@ void CBall::SpecificPlayerInteractions(std::shared_ptr<CPlayer> _player)
 	TryPickup(_player);
 }
 
-void CBall::TryPickup(std::shared_ptr<CPlayer> _player)
+void CBall::TryPickup(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryPickup> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
@@ -157,7 +157,7 @@ void CBall::TryPickup(std::shared_ptr<CPlayer> _player)
 	}
 }
 
-void CBall::ForcePickup(std::shared_ptr<CPlayer> _player)
+void CBall::ForcePickup(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::ForcePickup> [_player] is Null\n"; return; }
 

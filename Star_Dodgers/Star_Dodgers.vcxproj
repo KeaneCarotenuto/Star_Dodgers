@@ -176,6 +176,9 @@
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="IGamepadInput.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CPrint.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

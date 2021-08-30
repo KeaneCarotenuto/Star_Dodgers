@@ -41,9 +41,11 @@ public:
 	void SetCatchRadius(float _rad) { m_catchRadius = _rad; };
 	float GetCatchRadius() { return m_catchRadius; };
 
-	void TryPickup(std::shared_ptr<CPlayer> _player);
+	void TryPickup(CPlayer* _player);
 	void Throw(float _speed = 10.0f);
+
 	void AllPlayerInteractions();
+	void SpecificPlayerInteractions(CPlayer* _player);
 
 	bool IsHeld() { return (m_holder != nullptr);  }
 
@@ -53,10 +55,10 @@ private:
 	static std::vector<CBall*> m_allBalls;
 
 	void AllPlayerCollision();
-	void SpecificPlayerCollision(std::shared_ptr<CPlayer> _player);
-	void SpecificPlayerInteractions(std::shared_ptr<CPlayer> _player);
+	void SpecificPlayerCollision(CPlayer* _player);
+	
 	void SetOwnerTeam(Team _team);
-	void ForcePickup(std::shared_ptr<CPlayer> _player);
+	void ForcePickup(CPlayer* _player);
 	
 	void WallCollision();
 
@@ -69,7 +71,7 @@ private:
 	float m_catchRadius = 30.0f;
 
 	Team m_ownerTeam = Team::UNDECIDED;
-	std::shared_ptr<CPlayer> m_holder = nullptr;
+	CPlayer* m_holder = nullptr;
 };
 
 #endif // __CBall_H__

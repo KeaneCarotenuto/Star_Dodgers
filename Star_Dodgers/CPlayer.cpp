@@ -1,5 +1,7 @@
 #include "CPlayer.h"
+#include "CBall.h"
 #include "CMath.h"
+#include "CPrint.h"
 
 #define PI 3.14159265f
 
@@ -19,7 +21,7 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 	//SetPosition(_pos);
 	SetIsReady(false);
 
-	m_speed = 1.0f;
+	m_speed = 60.0f;
 	m_leftAnalogStickSensitivity = 0.1f;
 	m_rightAnalogStickSensitivity = 0.1f;
 }
@@ -81,14 +83,14 @@ void CPlayer::Update(float _fDeltaTime)
 			m_dodgeCooldown -= _fDeltaTime;
 			m_desiredVelocity = m_controller.get()->GetLeftStick();
 			desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
-			m_speed = 1.0f;
+			m_speed = 60.0f;
 		}
 		else  // dodge
 		{
 			m_dodgeTimer -= _fDeltaTime;
 			m_desiredVelocity = m_lastVelocity;
 			desiredVelocityAngle = m_lastVelocity * m_leftAnalogStickSensitivity;
-			m_speed = 3.0f;
+			m_speed = 180.0f;
 		}
 	}
 
@@ -101,16 +103,13 @@ void CPlayer::Update(float _fDeltaTime)
 	}
 	
 
-	float newVelAngle = atan2f(desiredVelocityAngle.y, desiredVelocityAngle.x);
-	newVelAngle += PI / 4.0f;
+	float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
 	newVelAngle *= 180.0f;
 	newVelAngle /= PI;
 	m_currentVelocityAngle = newVelAngle;
 
 	m_aimSprite->setRotation(m_currentAimAngle + 90);
-	m_velocitySprite->setRotation(m_currentVelocityAngle);
-	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
-	m_velocitySprite->move(m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
+	m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
 
 	if (m_desiredVelocity != sf::Vector2f(0, 0)) 
 	{
@@ -120,12 +119,89 @@ void CPlayer::Update(float _fDeltaTime)
 
 void CPlayer::FixedUpdate()
 {
+	sf::Vector2f desiredVelocityAngle;
+	m_desiredVelocity = m_controller.get()->GetLeftStick();
 
+	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
+	m_velocitySprite->setPosition(GetPosition());
 }
 
 void CPlayer::LateUpdate(float _fDeltaTime)
 {
 	//if (m_shouldDelete) { m_controller.~shared_ptr(); }
+}
+
+void CPlayer::OnButtonInput(GamepadButtonEvent _event) 
+{
+	if (_event.gamepadIndex != m_controller->GetIndex()) return;
+
+	int xpos = 3;
+	int ypos = 3;
+
+	cprint::Print({ 3,3-1 }, L"Buttons Pressed:");
+
+	switch (_event.button)
+	{
+	case Button::NORTH:
+		break;
+	case Button::EAST:
+		break;
+	case Button::SOUTH:
+		break;
+	case Button::WEST:
+		break;
+	case Button::LEFT_SHOULDER:
+		break;
+
+	case Button::RIGHT_SHOULDER:
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED) {
+			for (CBall* _ball : CBall::GetAllBalls()) {
+				if (_ball->IsHeld()) {
+					_ball->Throw();
+				}
+				else {
+					//_ball->AllPlayerInteractions();
+					_ball->SpecificPlayerInteractions(this);
+				}
+			}
+		}
+		break;
+
+	case Button::START:
+		break;
+	case Button::BACK:
+		break;
+	case Button::MIDDLE:
+		break;
+	case Button::DPAD_UP:
+		break;
+	case Button::DPAD_RIGHT:
+		break;
+	case Button::DPAD_DOWN:
+		break;
+	case Button::DPAD_LEFT:
+		break;
+
+	case Button::TRIGGER_LEFT:
+		break;
+
+	case Button::TRIGGER_RIGHT:
+		if (_event.type == GamepadButtonEvent::EventType::RELEASED) {
+			for (CBall* _ball : CBall::GetAllBalls()) {
+				if (_ball->IsHeld()) {
+					_ball->Throw();
+				}
+			}
+		}
+		break;
+
+	case Button::STICK_LEFT:
+		break;
+	case Button::STICK_RIGHT:
+		break;
+	default:
+		break;
+	}
 }
 
 // this function sets teh players team. this also changes the sprite colour based on the team selected

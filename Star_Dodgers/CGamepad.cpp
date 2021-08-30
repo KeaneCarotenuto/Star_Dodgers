@@ -1,4 +1,5 @@
 #include "CGamepad.h"
+#include "CPrint.h"
 
 CGamepad::CGamepad(int _gamepadIndex)
 {
@@ -25,6 +26,7 @@ sf::Vector2f CGamepad::GetRightStick()
 {
     float x = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_X) / 100.f;
     float y = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_Y) / 100.f;
+
     if (std::abs(x) < 0.1f)
     {
         x = 0.0f;
@@ -41,12 +43,13 @@ float CGamepad::GetLeftTrigger()
 }
 float CGamepad::GetRightTrigger()
 {
-    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f) + 1) / 2;
+    return -((sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f) + 1) / 2;
 }
 bool CGamepad::GetButtonPressed(Button _button)
 {
     return m_PressedThisFrame[(int)_button];
 }
+
 bool CGamepad::GetButtonDown(Button _button)
 {
     switch (_button)
@@ -91,10 +94,16 @@ bool CGamepad::GetButtonDown(Button _button)
         return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) >= 100.f;
         break;
     case Button::TRIGGER_LEFT:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) > 0.0f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) > 0.1f;
         break;
     case Button::TRIGGER_RIGHT:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) > 0.0f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) < -0.1f;
+        break;
+    case Button::STICK_LEFT:
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, LEFT_STICK_BUTTON);
+        break;
+    case Button::STICK_RIGHT:
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, RIGHT_STICK_BUTTON);
         break;
 
     default:
@@ -118,7 +127,7 @@ void CGamepad::Unbind(std::string _name)
 
 void CGamepad::Update(float _fDeltaTime)
 {
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 17; i++)
     {
         m_CurrentlyPressed[i] = GetButtonDown((Button)i);
         m_PressedThisFrame[i] = (m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i]);
@@ -129,7 +138,7 @@ void CGamepad::Update(float _fDeltaTime)
     std::map<std::string, IGamepadInput *>::iterator it = m_Bindings.begin();
     while (it != m_Bindings.end())
     {
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 17; i++)
         {
             if (m_PressedThisFrame[i])
             {

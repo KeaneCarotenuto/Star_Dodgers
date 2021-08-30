@@ -8,7 +8,10 @@
 #include "CGameManager.h"
 #include <memory>
 
-class CPlayer : public CGameObject
+//Forward dec
+class CBall;
+
+class CPlayer : public CGameObject, public IGamepadInput
 {
 public:
 	CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos);
@@ -17,6 +20,8 @@ public:
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
+
+	void OnButtonInput(GamepadButtonEvent _event);
 
 	void SetController(std::shared_ptr<CGamepad> _controller) { m_controller = _controller; }
 	void SetController(int _controllerIndex) { m_controller = CGameManager::GetInstance()->GetController(_controllerIndex); }

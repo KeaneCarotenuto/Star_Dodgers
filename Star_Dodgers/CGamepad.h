@@ -12,9 +12,9 @@
 #include "IGamepadInput.h"
 #include "EasySFML.h"
 
+#define SOUTH_BUTTON 0
+#define EAST_BUTTON 1
 #define WEST_BUTTON 2
-#define SOUTH_BUTTON 1
-#define EAST_BUTTON 0
 #define NORTH_BUTTON 3
 
 #define LEFT_SHOULDER_BUTTON 4
@@ -22,10 +22,12 @@
 
 #define BACK_BUTTON 6
 #define START_BUTTON 7
-#define MIDDLE_BUTTON 8
 
-#define LEFT_STICK_BUTTON 9
-#define RIGHT_STICK_BUTTON 10
+//DOESNT EXIST
+#define MIDDLE_BUTTON 10
+
+#define LEFT_STICK_BUTTON 8
+#define RIGHT_STICK_BUTTON 9
 
 #define LEFT_STICK_X sf::Joystick::X
 #define LEFT_STICK_Y sf::Joystick::Y
@@ -34,7 +36,7 @@
 #define RIGHT_STICK_Y sf::Joystick::V
 
 #define LEFT_TRIGGER sf::Joystick::Z
-#define RIGHT_TRIGGER sf::Joystick::R
+#define RIGHT_TRIGGER sf::Joystick::Z
 
 #define DPAD_X sf::Joystick::PovX
 #define DPAD_Y sf::Joystick::PovY
@@ -63,9 +65,9 @@ private:
     void Update(float _fDeltaTime);
 
     // error handling - initialise to remove C26495 warning
-    bool m_WasPressedLastFrame[15]; // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
-    bool m_CurrentlyPressed[15];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
-    bool m_PressedThisFrame[15];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
-    bool m_ReleasedThisFrame[15];   // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_WasPressedLastFrame[17]; // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_CurrentlyPressed[17];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_PressedThisFrame[17];    // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
+    bool m_ReleasedThisFrame[17];   // = { false, false, false, false, false, false, false, false, false, false, false, false, false };
 };
 #endif

@@ -14,6 +14,7 @@ CGameScene::CGameScene(int _playerCount)
 		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
 		std::shared_ptr<CPlayer> newPlayer(new CPlayer(i, playerLabel + ".png", team, pos));
 		CTeamsManager::GetInstance()->AddToTeam(newPlayer, team);
+		CGameManager::GetInstance()->GetController(i).get()->Bind(dynamic_cast<IGamepadInput*>(newPlayer.get()), playerLabel);
 		CWindowUtilities::Draw(newPlayer.get()->GetAimSprite());
 	}
 
@@ -98,6 +99,8 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
+	return;
+
 	std::shared_ptr<CPlayer> player = CTeamsManager::GetInstance()->GetPlayer(_event.gamepadIndex);
 
 	switch (_event.button)
