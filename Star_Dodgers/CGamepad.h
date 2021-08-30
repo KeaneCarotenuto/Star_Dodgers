@@ -12,14 +12,26 @@
 #include "IGamepadInput.h"
 #include "EasySFML.h"
 
+<<<<<<< HEAD
 #define SOUTH_BUTTON 0
 #define EAST_BUTTON 1
 #define WEST_BUTTON 2
 #define NORTH_BUTTON 3
+=======
+class CGamepad : CGameObject
+{
+    friend class IGamepadInput;
+>>>>>>> Nerys
 
-#define LEFT_SHOULDER_BUTTON 4
-#define RIGHT_SHOULDER_BUTTON 5
+public:
+    enum class XINPUT
+    {
+        WEST_BUTTON = 2,
+        SOUTH_BUTTON = 1,
+        EAST_BUTTON = 0,
+        NORTH_BUTTON = 3,
 
+<<<<<<< HEAD
 #define BACK_BUTTON 6
 #define START_BUTTON 7
 
@@ -28,24 +40,64 @@
 
 #define LEFT_STICK_BUTTON 8
 #define RIGHT_STICK_BUTTON 9
+=======
+        LEFT_SHOULDER_BUTTON = 4,
+        RIGHT_SHOULDER_BUTTON = 5,
 
-#define LEFT_STICK_X sf::Joystick::X
-#define LEFT_STICK_Y sf::Joystick::Y
+        BACK_BUTTON = 6,
+        START_BUTTON = 7,
+        MIDDLE_BUTTON = 8,
+>>>>>>> Nerys
 
-#define RIGHT_STICK_X sf::Joystick::U
-#define RIGHT_STICK_Y sf::Joystick::V
+        LEFT_STICK_BUTTON = 9,
+        RIGHT_STICK_BUTTON = 10,
 
+        LEFT_STICK_X = sf::Joystick::X,
+        LEFT_STICK_Y = sf::Joystick::Y,
+
+<<<<<<< HEAD
 #define LEFT_TRIGGER sf::Joystick::Z
 #define RIGHT_TRIGGER sf::Joystick::Z
+=======
+        RIGHT_STICK_X = sf::Joystick::U,
+        RIGHT_STICK_Y = sf::Joystick::V,
+>>>>>>> Nerys
 
-#define DPAD_X sf::Joystick::PovX
-#define DPAD_Y sf::Joystick::PovY
+        LEFT_TRIGGER = sf::Joystick::Z,
+        RIGHT_TRIGGER = sf::Joystick::R,
 
-class CGamepad : CGameObject
-{
-    friend class IGamepadInput;
+        DPAD_X = sf::Joystick::PovX,
+        DPAD_Y = sf::Joystick::PovY,
+    };
+    enum class DUALSHOCK
+    {
+        WEST_BUTTON = 2,
+        SOUTH_BUTTON = 1,
+        EAST_BUTTON = 0,
+        NORTH_BUTTON = 3,
 
-public:
+        LEFT_SHOULDER_BUTTON = 4,
+        RIGHT_SHOULDER_BUTTON = 5,
+
+        BACK_BUTTON = 6,
+        START_BUTTON = 7,
+        MIDDLE_BUTTON = 8,
+
+        LEFT_STICK_BUTTON = 9,
+        RIGHT_STICK_BUTTON = 10,
+
+        LEFT_STICK_X = sf::Joystick::X,
+        LEFT_STICK_Y = sf::Joystick::Y,
+
+        RIGHT_STICK_X = sf::Joystick::U,
+        RIGHT_STICK_Y = sf::Joystick::V,
+
+        LEFT_TRIGGER = sf::Joystick::Z,
+        RIGHT_TRIGGER = sf::Joystick::R,
+
+        DPAD_X = sf::Joystick::PovX,
+        DPAD_Y = sf::Joystick::PovY,
+    };
     CGamepad(int _gamepadIndex);
     sf::Vector2f GetLeftStick();
     sf::Vector2f GetRightStick();
@@ -54,6 +106,7 @@ public:
     bool GetButtonPressed(Button _button);
     bool GetButtonDown(Button _button);
     bool GetButtonReleased(Button _button);
+    void ToggleXInput();
     void Bind(IGamepadInput *_objectToBind, std::string _name);
     void Unbind(std::string _name);
     int GetIndex() const { return (m_GamepadIndex); }
@@ -62,6 +115,7 @@ private:
     std::map<std::string, IGamepadInput *> m_Bindings;
     std::vector<std::string> m_toUnbind;
     int m_GamepadIndex;
+    bool m_XInputEnabled;
     void Update(float _fDeltaTime);
 
     // error handling - initialise to remove C26495 warning
