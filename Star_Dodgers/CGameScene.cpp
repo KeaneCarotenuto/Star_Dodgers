@@ -41,38 +41,8 @@ CGameScene::CGameScene(int _playerCount)
 	}
 
 	CBall* newBall = new CBall();
-
 	newBall->SetVelocity({ 10,-10 });
-	//newBall->SetAcceleration({ 0, 1.0f });
 }
-
-//Can be deleted?
-//CGameScene::CGameScene()
-//{
-//	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
-//	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
-//	{
-//		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-//		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-//		iter->second.get()->AddVelocitySpriteToDrawList();
-//		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-//		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-//		// setup UI
-//		++iter;
-//	}
-//
-//	iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
-//	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
-//	{
-//		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-//		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-//		iter->second.get()->AddVelocitySpriteToDrawList();
-//		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-//		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-//		// setup UI
-//		++iter;
-//	}
-//}
 
 CGameScene::~CGameScene()
 {
@@ -96,84 +66,3 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 {
 
 }
-
-void CGameScene::OnButtonInput(GamepadButtonEvent _event)
-{
-	return;
-
-	std::shared_ptr<CPlayer> player = CTeamsManager::GetInstance()->GetPlayer(_event.gamepadIndex);
-
-	switch (_event.button)
-	{
-	case Button::SOUTH: // X button - dodge
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			player.get()->Dodge();
-		}
-		break;
-	}
-	case Button::WEST: // curve ball left
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-		}
-		break;
-	}
-	case Button::EAST: // curveball right
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			//BAD CODE HERE!! ONLY BC GETPLAYER() IS NOT WORKING PROPERLY!
-
-			std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
-			while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
-			{
-				std::shared_ptr<CPlayer> _player = iter->second;
-
-				_player->SetTeam(_player->GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
-
-				++iter;
-			}
-			iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
-			while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
-			{
-				std::shared_ptr<CPlayer> _player = iter->second;
-
-				_player->SetTeam(_player->GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
-
-				++iter;
-			}
-
-			
-		}
-		break;
-	}
-	case Button::NORTH: // fast ball
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			for (CBall* _ball : CBall::GetAllBalls()) {
-				//_ball->Throw();
-			}
-		}
-		break;
-	}
-	case Button::RIGHT_SHOULDER: // catch / quick throw
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			for (CBall* _ball : CBall::GetAllBalls()) {
-				if (_ball->IsHeld()) {
-					_ball->Throw();
-				}
-				else {
-					_ball->AllPlayerInteractions();
-				}
-			}
-		}
-		break;
-	}
-	}
-}
-
