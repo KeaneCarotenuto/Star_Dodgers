@@ -144,7 +144,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	int xpos = 3;
 	int ypos = 3;
 
-	cprint::Print({3, 3 - 1}, L"Buttons Pressed:");
+	//cprint::Print({3, 3 - 1}, L"Buttons Pressed:");
 
 	switch (_event.button)
 	{

@@ -5,14 +5,17 @@
 #include <windows.h>
 #include <iostream>
 
-namespace cprint {
+namespace cprint
+{
 	//Used to move the Console Cursor to a point on the screen for more accurate text management.
-	static void GotoXY(COORD _pos) {
+	static void GotoXY(COORD _pos)
+	{
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos);
 	};
 
 	//Used to print out text at the specified coordinate, with the specified effect.
-	static void Print(COORD pos, std::wstring str, int effect = 15) {
+	static void Print(COORD pos, std::wstring str, int effect = 15)
+	{
 		GotoXY(pos);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), effect);
 		std::wcout << str;
@@ -20,9 +23,11 @@ namespace cprint {
 	};
 
 	//Prints text at coord with colour one letter at a time
-	static void SlowPrint(COORD _pos, std::wstring _message, int effect = 15, int _wait = 10) {
+	static void SlowPrint(COORD _pos, std::wstring _message, int effect = 15, int _wait = 10)
+	{
 		GotoXY(_pos);
-		for (wchar_t _char : _message) {
+		for (wchar_t _char : _message)
+		{
 			Sleep(_wait);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), effect);
 			std::wcout << _char;
@@ -31,22 +36,6 @@ namespace cprint {
 	}
 }
 
-#else
-namespace cprint {
-	//Used to move the Console Cursor to a point on the screen for more accurate text management.
-	static void GotoXY(COORD _pos) {
-		std::cout << "ERROR: <cprint::GotoXY> This opperating system does not support this function!\n"
-	};
-
-	static void Print(COORD pos, std::wstring str, int effect) {
-		std::cout << "ERROR: <cprint::Print> This opperating system does not support this function!\n"
-	};
-
-	//Prints text at coord with colour one letter at a time
-	static void SlowPrint(COORD _pos, std::wstring _message, int effect, int _wait) {
-		std::cout << "ERROR: <cprint::SlowPrint> This opperating system does not support this function!\n"
-	}
-}
 #endif
 
-#endif // __CPRINT_H__
+#endif
