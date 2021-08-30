@@ -3,13 +3,14 @@
 CGamepad::CGamepad(int _gamepadIndex)
 {
     m_GamepadIndex = _gamepadIndex;
+    m_XInputEnabled = false;
 
     std::cout << "Controller " << _gamepadIndex << " connected" << std::endl;
 }
 sf::Vector2f CGamepad::GetLeftStick()
 {
-    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_X) / 100.f;
-    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_STICK_Y) / 100.f;
+    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_STICK_X : (sf::Joystick::Axis)DUALSHOCK::LEFT_STICK_X) / 100.f;
+    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_STICK_Y : (sf::Joystick::Axis)DUALSHOCK::LEFT_STICK_Y) / 100.f;
     if (std::abs(x) < 0.1f)
     {
         x = 0.0f;
@@ -23,8 +24,8 @@ sf::Vector2f CGamepad::GetLeftStick()
 }
 sf::Vector2f CGamepad::GetRightStick()
 {
-    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_X) / 100.f;
-    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_Y) / 100.f;
+    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_STICK_X : (sf::Joystick::Axis)DUALSHOCK::RIGHT_STICK_X) / 100.f;
+    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_STICK_Y : (sf::Joystick::Axis)DUALSHOCK::RIGHT_STICK_Y) / 100.f;
     if (std::abs(x) < 0.1f)
     {
         x = 0.0f;
@@ -37,11 +38,11 @@ sf::Vector2f CGamepad::GetRightStick()
 }
 float CGamepad::GetLeftTrigger()
 {
-    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) / 100.f) + 1) / 2;
+    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::LEFT_TRIGGER) / 100.f) + 1) / 2;
 }
 float CGamepad::GetRightTrigger()
 {
-    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f) + 1) / 2;
+    return ((sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::RIGHT_TRIGGER) / 100.f) + 1) / 2;
 }
 bool CGamepad::GetButtonPressed(Button _button)
 {
@@ -52,49 +53,49 @@ bool CGamepad::GetButtonDown(Button _button)
     switch (_button)
     {
     case Button::NORTH:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, NORTH_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::NORTH_BUTTON : (int)DUALSHOCK::NORTH_BUTTON);
         break;
     case Button::SOUTH:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, SOUTH_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::SOUTH_BUTTON : (int)DUALSHOCK::SOUTH_BUTTON);
         break;
     case Button::EAST:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, EAST_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::EAST_BUTTON : (int)DUALSHOCK::EAST_BUTTON);
         break;
     case Button::WEST:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, WEST_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::WEST_BUTTON : (int)DUALSHOCK::WEST_BUTTON);
         break;
     case Button::LEFT_SHOULDER:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, LEFT_SHOULDER_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::LEFT_SHOULDER_BUTTON : (int)DUALSHOCK::LEFT_SHOULDER_BUTTON);
         break;
     case Button::RIGHT_SHOULDER:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, RIGHT_SHOULDER_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::RIGHT_SHOULDER_BUTTON : (int)DUALSHOCK::RIGHT_SHOULDER_BUTTON);
         break;
     case Button::BACK:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, BACK_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::BACK_BUTTON : (int)DUALSHOCK::BACK_BUTTON);
         break;
     case Button::START:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, START_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::START_BUTTON : (int)DUALSHOCK::START_BUTTON);
         break;
     case Button::MIDDLE:
-        return sf::Joystick::isButtonPressed(m_GamepadIndex, MIDDLE_BUTTON);
+        return sf::Joystick::isButtonPressed(m_GamepadIndex, m_XInputEnabled ? (int)XINPUT::MIDDLE_BUTTON : (int)DUALSHOCK::MIDDLE_BUTTON);
         break;
     case Button::DPAD_UP:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) >= 100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::DPAD_Y : (sf::Joystick::Axis)DUALSHOCK::DPAD_Y) >= 100.f;
         break;
     case Button::DPAD_DOWN:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_Y) <= -100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::DPAD_Y : (sf::Joystick::Axis)DUALSHOCK::DPAD_Y) <= -100.f;
         break;
     case Button::DPAD_LEFT:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) <= -100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::DPAD_X : (sf::Joystick::Axis)DUALSHOCK::DPAD_X) <= -100.f;
         break;
     case Button::DPAD_RIGHT:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, DPAD_X) >= 100.f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::DPAD_X : (sf::Joystick::Axis)DUALSHOCK::DPAD_X) >= 100.f;
         break;
     case Button::TRIGGER_LEFT:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, LEFT_TRIGGER) > 0.0f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::LEFT_TRIGGER) > 0.0f;
         break;
     case Button::TRIGGER_RIGHT:
-        return sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) > 0.0f;
+        return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::RIGHT_TRIGGER) > 0.0f;
         break;
 
     default:
@@ -114,6 +115,11 @@ void CGamepad::Unbind(std::string _name)
 {
     m_toUnbind.push_back(_name);
     //m_Bindings.erase(_name);
+}
+
+void CGamepad::ToggleXInput()
+{
+    m_XInputEnabled = !m_XInputEnabled;
 }
 
 void CGamepad::Update(float _fDeltaTime)

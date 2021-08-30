@@ -1,6 +1,11 @@
 [
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CBall.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CBall.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CBall.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
   "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CGameManager.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGameManager.cpp",
   "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CGameManager.cpp"
 },
