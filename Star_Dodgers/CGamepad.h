@@ -12,16 +12,9 @@
 #include "IGamepadInput.h"
 #include "EasySFML.h"
 
-<<<<<<< HEAD
-#define SOUTH_BUTTON 0
-#define EAST_BUTTON 1
-#define WEST_BUTTON 2
-#define NORTH_BUTTON 3
-=======
 class CGamepad : CGameObject
 {
     friend class IGamepadInput;
->>>>>>> Nerys
 
 public:
     enum class XINPUT
@@ -31,23 +24,12 @@ public:
         EAST_BUTTON = 0,
         NORTH_BUTTON = 3,
 
-<<<<<<< HEAD
-#define BACK_BUTTON 6
-#define START_BUTTON 7
-
-//DOESNT EXIST
-#define MIDDLE_BUTTON 10
-
-#define LEFT_STICK_BUTTON 8
-#define RIGHT_STICK_BUTTON 9
-=======
         LEFT_SHOULDER_BUTTON = 4,
         RIGHT_SHOULDER_BUTTON = 5,
 
         BACK_BUTTON = 6,
         START_BUTTON = 7,
         MIDDLE_BUTTON = 8,
->>>>>>> Nerys
 
         LEFT_STICK_BUTTON = 9,
         RIGHT_STICK_BUTTON = 10,
@@ -55,13 +37,8 @@ public:
         LEFT_STICK_X = sf::Joystick::X,
         LEFT_STICK_Y = sf::Joystick::Y,
 
-<<<<<<< HEAD
-#define LEFT_TRIGGER sf::Joystick::Z
-#define RIGHT_TRIGGER sf::Joystick::Z
-=======
         RIGHT_STICK_X = sf::Joystick::U,
         RIGHT_STICK_Y = sf::Joystick::V,
->>>>>>> Nerys
 
         LEFT_TRIGGER = sf::Joystick::Z,
         RIGHT_TRIGGER = sf::Joystick::R,
