@@ -56,19 +56,9 @@ private:
     int m_GamepadIndex;
     std::map<std::string, IGamepadInput> m_Bindings;
     void Update(float _fDeltaTime);
-<<<<<<< HEAD
     bool m_WasPressedLastFrame[13];
     bool m_CurrentlyPressed[13];
     bool m_PressedThisFrame[13];
     bool m_ReleasedThisFrame[13];
 };
 #endif
-=======
-	bool m_WasPressedLastFrame[13] = { false, false, false,false, false, false, false, false, false, false, false, false, false };
-	bool m_CurrentlyPressed[13] = { false, false, false,false, false, false, false, false, false, false, false, false, false };
-	bool m_PressedThisFrame[13] = { false, false, false,false, false, false, false, false, false, false, false, false, false };
-	bool m_ReleasedThisFrame[13] = { false, false, false,false, false, false, false, false, false, false, false, false, false };
-};
-
-#endif // __CGAMEPAD_H__
->>>>>>> ab3c6a8039b51bdb6fc1afba2b1508170e894b00

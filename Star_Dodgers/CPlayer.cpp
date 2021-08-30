@@ -17,7 +17,7 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 	m_velocitySprite->setOrigin(m_velocitySprite->getLocalBounds().width / 2.0f, m_velocitySprite->getLocalBounds().height / 2.0f);
 	m_aimSprite->setPosition(_pos);
 	m_aimSprite->setOrigin(m_aimSprite->getLocalBounds().width / 2.0f, m_aimSprite->getLocalBounds().height / 2.0f);
-	
+
 	//SetPosition(_pos);
 	SetIsReady(false);
 
@@ -62,7 +62,7 @@ void CPlayer::Update(float _fDeltaTime)
 		m_dodgeTimer = 0.0f;
 	}
 
-	if (m_controller.get()->GetLeftTrigger() > 0.3f)  // begin charge
+	if (m_controller.get()->GetLeftTrigger() > 0.3f) // begin charge
 	{
 		m_isChargingThrow = true;
 		m_throwCharge += _fDeltaTime;
@@ -85,7 +85,7 @@ void CPlayer::Update(float _fDeltaTime)
 			desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
 			m_speed = 60.0f;
 		}
-		else  // dodge
+		else // dodge
 		{
 			m_dodgeTimer -= _fDeltaTime;
 			m_desiredVelocity = m_lastVelocity;
@@ -95,13 +95,13 @@ void CPlayer::Update(float _fDeltaTime)
 	}
 
 	m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
-	if (cmath::Mag(m_desiredAim) >= 0.01f) {
+	if (cmath::Mag(m_desiredAim) >= 0.01f)
+	{
 		float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
 		newAimAngle *= 180.0f;
 		newAimAngle /= PI;
 		m_currentAimAngle = newAimAngle;
 	}
-	
 
 	float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
 	newVelAngle *= 180.0f;
@@ -111,7 +111,7 @@ void CPlayer::Update(float _fDeltaTime)
 	m_aimSprite->setRotation(m_currentAimAngle + 90);
 	m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
 
-	if (m_desiredVelocity != sf::Vector2f(0, 0)) 
+	if (m_desiredVelocity != sf::Vector2f(0, 0))
 	{
 		m_lastVelocity = m_desiredVelocity;
 	}
@@ -122,8 +122,9 @@ void CPlayer::FixedUpdate()
 	sf::Vector2f desiredVelocityAngle;
 	m_desiredVelocity = m_controller.get()->GetLeftStick();
 
-	if (cmath::Mag(m_desiredVelocity) <= 0.3f) {
-		m_desiredVelocity = { 0,0 };
+	if (cmath::Mag(m_desiredVelocity) <= 0.3f)
+	{
+		m_desiredVelocity = {0, 0};
 	}
 
 	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
@@ -135,14 +136,15 @@ void CPlayer::LateUpdate(float _fDeltaTime)
 	//if (m_shouldDelete) { m_controller.~shared_ptr(); }
 }
 
-void CPlayer::OnButtonInput(GamepadButtonEvent _event) 
+void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 {
-	if (_event.gamepadIndex != m_controller->GetIndex()) return;
+	if (_event.gamepadIndex != m_controller->GetIndex())
+		return;
 
 	int xpos = 3;
 	int ypos = 3;
 
-	cprint::Print({ 3,3-1 }, L"Buttons Pressed:");
+	cprint::Print({3, 3 - 1}, L"Buttons Pressed:");
 
 	switch (_event.button)
 	{
@@ -153,7 +155,8 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	case Button::SOUTH:
 		break;
 	case Button::WEST:
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED) {
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
 			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
 		}
 		break;
@@ -161,12 +164,16 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		break;
 
 	case Button::RIGHT_SHOULDER:
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED) {
-			for (CBall* _ball : CBall::GetAllBalls()) {
-				if (_ball->IsHeld()) {
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			for (CBall *_ball : CBall::GetAllBalls())
+			{
+				if (_ball->IsHeld())
+				{
 					_ball->Throw();
 				}
-				else {
+				else
+				{
 					//_ball->AllPlayerInteractions();
 					_ball->SpecificPlayerInteractions(this);
 				}
@@ -193,9 +200,12 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		break;
 
 	case Button::TRIGGER_RIGHT:
-		if (_event.type == GamepadButtonEvent::EventType::RELEASED) {
-			for (CBall* _ball : CBall::GetAllBalls()) {
-				if (_ball->IsHeld()) {
+		if (_event.type == GamepadButtonEvent::EventType::RELEASED)
+		{
+			for (CBall *_ball : CBall::GetAllBalls())
+			{
+				if (_ball->IsHeld())
+				{
 					_ball->Throw();
 				}
 			}
@@ -217,9 +227,21 @@ void CPlayer::SetTeam(Team _team)
 	m_team = _team;
 	switch (_team)
 	{
-	case Team::UNDECIDED: {m_aimSprite->setColor(sf::Color(125, 125, 125, 150)); break; }
-	case Team::RED: {m_aimSprite->setColor(sf::Color(255, 0, 0, 150)); break; }
-	case Team::BLUE: {m_aimSprite->setColor(sf::Color(0, 0, 255, 150)); break; }
+	case Team::UNDECIDED:
+	{
+		m_aimSprite->setColor(sf::Color(125, 125, 125, 150));
+		break;
+	}
+	case Team::RED:
+	{
+		m_aimSprite->setColor(sf::Color(255, 0, 0, 150));
+		break;
+	}
+	case Team::BLUE:
+	{
+		m_aimSprite->setColor(sf::Color(0, 0, 255, 150));
+		break;
+	}
 	}
 }
 

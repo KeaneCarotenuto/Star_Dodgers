@@ -25,14 +25,8 @@ sf::Vector2f CGamepad::GetLeftStick()
 }
 sf::Vector2f CGamepad::GetRightStick()
 {
-<<<<<<< HEAD
-    float x = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_X) / 100.f;
-    float y = sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_STICK_Y) / 100.f;
-
-=======
     float x = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_STICK_X : (sf::Joystick::Axis)DUALSHOCK::RIGHT_STICK_X) / 100.f;
     float y = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_STICK_Y : (sf::Joystick::Axis)DUALSHOCK::RIGHT_STICK_Y) / 100.f;
->>>>>>> Nerys
     if (std::abs(x) < 0.1f)
     {
         x = 0.0f;
@@ -49,9 +43,6 @@ float CGamepad::GetLeftTrigger()
 }
 float CGamepad::GetRightTrigger()
 {
-<<<<<<< HEAD
-    return -((sf::Joystick::getAxisPosition(m_GamepadIndex, RIGHT_TRIGGER) / 100.f) + 1) / 2;
-=======
     return ((sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::RIGHT_TRIGGER) / 100.f) + 1) / 2;
 }
 bool CGamepad::GetButtonPressed(Button _button)
