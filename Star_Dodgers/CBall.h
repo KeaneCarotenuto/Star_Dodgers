@@ -42,7 +42,7 @@ public:
 	float GetCatchRadius() { return m_catchRadius; };
 
 	void TryPickup(CPlayer* _player);
-	void Throw(float _speed = 10.0f);
+	void Throw(float _speed = 20.0f);
 
 	void AllPlayerInteractions();
 	void SpecificPlayerInteractions(CPlayer* _player);

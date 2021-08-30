@@ -40,6 +40,16 @@ void CBall::FixedUpdate()
 
 		AllPlayerCollision();
 
+		m_acceleration = -GetVelocity() * 0.01f;
+
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			SetVelocity({ 0,0 });
+
+			SetOwnerTeam(Team::UNDECIDED);
+		}
+
+		
+
 		SetVelocity(GetVelocity() + GetAcceleration());
 		SetPosition(GetPosition() + GetVelocity());
 	}

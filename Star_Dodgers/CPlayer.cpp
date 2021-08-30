@@ -122,6 +122,10 @@ void CPlayer::FixedUpdate()
 	sf::Vector2f desiredVelocityAngle;
 	m_desiredVelocity = m_controller.get()->GetLeftStick();
 
+	if (cmath::Mag(m_desiredVelocity) <= 0.3f) {
+		m_desiredVelocity = { 0,0 };
+	}
+
 	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 	m_velocitySprite->setPosition(GetPosition());
 }

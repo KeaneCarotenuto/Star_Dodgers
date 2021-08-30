@@ -15,7 +15,7 @@ public:
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
-	void OnButtonInput(GamepadButtonEvent _event);
+	void OnButtonInput(GamepadButtonEvent _event) {};
 
 private:
 	std::vector<int> m_controllerIndex;
