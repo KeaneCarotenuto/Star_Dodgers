@@ -66,3 +66,8 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 {
 
 }
+
+void CGameScene::OnButtonInput(GamepadButtonEvent _event)
+{
+
+}
