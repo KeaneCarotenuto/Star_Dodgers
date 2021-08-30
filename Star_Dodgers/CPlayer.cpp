@@ -149,6 +149,9 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	case Button::SOUTH:
 		break;
 	case Button::WEST:
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED) {
+			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+		}
 		break;
 	case Button::LEFT_SHOULDER:
 		break;
