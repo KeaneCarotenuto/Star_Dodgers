@@ -6,14 +6,17 @@
 #include "CResourceHolder.h"
 #include "CTeamsManager.h"
 #include "CGameManager.h"
+#include "CPlayer.h"
 #include <memory>
 
-//Forward declare
-class CPlayer;
 
 class CBall : public CGameObject
 {
 public:
+	enum class BallState {
+		Regular,
+	};
+
 	CBall();
 	~CBall();
 
@@ -48,6 +51,7 @@ public:
 	void SpecificPlayerInteractions(CPlayer* _player);
 
 	bool IsHeld() { return (m_holder != nullptr);  }
+	CPlayer* GetHolder() { return m_holder; };
 
 	Team GetOwnerTeam() { return m_ownerTeam; };
 
@@ -58,17 +62,22 @@ private:
 	void SpecificPlayerCollision(CPlayer* _player);
 	
 	void SetOwnerTeam(Team _team);
+	void UpdateVisuals();
 	void ForcePickup(CPlayer* _player);
 	
 	void WallCollision();
 
 	sf::Sprite* m_sprite = new sf::Sprite();
 
+	ThrowStyle m_throwStyle = ThrowStyle::Fastball;
+
 	sf::Vector2f m_velocity = sf::Vector2f(0,0);
 	sf::Vector2f m_acceleration = sf::Vector2f(0, 0);
 
 	float m_pickupRadius = 50.0f;
 	float m_catchRadius = 30.0f;
+
+	bool m_isWinningBall = false;
 
 	Team m_ownerTeam = Team::UNDECIDED;
 	CPlayer* m_holder = nullptr;

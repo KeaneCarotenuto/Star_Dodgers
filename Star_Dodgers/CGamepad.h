@@ -41,7 +41,7 @@ public:
         RIGHT_STICK_Y = sf::Joystick::V,
 
         LEFT_TRIGGER = sf::Joystick::Z,
-        RIGHT_TRIGGER = sf::Joystick::R,
+        RIGHT_TRIGGER = sf::Joystick::Z,
 
         DPAD_X = sf::Joystick::PovX,
         DPAD_Y = sf::Joystick::PovY,
