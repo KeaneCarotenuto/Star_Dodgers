@@ -73,6 +73,8 @@ int main()
 
 		CObjectController::UpdateObjects();
 
+		
+
 		CGameManager::GetInstance()->DeleteNonActiveScenes();
 	}
 

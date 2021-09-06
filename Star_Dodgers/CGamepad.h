@@ -12,6 +12,10 @@
 #include "IGamepadInput.h"
 #include "EasySFML.h"
 
+#if defined(_WIN32) || defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
+#define OS_WIN
+#endif
+
 class CGamepad : CGameObject
 {
     friend class IGamepadInput;
@@ -20,8 +24,8 @@ public:
     enum class XINPUT
     {
         WEST_BUTTON = 2,
-        SOUTH_BUTTON = 1,
-        EAST_BUTTON = 0,
+        SOUTH_BUTTON = 0,
+        EAST_BUTTON = 1,
         NORTH_BUTTON = 3,
 
         LEFT_SHOULDER_BUTTON = 4,

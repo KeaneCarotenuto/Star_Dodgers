@@ -40,7 +40,7 @@ void CBall::FixedUpdate()
 
 		AllPlayerCollision();
 
-		m_acceleration = -GetVelocity() * 0.01f;
+		m_acceleration = - GetVelocity() * 0.01f;
 
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
 			SetVelocity({ 0,0 });
@@ -48,6 +48,28 @@ void CBall::FixedUpdate()
 				m_isWinningBall = false;
 			}
 			SetOwnerTeam(Team::UNDECIDED);
+		}
+		else
+		{
+			switch (m_throwStyle)
+			{
+			case ThrowStyle::Fastball:
+				m_acceleration = { 0,0 };
+				break;
+			case ThrowStyle::LeftCurve:
+				SetVelocity(cmath::Rotate(GetVelocity(), -1.5f));
+				break;
+			case ThrowStyle::RightCurve:
+				SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
+				break;
+
+			case ThrowStyle::None:
+
+				break;
+
+			default:
+				break;
+			}
 		}
 
 		
@@ -82,28 +104,6 @@ void CBall::AllPlayerCollision()
 
 		++iter;
 	}
-
-
-	/*switch (m_ownerTeam)
-	{
-	case Team::UNDECIDED: {
-
-		break;
-	}
-
-	case Team::RED: {
-		
-		break;
-	}
-
-	case Team::BLUE: {
-		
-		break;
-	}
-
-	default:
-		break;
-	}*/
 }
 
 void CBall::SpecificPlayerCollision(CPlayer* _player)
@@ -222,8 +222,29 @@ void CBall::Throw(float _speed)
 {
 	if (m_holder == nullptr) return;
 
+	m_throwStyle = m_holder->GetThrowStyle();
+
 	if (cmath::Mag(m_holder->GetAim()) >= 0.01f) {
-		SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed);
+
+		m_initialDirection = m_holder->GetAim();
+
+		switch (m_throwStyle)
+		{
+		case ThrowStyle::Fastball:
+			SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed);
+			break;
+
+		case ThrowStyle::LeftCurve:
+			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, 45));
+			break;
+
+		case ThrowStyle::RightCurve:
+			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, -45));
+			break;
+
+		default:
+			break;
+		}
 	}
 	else {
 		SetVelocity({(float) ( 5 - rand() % 10), (float)(5 - rand() % 10) });
@@ -235,16 +256,24 @@ void CBall::Throw(float _speed)
 
 void CBall::WallCollision()
 {
+	bool hitWall = false;
+
 	if ((GetVelocity().x > 0 && GetPosition().x >= CResourceHolder::GetWindow()->getSize().x) ||
 		(GetVelocity().x < 0 && GetPosition().x <= 0))
 	{
 		SetVelocity(sf::Vector2f(-m_velocity.x, m_velocity.y));
+		hitWall = true;
 	}
 
 	if ((GetVelocity().y > 0 && GetPosition().y >= CResourceHolder::GetWindow()->getSize().y) ||
 		(GetVelocity().y < 0 && GetPosition().y <= 0))
 	{
 		SetVelocity(sf::Vector2f(m_velocity.x, -m_velocity.y));
+		hitWall = true;
+	}
+
+	if (hitWall) {
+		m_throwStyle = ThrowStyle::None;
 	}
 }
 

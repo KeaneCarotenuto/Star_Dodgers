@@ -14,7 +14,8 @@ class CBall;
 enum class ThrowStyle {
 	Fastball,
 	LeftCurve,
-	RightCurve
+	RightCurve,
+	None
 };
 
 class CPlayer : public CGameObject, public IGamepadInput
@@ -51,6 +52,8 @@ public:
 	// scale, transforms and rotations
 	sf::Rect<float> GetRect() { return(m_aimSprite->getGlobalBounds()); }
 
+	ThrowStyle GetThrowStyle() { return m_throwStyle; };
+
 	void Dodge();
 
 	sf::Vector2f GetAim() { return m_desiredAim; };
@@ -75,7 +78,7 @@ private:
 	float m_dodgeTimer = 0.0f;
 	float m_dodgeCooldown = 0.0f;
 
-	ThrowStyle m_throwStle = ThrowStyle::Fastball;
+	ThrowStyle m_throwStyle = ThrowStyle::Fastball;
 
 	float m_throwCharge = 1.0f;
 	bool m_isChargingThrow = false;
