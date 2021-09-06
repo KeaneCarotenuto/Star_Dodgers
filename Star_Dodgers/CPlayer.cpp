@@ -149,18 +149,21 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	switch (_event.button)
 	{
 	case Button::NORTH:
+		m_throwStyle = ThrowStyle::Fastball;
 		break;
 	case Button::EAST:
+		m_throwStyle = ThrowStyle::LeftCurve;
 		break;
 	case Button::SOUTH:
 		break;
 	case Button::WEST:
+		m_throwStyle = ThrowStyle::RightCurve;
+		break;
+	case Button::LEFT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
 		}
-		break;
-	case Button::LEFT_SHOULDER:
 		break;
 
 	case Button::RIGHT_SHOULDER:

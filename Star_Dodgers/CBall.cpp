@@ -222,8 +222,27 @@ void CBall::Throw(float _speed)
 {
 	if (m_holder == nullptr) return;
 
+	m_throwStyle = m_holder->GetThrowStyle();
+
 	if (cmath::Mag(m_holder->GetAim()) >= 0.01f) {
-		SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed);
+
+		switch (m_throwStyle)
+		{
+		case ThrowStyle::Fastball:
+			SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed);
+			break;
+
+		case ThrowStyle::LeftCurve:
+			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, 45));
+			break;
+
+		case ThrowStyle::RightCurve:
+			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, -45));
+			break;
+
+		default:
+			break;
+		}
 	}
 	else {
 		SetVelocity({(float) ( 5 - rand() % 10), (float)(5 - rand() % 10) });

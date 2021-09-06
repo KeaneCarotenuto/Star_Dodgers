@@ -20,8 +20,8 @@ public:
     enum class XINPUT
     {
         WEST_BUTTON = 2,
-        SOUTH_BUTTON = 1,
-        EAST_BUTTON = 0,
+        SOUTH_BUTTON = 0,
+        EAST_BUTTON = 1,
         NORTH_BUTTON = 3,
 
         LEFT_SHOULDER_BUTTON = 4,
