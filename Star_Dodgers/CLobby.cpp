@@ -87,16 +87,26 @@ CLobby::CLobby()
 
 CLobby::~CLobby()
 {
-	std::vector<sf::Drawable*> erase;
-	for (unsigned int ele = 0; ele < CWindowUtilities::ToDrawList.size(); ele++)
+	// number of elements that will be removed from drawable is equal to 10 - title, subtitle ect.. plus the number of players
+	int desiredSize = CWindowUtilities::ToDrawList.size() - (10 + m_playerReadyText.size());
+	int ele = -1; // element in toDrawList
+	while (CWindowUtilities::ToDrawList.size() > desiredSize)
 	{
+		ele += 1;
+		// ensure that ele stays within bounds of ToDrawList
+		if (ele >= CWindowUtilities::ToDrawList.size()) { ele = 0; }
+
+		// create iterator pointing to start value of ToDrawList
+		std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::ToDrawList.begin();
+
 		if (CWindowUtilities::ToDrawList[ele] == m_title)
 		{
 			// if title text is found in ToDrawList, create an iterator pointing to the position of the title then
 			// erase the element at the iterator and all the elements up to the last team seperator are erased
-			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::ToDrawList.begin() + ele;
-			erase.insert(erase.begin(), iter, iter + 10);
-			ele += 10;
+			iter += ele;
+			CWindowUtilities::ToDrawList.erase(iter, iter + 10);
+			ele -= 1;
+			continue;
 		}
 
 		// if any elements of m_playerReadyText are found on in ToDrawList, that element is erased
@@ -105,14 +115,14 @@ CLobby::~CLobby()
 		{
 			if (CWindowUtilities::ToDrawList[ele] == readyIter->second)
 			{
-				erase.push_back(readyIter->second);
+				iter += ele;
+				CWindowUtilities::ToDrawList.erase(iter);
+				ele -= 1;
 				break;
 			}
 			++readyIter;
-		} 
-		
+		}
 	}
-	erase.clear();
 
 	delete m_title;               
 	m_title = 0;
@@ -191,7 +201,19 @@ void CLobby::LateUpdate(float _fDeltaTime)
 			}
 
 			CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
+			return;
 		}
+	}
+
+	if (m_canLoadMenu)
+	{
+		// unbind controllers
+		for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
+		{
+			CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
+		}
+
+		CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
 	}
 }
 
@@ -313,20 +335,14 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 			if (team != (int)Team::UNDECIDED)
 			{
 				playerPtr.get()->SetIsReady(true);
-				m_playerReadyText.at(playerPtr.get())->setString("READY");
+				m_playerReadyText.at(playerPtr.get())->setString("   READY   ");
 				m_playerReadyText.at(playerPtr.get())->setFillColor(sf::Color::Green);
 			}
 			break;
 		}
 		case Button::EAST: // back
 		{
-			//CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
-			
-			// unbind controllers
-			for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
-			{
-				//CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
-			}
+			m_canLoadMenu = true;
 			break;
 		}
 		}

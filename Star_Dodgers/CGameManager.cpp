@@ -136,7 +136,7 @@ void CGameManager::RemoveObserver(IObserver* _observer)
 		if (m_observers[ele] == _observer) { watch = ele; break; }
 	}
 
-	if (watch < 0)
+	if (watch >= 0)
 	{
 		m_observers.erase(m_observers.begin() + watch);
 	}

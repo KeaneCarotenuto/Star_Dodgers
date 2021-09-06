@@ -28,6 +28,7 @@ public:
 
 private:
 	bool m_canLoadGame = false;
+	bool m_canLoadMenu = false;
 	bool m_canUnbindMasterController = true;
 	sf::Color m_neutral;
 
