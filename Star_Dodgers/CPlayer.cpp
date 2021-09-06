@@ -23,7 +23,7 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 
 	m_speed = 60.0f;
 	m_leftAnalogStickSensitivity = 0.1f;
-	m_rightAnalogStickSensitivity = 0.1f;
+	m_rightAnalogStickSensitivity = 1.0f;
 }
 
 CPlayer::~CPlayer()
@@ -53,79 +53,74 @@ CPlayer::~CPlayer()
 void CPlayer::Update(float _fDeltaTime)
 {
 	sf::Vector2f desiredVelocityAngle;
-	m_desiredVelocity = m_controller.get()->GetLeftStick();
+    m_desiredVelocity = m_controller.get()->GetLeftStick();
 
-	// when dodge timer finishes - set cooldown
-	if (m_dodgeTimer < 0.0f)
-	{
-		m_dodgeCooldown = 5.0f;
-		m_dodgeTimer = 0.0f;
-	}
+    // when dodge timer finishes - set cooldown
+    if (m_dodgeTimer < 0.0f)
+    {
+        m_dodgeCooldown = 5.0f;
+        m_dodgeTimer = 0.0f;
+    }
 
-	if (m_controller.get()->GetLeftTrigger() > 0.3f) // begin charge
-	{
-		m_isChargingThrow = true;
-		m_throwCharge += _fDeltaTime;
-	}
+    if (m_controller.get()->GetLeftTrigger() > 0.3f) // begin charge
+    {
+        m_isChargingThrow = true;
+        m_throwCharge += _fDeltaTime;
+    }
 
-	if ((m_controller.get()->GetLeftTrigger() < 0.3f) && (m_isChargingThrow))
-	{
-		// release throw
-		m_isChargingThrow = false;
-		m_throwCharge = 0.0f;
-	}
+    if ((m_controller.get()->GetLeftTrigger() < 0.3f) && (m_isChargingThrow))
+    {
+        // release throw
+        m_isChargingThrow = false;
+        m_throwCharge = 0.0f;
+    }
 
-	if (!m_isChargingThrow)
-	{
-		// if not currently dodging or charging, move as normal
-		if (m_dodgeTimer == 0.0f)
-		{
-			m_dodgeCooldown -= _fDeltaTime;
-			m_desiredVelocity = m_controller.get()->GetLeftStick();
-			desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
-			m_speed = 60.0f;
-		}
-		else // dodge
-		{
-			m_dodgeTimer -= _fDeltaTime;
-			m_desiredVelocity = m_lastVelocity;
-			desiredVelocityAngle = m_lastVelocity * m_leftAnalogStickSensitivity;
-			m_speed = 180.0f;
-		}
-	}
+    if (!m_isChargingThrow)
+    {
+        // if not currently dodging or charging, move as normal
+        if (m_dodgeTimer == 0.0f)
+        {
+            m_dodgeCooldown -= _fDeltaTime;
+            m_desiredVelocity = m_controller.get()->GetLeftStick();
+            desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
+            m_speed = 60.0f;
+        }
+        else // dodge
+        {
+            m_dodgeTimer -= _fDeltaTime;
+            m_desiredVelocity = m_lastVelocity;
+            desiredVelocityAngle = m_lastVelocity * m_leftAnalogStickSensitivity;
+            m_speed = 180.0f;
+        }
+    }
 
-	m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
-	if (cmath::Mag(m_desiredAim) >= 0.01f)
-	{
-		float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
-		newAimAngle *= 180.0f;
-		newAimAngle /= PI;
-		m_currentAimAngle = newAimAngle;
-	}
+    m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
+    if (cmath::Mag(m_desiredAim) >= 0.01f)
+    {
+        float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
+        newAimAngle *= 180.0f;
+        newAimAngle /= PI;
+        m_currentAimAngle = newAimAngle;
+    }
 
-	float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
-	newVelAngle *= 180.0f;
-	newVelAngle /= PI;
-	m_currentVelocityAngle = newVelAngle;
+    float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
+    newVelAngle *= 180.0f;
+    newVelAngle /= PI;
+    m_currentVelocityAngle = newVelAngle;
 
-	m_aimSprite->setRotation(m_currentAimAngle + 90);
-	m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
+    m_aimSprite->setRotation(m_currentAimAngle + 90);
+    m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
 
-	if (m_desiredVelocity != sf::Vector2f(0, 0))
-	{
-		m_lastVelocity = m_desiredVelocity;
-	}
+    if (m_desiredVelocity != sf::Vector2f(0, 0))
+    {
+        m_lastVelocity = m_desiredVelocity;
+    }
 }
 
 void CPlayer::FixedUpdate()
 {
 	sf::Vector2f desiredVelocityAngle;
 	m_desiredVelocity = m_controller.get()->GetLeftStick();
-
-	if (cmath::Mag(m_desiredVelocity) <= 0.3f)
-	{
-		m_desiredVelocity = {0, 0};
-	}
 
 	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 	m_velocitySprite->setPosition(GetPosition());

@@ -73,6 +73,14 @@ int main()
 
 		CObjectController::UpdateObjects();
 
+		for(int i = 0; i < CGameManager::GetInstance()->GetControllerCount(); i++)
+		{
+			std::cout << CGameManager::GetInstance()->GetController(i).get()->GetRightStick().x;
+			std::cout << (std::string)sf::Joystick::getIdentification(i).name;
+			std::cout << std::endl;
+
+		}
+
 		CGameManager::GetInstance()->DeleteNonActiveScenes();
 	}
 

@@ -9,7 +9,11 @@ CGamepad::CGamepad(int _gamepadIndex)
     std::cout << (std::string)sf::Joystick::getIdentification(_gamepadIndex).name << ", [" << _gamepadIndex << "] connected." << std::endl;
     if ((std::string)sf::Joystick::getIdentification(_gamepadIndex).name == "Wireless Controller")
     {
+        #ifdef OS_WIN
         m_XInputEnabled = false;
+        #else
+        m_XInputEnabled = true;
+        #endif
     }
     else
     {
