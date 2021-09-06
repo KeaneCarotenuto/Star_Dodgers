@@ -14,9 +14,9 @@ CLobby::CLobby()
 	m_lobby.top = 120.0f;
 
 	// calculate gaps and lobby segements start x
-	m_lobbySegmentsLeft[0] = m_lobby.left;
+	m_lobbySegmentsLeft[1] = m_lobby.left;
 	// start of previous section + width of a player in previous section + gaps for previous section + lines
-	m_lobbySegmentsLeft[1] = (m_lobby.width / 3.0f) + 1.0f;
+	m_lobbySegmentsLeft[0] = (m_lobby.width / 3.0f) + 1.0f;
 	m_lobbySegmentsLeft[2] = ((m_lobby.width * 2.0f) / 3.0f) + 1.0f;
 
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
@@ -38,8 +38,8 @@ CLobby::CLobby()
 	{
 		std::string label;
 		sf::Color colour;
-		if (i == 0) { label = "Red Team"; colour = sf::Color::Red; }
-		else if (i == 1) { label = "Undecided"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
+		if (i == 0) { label = "Undecided"; colour = sf::Color::Red; }
+		else if (i == 1) { label = "Red Team"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
 		else { label = "Blue Team"; colour = sf::Color::Blue; }
 
 		m_teamLabels[i] = new sf::Text(label, *font, 30);
@@ -203,7 +203,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 	for (int t = 0; t < 2; t++)
 	{
 		int teamCount = CTeamsManager::GetInstance()->GetTeamCount((Team)changedTeams[t]);
-		float playerSize = (changedTeams[t] == 1) ? 50.0f : 150.0f;
+		float playerSize = (changedTeams[t] == 0) ? 50.0f : 150.0f;
 
 		//positional data
 		float xGap = (((m_lobby.width - 2.0f) / 3.0f) - playerSize) / 2.0f; // -2 for lines, /3 as 3 sectiions, /2 as 1 sect has 2 gaps
@@ -215,7 +215,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 		while (iter != CTeamsManager::GetInstance()->GetTeam((Team)changedTeams[t]).end())
 		{
 			// player icon / sprite size and position
-			iter->second.get()->SetPosition(xPos, yPos);
+			iter->second.get()->SetPosition({ xPos, yPos } );
 			iter->second.get()->SetSize(sf::Vector2f(playerSize, playerSize));
 
 			if (m_playerReadyText.find(iter->second.get()) == m_playerReadyText.end())
@@ -276,17 +276,35 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		{
 		case Button::DPAD_LEFT:
 		{
-			if (team > 0) 
-			{ 
-				team -= 1;
+			switch (playerPtr->GetTeam())
+			{
+			case Team::UNDECIDED:
+				team = (int)(Team::RED);
+				break;
+			case Team::RED:
+				break;
+			case Team::BLUE:
+				team = (int)(Team::UNDECIDED);
+				break;
+			default:
+				break;
 			}
 			break;
 		}
 		case Button::DPAD_RIGHT:
 		{
-			if (team < 2)
+			switch (playerPtr->GetTeam())
 			{
-				team += 1;
+			case Team::UNDECIDED:
+				team = (int)(Team::BLUE);
+				break;
+			case Team::RED:
+				team = (int)(Team::UNDECIDED);
+				break;
+			case Team::BLUE:
+				break;
+			default:
+				break;
 			}
 			break;
 		}

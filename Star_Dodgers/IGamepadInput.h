@@ -22,6 +22,10 @@ enum class Button
     DPAD_RIGHT,
     DPAD_DOWN,
     DPAD_LEFT,
+    TRIGGER_LEFT,
+    TRIGGER_RIGHT,
+    STICK_LEFT,
+    STICK_RIGHT
 };
 
 struct GamepadButtonEvent

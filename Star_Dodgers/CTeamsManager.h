@@ -6,11 +6,12 @@
 #include "IObserver.h"
 #include "IObservable.h"
 #include <map>
+#include <memory>
 
 enum class Team
 {
-	RED = 0,
-	UNDECIDED = 1,
+	UNDECIDED = 0,
+	RED = 1,
 	BLUE = 2
 };
 
@@ -21,7 +22,7 @@ class CTeamsManager : public IObserver, IObservable
 {
 public:
 	~CTeamsManager();
-	static CTeamsManager* GetInstance();
+	static CTeamsManager *GetInstance();
 
 	void AddToTeam(std::shared_ptr<CPlayer> _player, Team _newTeam);
 	int GetTeamCount(Team _team);
@@ -31,20 +32,20 @@ public:
 	int GetPlayerCount();
 	bool AreAllPlayersReady();
 
-	bool CanSkipLobby() { return(m_isSkipLobby); }
+	bool CanSkipLobby() { return (m_isSkipLobby); }
 
 	void JoystickStatusChange(bool _isGameplayScene, int _controllerIndex, bool _isConnected);
 
-	void AddObserver(IObserver* _observer);
-	void RemoveObserver(IObserver* _observer);
+	void AddObserver(IObserver *_observer);
+	void RemoveObserver(IObserver *_observer);
 
 private:
 	CTeamsManager();
-	static CTeamsManager* m_teamsManagerInstance;
+	static CTeamsManager *m_teamsManagerInstance;
 
 	void NotifyObservers(int _team1, int _team2);
-	void NotifyObservers(CPlayer* _player, int _controller);
-	std::vector<IObserver*> m_observers;  // objects that watch CTeamsManager class for team updates
+	void NotifyObservers(CPlayer *_player, int _controller);
+	std::vector<IObserver *> m_observers; // objects that watch CTeamsManager class for team updates
 
 	std::map<int, std::shared_ptr<CPlayer>> m_redTeam;
 	std::map<int, std::shared_ptr<CPlayer>> m_blueTeam;
@@ -54,4 +55,4 @@ private:
 	bool m_isSkipLobby = false;
 };
 
-#endif  // __CTEAMS_MANAGER_H__
+#endif // __CTEAMS_MANAGER_H__

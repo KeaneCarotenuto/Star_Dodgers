@@ -8,8 +8,8 @@
 class CGameScene : public CSceneBase
 {
 public:
-	CGameScene(int _playerCount);
-	CGameScene();
+	CGameScene(int _playerCount = 0);
+	//CGameScene();
 	~CGameScene();
 
 	void Update(float _fDeltaTime);

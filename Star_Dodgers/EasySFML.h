@@ -185,10 +185,25 @@ public:
 	/// </para></param>
 	// ********************************************************************************
 	static void LateUpdate(float _fDeltaTime);
+	// ********************************************************************************
+	/// <summary>
+	/// <para>
+	/// Function name: Destroy
+	/// Function is part of Class: CObjectController
+	/// Adds an object to the collection of things to be destroyed/deleted next frame
+	/// </para>
+	/// </summary>
+	/// <param name="_gameObj"><para>
+	/// Type: CGameObject pointer
+	/// </para></param>
+	// ********************************************************************************
+	static void Destroy(CGameObject *_obj);
 
 private:
 	/// <summary>Measures the time between frames</summary>
 	static sf::Clock deltaClock;
+
+	static std::vector<CGameObject *> ToDeleteList;
 
 	/// <summary>The amount of time since the last frame</summary>
 	static float deltaTime;
@@ -245,7 +260,6 @@ class CWindowUtilities
 public:
 	/// <summary>A vector of all the objects to be drawn this frame</summary>
 	static std::vector<sf::Drawable *> ToDrawList;
-	static std::vector<CGameObject *> ToDeleteList;
 
 	static sf::Vector2f ScreenCentre;
 	static float RenderDistance;
@@ -264,20 +278,6 @@ public:
 	// ********************************************************************************
 	static void Draw(sf::Drawable *Draw);
 	static void Draw(sf::Drawable *Draw, sf::Vector2f Pos);
-
-	// ********************************************************************************
-	/// <summary>
-	/// <para>
-	/// Function name: Destroy
-	/// Function is part of Class: CWindowUtilities
-	/// Adds an object to the collection of things to be destroyed/deleted next frame
-	/// </para>
-	/// </summary>
-	/// <param name="_gameObj"><para>
-	/// Type: CGameObject pointer
-	/// </para></param>
-	// ********************************************************************************
-	static void Destroy(CGameObject* _gameObj);
 };
 
 #endif

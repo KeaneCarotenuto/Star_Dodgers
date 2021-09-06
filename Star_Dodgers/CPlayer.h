@@ -8,7 +8,10 @@
 #include "CGameManager.h"
 #include <memory>
 
-class CPlayer : public CGameObject
+//Forward dec
+class CBall;
+
+class CPlayer : public CGameObject, public IGamepadInput
 {
 public:
 	CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos);
@@ -17,6 +20,8 @@ public:
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
+
+	void OnButtonInput(GamepadButtonEvent _event);
 
 	void SetController(std::shared_ptr<CGamepad> _controller) { m_controller = _controller; }
 	void SetController(int _controllerIndex) { m_controller = CGameManager::GetInstance()->GetController(_controllerIndex); }
@@ -33,7 +38,7 @@ public:
 	bool IsPlayerReady() { return(m_isReadyToPlay); }
 
 	void SetPosition(sf::Vector2f _pos) { m_aimSprite->setPosition(_pos); m_velocitySprite->setPosition(_pos - sf::Vector2f(5, 5)); }
-	void SetPosition(float _x, float _y) { m_aimSprite->setPosition(_x, _y); m_velocitySprite->setPosition(_x, _y); }
+	//void SetPosition(float _x, float _y) { m_aimSprite->setPosition(_x, _y); m_velocitySprite->setPosition(_x, _y); }
 	sf::Vector2f GetPosition() { return(m_aimSprite->getPosition()); }
 	void SetSize(sf::Vector2f _size);
 	// this function returns the width, height, top coord and right coord of the player sprite taking into account 
@@ -41,6 +46,8 @@ public:
 	sf::Rect<float> GetRect() { return(m_aimSprite->getGlobalBounds()); }
 
 	void Dodge();
+
+	sf::Vector2f GetAim() { return m_desiredAim; };
 
 private:
 	std::shared_ptr<CGamepad> m_controller;

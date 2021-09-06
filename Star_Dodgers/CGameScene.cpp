@@ -1,4 +1,5 @@
 #include "CPlayer.h"
+#include "CBall.h"
 #include "CTeamsManager.h"
 #include "CResourceHolder.h"
 #include <map>
@@ -13,6 +14,7 @@ CGameScene::CGameScene(int _playerCount)
 		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
 		std::shared_ptr<CPlayer> newPlayer(new CPlayer(i, playerLabel + ".png", team, pos));
 		CTeamsManager::GetInstance()->AddToTeam(newPlayer, team);
+		CGameManager::GetInstance()->GetController(i).get()->Bind(dynamic_cast<IGamepadInput*>(newPlayer.get()), playerLabel);
 		CWindowUtilities::Draw(newPlayer.get()->GetAimSprite());
 	}
 
@@ -37,33 +39,9 @@ CGameScene::CGameScene(int _playerCount)
 		// setup UI
 		++iter;
 	}
-}
 
-CGameScene::CGameScene()
-{
-	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
-	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
-	{
-		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-		iter->second.get()->AddVelocitySpriteToDrawList();
-		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-		// setup UI
-		++iter;
-	}
-
-	iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
-	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
-	{
-		iter->second.get()->SetPosition(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-		iter->second.get()->AddVelocitySpriteToDrawList();
-		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-		// setup UI
-		++iter;
-	}
+	CBall* newBall = new CBall();
+	newBall->SetVelocity({ 10,-10 });
 }
 
 CGameScene::~CGameScene()
@@ -91,46 +69,5 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
-	std::shared_ptr<CPlayer> player = CTeamsManager::GetInstance()->GetPlayer(_event.gamepadIndex);
 
-	switch (_event.button)
-	{
-	case Button::SOUTH: // X button - dodge
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			player.get()->Dodge();
-		}
-		break;
-	}
-	case Button::WEST: // curve ball left
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-		}
-		break;
-	}
-	case Button::EAST: // curveball right
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-		}
-		break;
-	}
-	case Button::NORTH: // fast ball
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-		}
-		break;
-	}
-	case Button::RIGHT_SHOULDER: // catch / quick throw
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-		}
-		break;
-	}
-	}
 }
-

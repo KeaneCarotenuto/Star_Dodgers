@@ -13,10 +13,21 @@ std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
 // create resources that will be used later in the project
 void CResourceHolder::Initialise()
 {
+	float titlebarHeight = 25;
+	float taskbarBeight = 40;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::Default);
+	
+	m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080 - titlebarHeight - taskbarBeight, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::Default);
 
-	CreateImage("icon.png");
+
+
+	CreateImage("icon_pixel.PNG");
+	CreateTexture("Ball_White.png");
+	CreateTexture("Ball_Red.png");
+	CreateTexture("Ball_Blue.png");
+	CreateTexture("Ball_Yellow.png");
+	CreateTexture("Ball_Yellow_Red.png");
+	CreateTexture("Ball_Yellow_Blue.png");
 	CreateTexture("P1.png");
 	CreateTexture("P2.png");
 	CreateTexture("P3.png");
