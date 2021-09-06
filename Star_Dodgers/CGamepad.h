@@ -66,11 +66,11 @@ public:
         LEFT_STICK_X = sf::Joystick::X,
         LEFT_STICK_Y = sf::Joystick::Y,
 
-        RIGHT_STICK_X = sf::Joystick::U,
-        RIGHT_STICK_Y = sf::Joystick::V,
+        RIGHT_STICK_X = sf::Joystick::Z,
+        RIGHT_STICK_Y = sf::Joystick::R,
 
-        LEFT_TRIGGER = sf::Joystick::Z,
-        RIGHT_TRIGGER = sf::Joystick::R,
+        LEFT_TRIGGER = sf::Joystick::U,
+        RIGHT_TRIGGER = sf::Joystick::V,
 
         DPAD_X = sf::Joystick::PovX,
         DPAD_Y = sf::Joystick::PovY,
