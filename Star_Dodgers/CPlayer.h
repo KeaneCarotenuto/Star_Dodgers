@@ -14,7 +14,8 @@ class CBall;
 enum class ThrowStyle {
 	Fastball,
 	LeftCurve,
-	RightCurve
+	RightCurve,
+	None
 };
 
 class CPlayer : public CGameObject, public IGamepadInput

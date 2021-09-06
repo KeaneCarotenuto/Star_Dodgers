@@ -71,6 +71,7 @@ private:
 
 	ThrowStyle m_throwStyle = ThrowStyle::Fastball;
 
+	sf::Vector2f m_initialDirection = sf::Vector2f(0, 0);
 	sf::Vector2f m_velocity = sf::Vector2f(0,0);
 	sf::Vector2f m_acceleration = sf::Vector2f(0, 0);
 
