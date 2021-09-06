@@ -39,6 +39,8 @@ public:
 	void AddObserver(IObserver *_observer);
 	void RemoveObserver(IObserver *_observer);
 
+	void AddScore(Team _team, float _amount = 10);
+
 private:
 	CTeamsManager();
 	static CTeamsManager *m_teamsManagerInstance;
@@ -51,6 +53,12 @@ private:
 	std::map<int, std::shared_ptr<CPlayer>> m_blueTeam;
 	std::map<int, std::shared_ptr<CPlayer>> m_undecided;
 	std::vector<std::shared_ptr<CPlayer>> m_allPlayers;
+
+	float m_winningBallScore = 100.0f;
+	float m_redTeamScore = 0.0f;
+	float m_blueTeamScore = 0.0f;
+	
+
 
 	bool m_isSkipLobby = false;
 };

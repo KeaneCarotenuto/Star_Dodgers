@@ -110,6 +110,8 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 	{
 		SetVelocity({ 0,0 });
 
+		CTeamsManager::GetInstance()->AddScore( GetOwnerTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+
 		SetOwnerTeam(Team::UNDECIDED);
 	}
 }
