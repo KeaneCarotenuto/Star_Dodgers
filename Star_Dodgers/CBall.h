@@ -15,6 +15,7 @@ class CBall : public CGameObject
 public:
 	enum class BallState {
 		Regular,
+		Homing,
 	};
 
 	CBall();
