@@ -7,14 +7,6 @@ CGamepad::CGamepad(int _gamepadIndex)
     m_XInputEnabled = false;
 
     std::cout << (std::string)sf::Joystick::getIdentification(_gamepadIndex).name << ", [" << _gamepadIndex << "] connected." << std::endl;
-    if ((std::string)sf::Joystick::getIdentification(_gamepadIndex).name == "Wireless Controller")
-    {
-        m_XInputEnabled = false;
-    }
-    else
-    {
-        m_XInputEnabled = true;
-    }
 }
 sf::Vector2f CGamepad::GetLeftStick()
 {
@@ -130,47 +122,4 @@ void CGamepad::Unbind(std::string _name)
 void CGamepad::ToggleXInput()
 {
     m_XInputEnabled = !m_XInputEnabled;
-    
-}
-
-void CGamepad::Update(float _fDeltaTime)
-{
-    for (int i = 0; i < 17; i++)
-    {
-        m_CurrentlyPressed[i] = GetButtonDown((Button)i);
-        m_PressedThisFrame[i] = (m_CurrentlyPressed[i] && !m_WasPressedLastFrame[i]);
-        m_ReleasedThisFrame[i] = (!m_CurrentlyPressed[i] && m_WasPressedLastFrame[i]);
-        m_WasPressedLastFrame[i] = m_CurrentlyPressed[i];
-    }
-
-    std::map<std::string, IGamepadInput *>::iterator it = m_Bindings.begin();
-    while (it != m_Bindings.end())
-    {
-        for (int i = 0; i < 17; i++)
-        {
-            if (m_PressedThisFrame[i])
-            {
-                GamepadButtonEvent event;
-                event.button = (Button)i;
-                event.type = GamepadButtonEvent::EventType::PRESSED;
-                event.gamepadIndex = m_GamepadIndex;
-                it->second->OnButtonInput(event);
-            }
-            if (m_ReleasedThisFrame[i])
-            {
-                GamepadButtonEvent event;
-                event.button = (Button)i;
-                event.type = GamepadButtonEvent::EventType::RELEASED;
-                event.gamepadIndex = m_GamepadIndex;
-                it->second->OnButtonInput(event);
-            }
-        }
-        it++;
-    }
-
-    for (unsigned int i = 0; i < m_toUnbind.size(); i++)
-    {
-        m_Bindings.erase(m_toUnbind[i]);
-    }
-    m_toUnbind.clear();
 }
