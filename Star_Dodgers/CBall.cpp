@@ -49,6 +49,22 @@ void CBall::FixedUpdate()
 			}
 			SetOwnerTeam(Team::UNDECIDED);
 		}
+		else
+		{
+			switch (m_throwStyle)
+			{
+			case ThrowStyle::Fastball:
+				break;
+			case ThrowStyle::LeftCurve:
+				SetVelocity(cmath::Rotate(GetVelocity(), -cmath::Mag(GetVelocity())/10));
+				break;
+			case ThrowStyle::RightCurve:
+				SetVelocity(cmath::Rotate(GetVelocity(), cmath::Mag(GetVelocity())/10));
+				break;
+			default:
+				break;
+			}
+		}
 
 		
 
