@@ -7,6 +7,14 @@ CGamepad::CGamepad(int _gamepadIndex)
     m_XInputEnabled = false;
 
     std::cout << (std::string)sf::Joystick::getIdentification(_gamepadIndex).name << ", [" << _gamepadIndex << "] connected." << std::endl;
+    if ((std::string)sf::Joystick::getIdentification(_gamepadIndex).name == "Wireless Controller")
+    {
+        m_XInputEnabled = false;
+    }
+    else
+    {
+        m_XInputEnabled = true;
+    }
 }
 sf::Vector2f CGamepad::GetLeftStick()
 {
