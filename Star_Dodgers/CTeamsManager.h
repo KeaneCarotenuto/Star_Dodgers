@@ -40,6 +40,8 @@ public:
 	void RemoveObserver(IObserver *_observer);
 
 	void AddScore(Team _team, float _amount = 10);
+	void ResetScore(Team _team);
+	float GetScore(Team _team);
 
 private:
 	CTeamsManager();

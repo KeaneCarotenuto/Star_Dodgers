@@ -261,6 +261,50 @@ void CTeamsManager::AddScore(Team _team, float _amount)
 	std::cout << "\n\nSCORES:\nRED: " << m_redTeamScore << "\nBLUE: " << m_blueTeamScore << "\n";
 }
 
+void CTeamsManager::ResetScore(Team _team)
+{
+	switch (_team)
+	{
+	case Team::UNDECIDED:
+		break;
+
+	case Team::RED:
+		m_redTeamScore = 0;
+		break;
+
+	case Team::BLUE:
+		m_blueTeamScore = 0;
+		break;
+
+	default:
+		break;
+	}
+}
+
+float CTeamsManager::GetScore(Team _team)
+{
+	switch (_team)
+	{
+	case Team::UNDECIDED:
+		return 0;
+		break;
+
+	case Team::RED:
+		return m_redTeamScore;
+		break;
+
+	case Team::BLUE:
+		return m_blueTeamScore;
+		break;
+
+	default:
+		return 0;
+		break;
+	}
+
+	return 0;
+}
+
 // this function tells all observers of the teamMaps to call TeamChange - notifies observers that a player has changed teams
 void CTeamsManager::NotifyObservers(int _team1, int _team2)
 {

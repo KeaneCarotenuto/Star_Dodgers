@@ -44,7 +44,9 @@ void CBall::FixedUpdate()
 
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
 			SetVelocity({ 0,0 });
-
+			if (m_isWinningBall) {
+				m_isWinningBall = false;
+			}
 			SetOwnerTeam(Team::UNDECIDED);
 		}
 
@@ -110,7 +112,17 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 	{
 		SetVelocity({ 0,0 });
 
-		CTeamsManager::GetInstance()->AddScore( GetOwnerTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+		if (m_isWinningBall) {
+			std::cout << (GetOwnerTeam() == Team::BLUE ? "BLUE" : "RED") << " team wins! (Need to hook this up to winning a losing)";
+
+			CTeamsManager::GetInstance()->ResetScore(Team::BLUE);
+			CTeamsManager::GetInstance()->ResetScore(Team::RED);
+
+			m_isWinningBall = false;
+		}
+		else {
+			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+		}
 
 		SetOwnerTeam(Team::UNDECIDED);
 	}
@@ -119,11 +131,34 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 void CBall::SetOwnerTeam(Team _team)
 {
 	m_ownerTeam = _team;
-	SetSprite((m_ownerTeam == Team::UNDECIDED ?
+	UpdateVisuals();
+}
+
+void CBall::UpdateVisuals()
+{
+	/*SetSprite((m_ownerTeam == Team::UNDECIDED ?
 		"Ball_White.png" :
 		m_ownerTeam == Team::BLUE ?
 		"Ball_Blue.png" :
-		"Ball_Red.png"));
+		"Ball_Red.png"));*/
+
+	switch (m_ownerTeam)
+	{
+	case Team::UNDECIDED:
+		SetSprite("Ball_White.png");
+		break;
+
+	case Team::RED:
+		SetSprite( m_isWinningBall ? "Ball_Yellow_Red.png" : "Ball_Red.png");
+		break;
+
+	case Team::BLUE:
+		SetSprite(m_isWinningBall ? "Ball_Yellow_Red.png" : "Ball_Blue.png");
+		break;
+
+	default:
+		break;
+	}
 }
 
 void CBall::AllPlayerInteractions()
@@ -174,6 +209,12 @@ void CBall::ForcePickup(CPlayer* _player)
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::ForcePickup> [_player] is Null\n"; return; }
 
 	m_holder = _player;
+
+	if (CTeamsManager::GetInstance()->GetScore(m_holder->GetTeam()) >= 100) {
+		CTeamsManager::GetInstance()->ResetScore(m_holder->GetTeam());
+		m_isWinningBall = true;
+	}
+
 	SetOwnerTeam(m_holder->GetTeam());
 }
 
