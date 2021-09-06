@@ -11,6 +11,12 @@
 //Forward dec
 class CBall;
 
+enum class ThrowStyle {
+	Fastball,
+	LeftCurve,
+	RightCurve
+};
+
 class CPlayer : public CGameObject, public IGamepadInput
 {
 public:
@@ -68,6 +74,8 @@ private:
 
 	float m_dodgeTimer = 0.0f;
 	float m_dodgeCooldown = 0.0f;
+
+	ThrowStyle m_throwStle = ThrowStyle::Fastball;
 
 	float m_throwCharge = 1.0f;
 	bool m_isChargingThrow = false;

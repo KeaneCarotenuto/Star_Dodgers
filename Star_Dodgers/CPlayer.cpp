@@ -168,7 +168,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		{
 			for (CBall *_ball : CBall::GetAllBalls())
 			{
-				if (_ball->IsHeld())
+				if (_ball->IsHeld() && _ball->GetHolder() == this)
 				{
 					_ball->Throw();
 				}
