@@ -58,6 +58,7 @@ private:
 	void SpecificPlayerCollision(CPlayer* _player);
 	
 	void SetOwnerTeam(Team _team);
+	void UpdateVisuals();
 	void ForcePickup(CPlayer* _player);
 	
 	void WallCollision();
@@ -69,6 +70,8 @@ private:
 
 	float m_pickupRadius = 50.0f;
 	float m_catchRadius = 30.0f;
+
+	bool m_isWinningBall = false;
 
 	Team m_ownerTeam = Team::UNDECIDED;
 	CPlayer* m_holder = nullptr;
