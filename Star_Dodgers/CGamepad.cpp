@@ -104,9 +104,9 @@ bool CGamepad::GetButtonDown(Button _button)
     case Button::TRIGGER_LEFT:
         return sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::LEFT_TRIGGER) > 0.0f;
         break;
-    case Button::TRIGGER_RIGHT: 
-        return  abs(sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::RIGHT_TRIGGER)) > 0.1f;
-        break;
+    case Button::TRIGGER_RIGHT: {
+        return  m_XInputEnabled ? (abs(sf::Joystick::getAxisPosition(m_GamepadIndex, (sf::Joystick::Axis)XINPUT::RIGHT_TRIGGER ))) > 0.1f : (sf::Joystick::getAxisPosition(m_GamepadIndex, (sf::Joystick::Axis)DUALSHOCK::RIGHT_TRIGGER)) > -99;
+        break; }
 
     default:
         return false;
