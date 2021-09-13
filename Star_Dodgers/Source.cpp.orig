@@ -5,59 +5,82 @@
 #include <SFML/Window/Joystick.hpp>
 #include "EasySFML.h"
 #include "CGamepad.h"
-#include "CGameSettings.h"
-#include "CMainMenu.h"
-#include "IGamepadInput.h"
 #include "CResourceHolder.h"
+#include "CGameManager.h"
+#include "CTeamsManager.h"
+#include "CLobby.h"
+#include <ctime>
+#include "CGameScene.h"
+#include "IUIElement.h"
 
-//TEST
 int main()
 {
-	//Creating Different Windows
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Star Dodgers - By ClosedGL", sf::Style::Default);
+	srand((unsigned int)time(NULL));
 
-	// create all resources that the project will use
+	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();
 
 	// set icon
-	sf::Image* icon = CResourceHolder::GetImage("icon.png");
-	window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
+	sf::Image *icon = CResourceHolder::GetImage("icon_pixel.PNG");
+	CResourceHolder::GetWindow()->setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 
 	sf::Clock clock;
 
-	CGameSettings::Initialise(); // initial game settings setup
-	CMainMenu menu;  // first scene
+	// add observers for managers
+	CGameManager::GetInstance()->AddObserver(CTeamsManager::GetInstance());
+	CGameManager::GetInstance()->Initialise();					 // initial game settings setup
+	CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>(); // set active scene
 
-	while (window.isOpen() == true)
+	
+
+	while (CResourceHolder::GetWindow()->isOpen() == true)
 	{
 		sf::Event event;
 
 		//Quit
-		while (window.pollEvent(event))
+		while (CResourceHolder::GetWindow()->pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 			{
-				window.close();
+				CResourceHolder::GetWindow()->close();
+			}
+
+			// skip straight to game mode - creates players based on number of controllers that are connected
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
+			{
+				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>(CGameManager::GetInstance()->GetControllerCount());
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
+			if ((event.type == sf::Event::JoystickDisconnected) && ((CGameManager::GetInstance()->GetControllerCount() == 4) || (CGameManager::GetInstance()->GetControllerCount() == 2)))
+			{
+				//sf::Event::JoystickConnectEvent::joystickId
+				CGameManager::GetInstance()->ControllerDisconnected();
+			}
 
-			if ((event.type == sf::Event::JoystickConnected) && (CGameSettings::GetControllerCount() < 5))
+			if ((event.type == sf::Event::JoystickConnected) && (CGameManager::GetInstance()->GetControllerCount() < 5))
 			{
 				// check if a disconnected controller first
-				CGameSettings::AddController();
+				CGameManager::GetInstance()->AddController();
 			}
 		}
 
-		window.clear();
+		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
 		{
-			window.draw(*CWindowUtilities::ToDrawList[i]);
+			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
-		window.display();
+		CResourceHolder::GetWindow()->display();
+
 		CObjectController::UpdateObjects();
 
-		sf::Time elapsed = clock.restart();
+<<<<<<< HEAD
+		
+=======
+
+>>>>>>> Nerys
+
+		CGameManager::GetInstance()->DeleteNonActiveScenes();
 	}
 
 	return 0;
