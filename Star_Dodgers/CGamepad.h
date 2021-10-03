@@ -52,9 +52,9 @@ public:
     };
     enum class DUALSHOCK
     {
-        WEST_BUTTON = 2,
+        WEST_BUTTON = 0,
         SOUTH_BUTTON = 1,
-        EAST_BUTTON = 0,
+        EAST_BUTTON = 2,
         NORTH_BUTTON = 3,
 
         LEFT_SHOULDER_BUTTON = 4,
