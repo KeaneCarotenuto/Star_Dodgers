@@ -90,6 +90,9 @@
     <ClCompile Include="CBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControlsMenu.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGamepad.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="CMath.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControlsMenu.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
