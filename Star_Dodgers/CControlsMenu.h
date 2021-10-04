@@ -24,6 +24,7 @@
 #include "CGameManager.h"
 #include "CResourceHolder.h"
 #include "IGamepadInput.h"
+#include "CMath.h"
 
 class CControlsMenu : public CSceneBase
 {
@@ -35,12 +36,14 @@ public:
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
-
+	
 private:
-	sf::Text* m_controlsHeader;
-	sf::Text* m_controlsText;
-	sf::Text* m_rulesHeader;
-	sf::Text* m_rulesText;
+	sf::Text* m_pageOneHeader;
+	sf::Text* m_pageOneText;
+	sf::Text* m_pageTwoHeader;
+	sf::Text* m_pageTwoText;
 	sf::Text* m_returnPrompt;
+
+	sf::Vector2f Lerp(float _fPercentCompleted, sf::Vector2f _vec2fOrigin, sf::Vector2f _vec2fDestination);
 };
 #endif
