@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CBall.cpp" />
+    <ClCompile Include="CControlsMenu.cpp" />
     <ClCompile Include="CGamepad.cpp" />
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CGameScene.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBall.h" />
+    <ClInclude Include="CControlsMenu.h" />
     <ClInclude Include="CGamepad.h" />
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CGameScene.h" />

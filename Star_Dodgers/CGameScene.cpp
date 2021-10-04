@@ -44,6 +44,9 @@ CGameScene::CGameScene(int _playerCount)
 	newBall->SetVelocity({ 10,-10 });
 	f = 0.2f;
 	CUIBar* pointsBar = new CUIBar(1, f, sf::Vector2f(400.0f, 400.0f), sf::Vector2f(1.0f, 1.0f), 270, CResourceHolder::GetTexture("UIBarRed.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
+
+	CBall* newBall2 = new CBall();
+	newBall2->SetVelocity({ 15,-10 });
 }
 
 CGameScene::~CGameScene()

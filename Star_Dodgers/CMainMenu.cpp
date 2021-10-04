@@ -1,6 +1,7 @@
 #include "CGameManager.h"
 #include "CResourceHolder.h"
 #include "CLobby.h"
+#include"CControlsMenu.h"
 #include "CMainMenu.h"
 
 CMainMenu::CMainMenu()
@@ -206,6 +207,8 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			}
 			case 1: // controls
 			{
+				CGameManager::GetInstance()->ChangeActiveScene<CControlsMenu>();
+				CGameManager::GetInstance()->GetMasterController()->Unbind("MainMenu");
 				break;
 			}
 			case 2: // settings
