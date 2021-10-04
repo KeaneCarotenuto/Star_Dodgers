@@ -69,6 +69,7 @@ int main()
 		{
 			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
+		UIManager::Draw();
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();

@@ -5,6 +5,8 @@
 
 #include "EasySFML.h"
 #include "IGamepadInput.h"
+#include "CUIBar.h"
+
 
 // container class for scenes
 class CSceneBase : public CGameObject, public IGamepadInput
