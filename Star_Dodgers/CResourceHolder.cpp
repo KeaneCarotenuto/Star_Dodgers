@@ -35,6 +35,9 @@ void CResourceHolder::Initialise()
 	CreateTexture("BackButton.png");
 	CreateTexture("X-Ready.png");
 	CreateTexture("Move_Direction.png");
+	CreateTexture("UIBarFrame.png");
+	CreateTexture("UIBarRed.png");
+	CreateTexture("UIBarBlue.png");
 
 	CreateFont("comic.ttf");
 	

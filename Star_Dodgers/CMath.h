@@ -40,5 +40,7 @@ namespace cmath {
 
 		return { px, py };
 	}
+
+	
 }
 #endif // __CMATH_H__

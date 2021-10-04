@@ -42,8 +42,8 @@ CGameScene::CGameScene(int _playerCount)
 
 	CBall* newBall = new CBall();
 	newBall->SetVelocity({ 10,-10 });
-	float f = 0.2f;
-	CUIBar* pointsBar = new CUIBar(1, f, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1.0f, 1.0f), 0, CResourceHolder::GetTexture("P1.png"), CResourceHolder::GetTexture("P2.png"));
+	f = 0.2f;
+	CUIBar* pointsBar = new CUIBar(1, f, sf::Vector2f(400.0f, 400.0f), sf::Vector2f(1.0f, 1.0f), 270, CResourceHolder::GetTexture("UIBarRed.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
 }
 
 CGameScene::~CGameScene()
@@ -57,6 +57,7 @@ void CGameScene::Update(float _fDeltaTime)
 	{
 		
 	}
+	
 }
 
 void CGameScene::FixedUpdate()
@@ -66,7 +67,7 @@ void CGameScene::FixedUpdate()
 
 void CGameScene::LateUpdate(float _fDeltaTime)
 {
-
+	
 }
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
