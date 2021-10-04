@@ -4,6 +4,10 @@
 
 std::vector<CBall*> CBall::m_allBalls;
 
+/// <summary>
+/// Ball Constructor
+/// <para>Author: Keane</para>
+/// </summary>
 CBall::CBall()
 {
 	SetSprite("Ball.png");
@@ -26,6 +30,12 @@ CBall::~CBall()
 	}
 }
 
+/// <summary>
+/// Returns the ball that is closest to the given point
+/// <para>Author: Keane</para>
+/// </summary>
+/// <param name="_point"></param>
+/// <returns></returns>
 CBall* CBall::GetClosestBall(sf::Vector2f _point)
 {
 	CBall* closest = nullptr;
@@ -45,22 +55,30 @@ void CBall::Update(float _fDeltaTime)
 	
 }
 
+/// <summary>
+/// Fixed update call for ball
+/// <para>Author: Keane</para>
+/// </summary>
 void CBall::FixedUpdate()
 {
 	//if player is not holding ball
 	if (m_holder == nullptr) {
 
+		//Check collisions
 		WallCollision();
 
 		AllPlayerCollision();
 
+		//Update accel
 		m_acceleration = - GetVelocity() * 0.01f;
 
+		//If ball is slow enough, come to a stop
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
 			ResetBall();
 		}
 		else
 		{
+			//Otherwise, depending on the ball type, perform some movement
 			switch (m_throwStyle)
 			{
 			case ThrowStyle::Fastball:
@@ -82,8 +100,7 @@ void CBall::FixedUpdate()
 			}
 		}
 
-		
-
+		//Update velocity and pos
 		SetVelocity(GetVelocity() + GetAcceleration());
 		SetPosition(GetPosition() + GetVelocity());
 	}
@@ -93,6 +110,10 @@ void CBall::FixedUpdate()
 	}
 }
 
+/// <summary>
+/// Reset ball to default state
+/// <para>Author: Keane</para>
+/// </summary>
 void CBall::ResetBall()
 {
 	SetVelocity({ 0,0 });
@@ -107,6 +128,10 @@ void CBall::ResetBall()
 	SetOwnerTeam(Team::UNDECIDED);
 }
 
+/// <summary>
+/// Perform collision checks against all players
+/// <para>Author: Keane</para>
+/// </summary>
 void CBall::AllPlayerCollision()
 {
 	//These two loops should be replaced with a single loop through "CTeamsManager::GetAllPlayers() - But its not working atm."
@@ -130,10 +155,16 @@ void CBall::AllPlayerCollision()
 	}
 }
 
+/// <summary>
+/// Perform collision check and logic against specific player
+/// <para>Author: Keane</para>
+/// </summary>
+/// <param name="_player"></param>
 void CBall::SpecificPlayerCollision(CPlayer* _player)
 {
 	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
+		//If winning ball, add score
 		if (m_isWinningBall) {
 			std::cout << (GetOwnerTeam() == Team::BLUE ? "BLUE" : "RED") << " team wins! (Need to hook this up to winning a losing)";
 
@@ -148,19 +179,30 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 	}
 }
 
+/// <summary>
+/// Set the owner team of this ball
+/// <para>Author: Keane</para>
+/// </summary>
+/// <param name="_team"></param>
 void CBall::SetOwnerTeam(Team _team)
 {
 	m_ownerTeam = _team;
 	UpdateVisuals();
 }
 
+/// <summary>
+/// Update the visuals of the ball based on team, type, winning ball, etc
+/// <para>Author: Keane</para>
+/// </summary>
 void CBall::UpdateVisuals()
 {
 	std::string fileName = "Ball";
 
+	//If winning or power
 	if (m_isWinningBall) fileName += "_Yellow";
 	else fileName += (m_power == CBall::BallPower::None ? "" : "_Rainbow");
 
+	//If red or blue, or not
 	switch (m_ownerTeam)
 	{
 	case Team::UNDECIDED:
@@ -184,6 +226,10 @@ void CBall::UpdateVisuals()
 	SetSprite(fileName);
 }
 
+/// <summary>
+/// Check interactions with all players
+/// <para>Author: Keane</para>
+/// </summary>
 void CBall::AllPlayerInteractions()
 {
 	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
@@ -206,17 +252,23 @@ void CBall::AllPlayerInteractions()
 	}
 }
 
+/// <summary>
+/// Check interaction with specific player
+/// </summary>
+/// <param name="_player"></param>
 void CBall::SpecificPlayerInteractions(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::SpecificPlayerInteractions> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
 
+	//Catch first, if not, try pickup (they cannot both happen, but that logic should probably be included here to make it more clear)
 	TryCatch(_player);
 	TryPickup(_player);
 }
 
 /// <summary>
 /// Checks if the player can catch the ball, if so, does it
+/// <para>Author: Keane</para>
 /// </summary>
 /// <param name="_player"></param>
 void CBall::TryCatch(CPlayer* _player)
@@ -236,6 +288,7 @@ void CBall::TryCatch(CPlayer* _player)
 
 /// <summary>
 /// Checks if the player can pickup the ball, if so, does it
+/// <para>Author: Keane</para>
 /// </summary>
 /// <param name="_player"></param>
 void CBall::TryPickup(CPlayer* _player)
@@ -254,6 +307,7 @@ void CBall::TryPickup(CPlayer* _player)
 
 /// <summary>
 /// Actually puts the ball in the player's possession (By Means of picking it up)
+/// <para>Author: Keane</para>
 /// </summary>
 /// <param name="_player"></param>
 void CBall::ForcePickup(CPlayer* _player)
@@ -272,6 +326,7 @@ void CBall::ForcePickup(CPlayer* _player)
 
 /// <summary>
 /// Actually puts the ball in the player's possession (By Means of catching it)
+/// <para>Author: Keane</para>
 /// </summary>
 /// <param name="_player"></param>
 void CBall::ForceCatch(CPlayer* _player)
@@ -288,6 +343,11 @@ void CBall::ForceCatch(CPlayer* _player)
 	SetOwnerTeam(m_holder->GetTeam());
 }
 
+/// <summary>
+/// Attempt to throw the ball in the aim direction
+/// <para>Author: Keane</para>
+/// </summary>
+/// <param name="_speed"></param>
 void CBall::Throw(float _speed)
 {
 	if (m_holder == nullptr) return;
@@ -324,6 +384,10 @@ void CBall::Throw(float _speed)
 	m_holder = nullptr;
 }
 
+/// <summary>
+/// Bounce off of walls
+/// <para>Author: Keane</para>
+/// </summary>
 void CBall::WallCollision()
 {
 	bool hitWall = false;
