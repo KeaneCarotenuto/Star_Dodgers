@@ -6,7 +6,7 @@ std::vector<CBall*> CBall::m_allBalls;
 
 CBall::CBall()
 {
-	SetSprite("Ball_White.png");
+	SetSprite("Ball.png");
 	SetPosition(sf::Vector2f(0.0f, 0.0f));
 	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f , m_sprite->getLocalBounds().height / 2.0f);
 
@@ -43,11 +43,7 @@ void CBall::FixedUpdate()
 		m_acceleration = - GetVelocity() * 0.01f;
 
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
-			SetVelocity({ 0,0 });
-			if (m_isWinningBall) {
-				m_isWinningBall = false;
-			}
-			SetOwnerTeam(Team::UNDECIDED);
+			ResetBall();
 		}
 		else
 		{
@@ -81,6 +77,20 @@ void CBall::FixedUpdate()
 		//If player is holding ball, follow player
 		SetPosition(m_holder->GetPosition());
 	}
+}
+
+void CBall::ResetBall()
+{
+	SetVelocity({ 0,0 });
+	m_acceleration = { 0,0 };
+
+	if (m_isWinningBall) {
+		m_isWinningBall = false;
+	}
+
+	m_power = CBall::BallPower::None;
+
+	SetOwnerTeam(Team::UNDECIDED);
 }
 
 void CBall::AllPlayerCollision()
@@ -136,29 +146,32 @@ void CBall::SetOwnerTeam(Team _team)
 
 void CBall::UpdateVisuals()
 {
-	/*SetSprite((m_ownerTeam == Team::UNDECIDED ?
-		"Ball_White.png" :
-		m_ownerTeam == Team::BLUE ?
-		"Ball_Blue.png" :
-		"Ball_Red.png"));*/
+	std::string fileName = "Ball";
+
+	if (m_isWinningBall) fileName += "_Yellow";
+	else fileName += (m_power == CBall::BallPower::None ? "" : "_Rainbow");
 
 	switch (m_ownerTeam)
 	{
 	case Team::UNDECIDED:
-		SetSprite("Ball_White.png");
+		fileName += "";
 		break;
 
 	case Team::RED:
-		SetSprite( m_isWinningBall ? "Ball_Yellow_Red.png" : "Ball_Red.png");
+		fileName += "_Red";
 		break;
 
 	case Team::BLUE:
-		SetSprite(m_isWinningBall ? "Ball_Yellow_Red.png" : "Ball_Blue.png");
+		fileName += "_Blue";
 		break;
 
 	default:
 		break;
 	}
+
+	fileName += ".png";
+
+	SetSprite(fileName);
 }
 
 void CBall::AllPlayerInteractions()
@@ -185,28 +198,75 @@ void CBall::AllPlayerInteractions()
 
 void CBall::SpecificPlayerInteractions(CPlayer* _player)
 {
-	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryPickup> [_player] is Null\n"; return; }
+	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::SpecificPlayerInteractions> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
 
+	TryCatch(_player);
 	TryPickup(_player);
 }
 
+/// <summary>
+/// Checks if the player can catch the ball, if so, does it
+/// </summary>
+/// <param name="_player"></param>
+void CBall::TryCatch(CPlayer* _player)
+{
+	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryCatch> [_player] is Null\n"; return; }
+	if (m_holder != nullptr) return;
+	if (m_ownerTeam == Team::UNDECIDED || m_ownerTeam == _player->GetTeam()) return;
+
+	if (cmath::Distance(_player->GetPosition(), this->GetPosition()) <= m_catchRadius) {
+		m_power = CBall::BallPower::Homing;
+		ForcePickup(_player);
+	}
+	else {
+		//Failed to pickup: some kind of noise or something?
+	}
+}
+
+/// <summary>
+/// Checks if the player can pickup the ball, if so, does it
+/// </summary>
+/// <param name="_player"></param>
 void CBall::TryPickup(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryPickup> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
+	if (m_ownerTeam != Team::UNDECIDED && m_ownerTeam != _player->GetTeam()) return;
 
 	if (cmath::Distance(_player->GetPosition(), this->GetPosition()) <= m_pickupRadius) {
 		ForcePickup(_player);
 	}
 	else {
-		//Failed to pickup: some kind of nose or something?
+		//Failed to pickup: some kind of noise or something?
 	}
 }
 
+/// <summary>
+/// Actually puts the ball in the player's possession (By Means of picking it up)
+/// </summary>
+/// <param name="_player"></param>
 void CBall::ForcePickup(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::ForcePickup> [_player] is Null\n"; return; }
+
+	m_holder = _player;
+
+	if (CTeamsManager::GetInstance()->GetScore(m_holder->GetTeam()) >= 100) {
+		CTeamsManager::GetInstance()->ResetScore(m_holder->GetTeam());
+		m_isWinningBall = true;
+	}
+
+	SetOwnerTeam(m_holder->GetTeam());
+}
+
+/// <summary>
+/// Actually puts the ball in the player's possession (By Means of catching it)
+/// </summary>
+/// <param name="_player"></param>
+void CBall::ForceCatch(CPlayer* _player)
+{
+	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::ForceCatch> [_player] is Null\n"; return; }
 
 	m_holder = _player;
 

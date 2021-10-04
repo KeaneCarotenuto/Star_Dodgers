@@ -22,12 +22,14 @@ void CResourceHolder::Initialise()
 
 
 	CreateImage("icon_pixel.PNG");
-	CreateTexture("Ball_White.png");
+	CreateTexture("Ball.png");
 	CreateTexture("Ball_Red.png");
 	CreateTexture("Ball_Blue.png");
 	CreateTexture("Ball_Yellow.png");
 	CreateTexture("Ball_Yellow_Red.png");
 	CreateTexture("Ball_Yellow_Blue.png");
+	CreateTexture("Ball_Rainbow_Blue.png");
+	CreateTexture("Ball_Rainbow_Red.png");
 	CreateTexture("P1.png");
 	CreateTexture("P2.png");
 	CreateTexture("P3.png");
