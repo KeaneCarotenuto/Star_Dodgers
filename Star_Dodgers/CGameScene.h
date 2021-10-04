@@ -4,6 +4,7 @@
 #define __CGAME_SCENE_H__
 
 #include "CSceneBase.h"
+#include "CMath.h"
 
 class CGameScene : public CSceneBase
 {

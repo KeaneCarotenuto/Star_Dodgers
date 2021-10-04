@@ -16,8 +16,9 @@ CUIBar::CUIBar(int _Zindex, float& _valueToTrack, sf::Vector2f _position, sf::Ve
 }
 
 void CUIBar::DrawUI(sf::RenderWindow* _window) {
-    std::clamp(m_value, 0.0f, 1.0f);
+    m_value = std::clamp(m_value, 0.0f, 1.0f);
     m_barSprite.setScale(sf::Vector2f(m_bgSprite.getScale().x * m_value, m_bgSprite.getScale().y));
-    _window->draw(m_bgSprite);
+    
     _window->draw(m_barSprite);
+    _window->draw(m_bgSprite);
 }
