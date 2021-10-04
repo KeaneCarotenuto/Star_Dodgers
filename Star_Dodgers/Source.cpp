@@ -13,12 +13,13 @@
 #include "CGameScene.h"
 #include "CMath.h"
 
+sf::Clock* cmath::g_clock = new sf::Clock();
+
 int main()
 {
 	srand((unsigned int)time(NULL));
 
-	cmath::g_clock =  sf::Clock();
-	cmath::g_clock.restart();
+	cmath::g_clock->restart();
 
 	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();

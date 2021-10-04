@@ -7,7 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace cmath {
-	extern sf::Clock g_clock;
+	extern sf::Clock* g_clock;
 
 	static float Mag(sf::Vector2f _a) {
 		return abs(sqrt(_a.x * _a.x + _a.y * _a.y));
