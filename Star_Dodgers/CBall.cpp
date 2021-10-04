@@ -127,14 +127,12 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 			CTeamsManager::GetInstance()->ResetScore(Team::BLUE);
 			CTeamsManager::GetInstance()->ResetScore(Team::RED);
-
-			m_isWinningBall = false;
 		}
 		else {
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 		}
 
-		SetOwnerTeam(Team::UNDECIDED);
+		ResetBall();
 	}
 }
 

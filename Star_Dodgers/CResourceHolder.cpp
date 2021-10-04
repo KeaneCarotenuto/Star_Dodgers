@@ -28,6 +28,7 @@ void CResourceHolder::Initialise()
 	CreateTexture("Ball_Yellow.png");
 	CreateTexture("Ball_Yellow_Red.png");
 	CreateTexture("Ball_Yellow_Blue.png");
+	CreateTexture("Ball_Rainbow.png");
 	CreateTexture("Ball_Rainbow_Blue.png");
 	CreateTexture("Ball_Rainbow_Red.png");
 	CreateTexture("P1.png");
