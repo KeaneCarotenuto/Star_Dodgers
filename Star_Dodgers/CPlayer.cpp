@@ -176,17 +176,20 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	case Button::RIGHT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
+			bool actionTaken = false;
+
 			for (CBall *_ball : CBall::GetAllBalls())
 			{
 				if (_ball->IsHeld() && _ball->GetHolder() == this)
 				{
 					_ball->Throw();
+					actionTaken = true;
+					break;
 				}
-				else
-				{
-					//_ball->AllPlayerInteractions();
-					_ball->SpecificPlayerInteractions(this);
-				}
+			}
+
+			if (!actionTaken) {
+				CBall::GetClosestBall(this->GetPosition())->SpecificPlayerInteractions(this);
 			}
 		}
 		break;

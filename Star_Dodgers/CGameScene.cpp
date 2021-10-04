@@ -42,6 +42,9 @@ CGameScene::CGameScene(int _playerCount)
 
 	CBall* newBall = new CBall();
 	newBall->SetVelocity({ 10,-10 });
+
+	CBall* newBall2 = new CBall();
+	newBall2->SetVelocity({ 15,-10 });
 }
 
 CGameScene::~CGameScene()

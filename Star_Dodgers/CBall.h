@@ -13,8 +13,8 @@
 class CBall : public CGameObject
 {
 public:
-	enum class BallState {
-		Regular,
+	enum class BallPower {
+		None,
 		Homing,
 	};
 
@@ -22,6 +22,7 @@ public:
 	~CBall();
 
 	static std::vector<CBall*> GetAllBalls() { return m_allBalls; };
+	static CBall* GetClosestBall(sf::Vector2f _point);
 
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
@@ -46,7 +47,10 @@ public:
 	float GetCatchRadius() { return m_catchRadius; };
 
 	void TryPickup(CPlayer* _player);
+	void TryCatch(CPlayer* _player);
 	void Throw(float _speed = 20.0f);
+
+	void ResetBall();
 
 	void AllPlayerInteractions();
 	void SpecificPlayerInteractions(CPlayer* _player);
@@ -64,20 +68,23 @@ private:
 	
 	void SetOwnerTeam(Team _team);
 	void UpdateVisuals();
+
 	void ForcePickup(CPlayer* _player);
+	void ForceCatch(CPlayer* _player);
 	
 	void WallCollision();
 
 	sf::Sprite* m_sprite = new sf::Sprite();
 
 	ThrowStyle m_throwStyle = ThrowStyle::Fastball;
+	BallPower m_power = BallPower::None;
 
 	sf::Vector2f m_initialDirection = sf::Vector2f(0, 0);
 	sf::Vector2f m_velocity = sf::Vector2f(0,0);
 	sf::Vector2f m_acceleration = sf::Vector2f(0, 0);
 
 	float m_pickupRadius = 50.0f;
-	float m_catchRadius = 30.0f;
+	float m_catchRadius = 100.0f;
 
 	bool m_isWinningBall = false;
 
