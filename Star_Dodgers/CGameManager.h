@@ -24,8 +24,9 @@ public:
 	void Initialise();
 
 	// controller functions
-	void AddController();
-	void ControllerDisconnected();
+	void OnJoystickConnect(int _jsID);
+	void OnJoystickDisconnect(int _jsID);
+
 	int GetControllerCount();
 	void SetMasterController(std::shared_ptr<CGamepad> _master);
 	void SetMasterController(int _controllerNum);
@@ -33,7 +34,7 @@ public:
 	std::shared_ptr<CGamepad> GetController(int _controllerNum);
 	void AddObserver(IObserver* _observer);
 	void RemoveObserver(IObserver* _observer);
-	void NotifyObservers(int _controllerIndex, bool _isConnected);
+	void NotifyObservers(int _controllerNum, bool _isConnected);
 
 	// scene function
 	// this function changes the active scene. it creates a pointer of type CSceneBase that points to an object of type <NewScene>
@@ -43,10 +44,11 @@ public:
 	{
 		CSceneBase* previousActiveScene = m_activeScene;   // store old activeScene objects
 		if (previousActiveScene != nullptr) { m_scenesToDestroy.push_back(previousActiveScene); }  // add to vector to be deleted
+		
+		// non joinable scenes: control overview after lobby, game, pause, game over scene
+		if (std::is_same<NewScene, CGameScene>::value) { m_isJoinableScene = false; }
+		else { m_isJoinableScene = true; }
 		m_activeScene = new NewScene(_param...); // set new activeScene
-
-		if (std::is_same<NewScene, CGameScene>::value) { m_isGameplay = true; }
-		else { m_isGameplay = false; }
 	}
 	void DeleteNonActiveScenes();
 
@@ -63,7 +65,7 @@ private:
 	// scene variabless
 	CSceneBase* m_activeScene;
 	std::vector<CSceneBase *> m_scenesToDestroy;
-	bool m_isGameplay;
+	bool m_isJoinableScene;
 };
 
 #endif // __CGAME_MANAGER_H__

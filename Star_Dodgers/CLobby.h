@@ -6,6 +6,7 @@
 #include "CSceneBase.h"
 #include "IObserver.h"
 #include "CGamepad.h"
+#include <memory>
 #include <map>
 
 // forward declare
@@ -22,7 +23,7 @@ public:
 	void LateUpdate(float _fDeltaTime);
 
 	void TeamChange(int _team1, int _team2);
-	void NewPlayer(CPlayer* _player, int _controller);
+	void NewPlayer(std::shared_ptr<CPlayer> _player, int _controller);
 
 	void OnButtonInput(GamepadButtonEvent _event);
 
@@ -39,7 +40,7 @@ private:
 	sf::Sprite* m_back;
 	sf::Text* m_teamLabels[3] = { nullptr, nullptr, nullptr };
 	sf::VertexArray* m_teamSeperators[2] = { nullptr, nullptr };
-	std::map<CPlayer*, sf::Text*> m_playerReadyText;
+	std::map<std::shared_ptr<CPlayer>, sf::Text*> m_playerReadyText;
 
 	sf::Rect<float> m_lobby;             // the area where player icons are displayed
 	float m_lobbySegmentsLeft[3];     // position of lobby segement top left

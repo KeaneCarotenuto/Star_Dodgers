@@ -88,7 +88,7 @@ CLobby::CLobby()
 CLobby::~CLobby()
 {
 	// number of elements that will be removed from drawable is equal to 10 - title, subtitle ect.. plus the number of players
-	int desiredSize = CWindowUtilities::ToDrawList.size() - (10 + m_playerReadyText.size());
+	int desiredSize = CWindowUtilities::ToDrawList.size() - (10 + (m_playerReadyText.size() * 2));
 	int ele = -1; // element in toDrawList
 	while (CWindowUtilities::ToDrawList.size() > desiredSize)
 	{
@@ -109,8 +109,7 @@ CLobby::~CLobby()
 			continue;
 		}
 
-		// if any elements of m_playerReadyText are found on in ToDrawList, that element is erased
-		std::map<CPlayer*, sf::Text*>::iterator readyIter = m_playerReadyText.begin();
+		std::map<std::shared_ptr<CPlayer>, sf::Text*>::iterator readyIter = m_playerReadyText.begin();
 		while (readyIter != m_playerReadyText.end())
 		{
 			if (CWindowUtilities::ToDrawList[ele] == readyIter->second)
@@ -120,8 +119,43 @@ CLobby::~CLobby()
 				ele -= 1;
 				break;
 			}
-			++readyIter;
+			else
+			{
+				++readyIter;
+			}
 		}
+
+		if (readyIter == m_playerReadyText.end() && ((CWindowUtilities::ToDrawList.size() - CTeamsManager::GetInstance()->GetPlayerCount()) == desiredSize)) 
+		{ 
+			m_playerReadyText.clear(); 
+		}
+
+		/*
+		// if any elements of m_playerReadyText are found on in ToDrawList, that element is erased. also checks to see if the
+		// player icons also need to be removed
+		std::map<CPlayer*, sf::Text*>::iterator readyIter = m_playerReadyText.begin();
+		while (readyIter != m_playerReadyText.end())
+		{
+			if (CWindowUtilities::ToDrawList[ele] == readyIter->first->GetAimSprite())
+			{
+				iter += ele;
+				if (m_canLoadMenu)
+				{
+					CWindowUtilities::ToDrawList.erase(iter);
+					iter = CWindowUtilities::ToDrawList.begin() + ele;
+				}
+				CWindowUtilities::ToDrawList.erase(iter);
+				ele -= 1;
+				break;
+			}
+			else
+			{
+				++readyIter;
+				continue;
+			}
+			//++readyIter;
+		}
+		*/
 	}
 
 	delete m_title;               
@@ -151,7 +185,8 @@ CLobby::~CLobby()
 		m_teamSeperators[i] = 0;
 	}
 
-	m_playerReadyText.clear();
+	//m_playerReadyText.clear();
+
 	CTeamsManager::GetInstance()->RemoveObserver(this);
 }
 
@@ -240,10 +275,10 @@ void CLobby::TeamChange(int _team1, int _team2)
 			iter->second.get()->SetPosition({ xPos, yPos } );
 			iter->second.get()->SetSize(sf::Vector2f(playerSize, playerSize));
 
-			if (m_playerReadyText.find(iter->second.get()) == m_playerReadyText.end())
+			if (m_playerReadyText.find(iter->second) == m_playerReadyText.end())
 			{
 				// if text does not exist, then create text
-				NewPlayer(iter->second.get(), iter->second.get()->GetControllerIndex());
+				NewPlayer(iter->second, iter->second.get()->GetControllerIndex());
 			}
 
 			// ready status and text
@@ -259,31 +294,33 @@ void CLobby::TeamChange(int _team1, int _team2)
 			}
 
 			// set ready text string
-			m_playerReadyText.at(iter->second.get())->setString(readyStr);
+			m_playerReadyText.at(iter->second)->setString(readyStr);
 			// set ready text colour
 			sf::Color readyColour = (iter->second.get()->IsPlayerReady()) ? sf::Color::Green : sf::Color::Magenta;
-			m_playerReadyText.at(iter->second.get())->setFillColor(readyColour);
+			m_playerReadyText.at(iter->second)->setFillColor(readyColour);
 			// set ready text position
 			yPos += playerSize + 5.0f; // increase YPos by playerSize and textGap
-			float readyXPos = xPos + ((playerSize - m_playerReadyText.at(iter->second.get())->getGlobalBounds().width) / 2.0f);
-			m_playerReadyText.at(iter->second.get())->setPosition(readyXPos, yPos);
+			float readyXPos = xPos + ((playerSize - m_playerReadyText.at(iter->second)->getGlobalBounds().width) / 2.0f);
+			m_playerReadyText.at(iter->second)->setPosition(readyXPos, yPos);
 
 			// increase yPos and iter
 			yPos += yGap + 15.0f; // +15 to account for text
 			++iter;
 		}
+
+		if (_team1 == _team2) { return; } // ensures that data for team is not set twice
 	}
 }
 
 // this function adds elements to the playerReadyText map when a new player is added. also handles controller binding and adding drawables
-void CLobby::NewPlayer(CPlayer* _player, int _controller)
+void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 {
 	sf::Text* newText = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);
-	m_playerReadyText.insert(std::pair<CPlayer*, sf::Text*>(_player, newText));
+	m_playerReadyText.insert(std::pair<CPlayer*, sf::Text*>(_player.get(), newText));
 
 	CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
 
-	CWindowUtilities::Draw(_player->GetAimSprite());
+	CWindowUtilities::Draw(_player.get()->GetAimSprite());
 	CWindowUtilities::Draw(m_playerReadyText.at(_player));
 }
 
@@ -335,8 +372,8 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 			if (team != (int)Team::UNDECIDED)
 			{
 				playerPtr.get()->SetIsReady(true);
-				m_playerReadyText.at(playerPtr.get())->setString("   READY   ");
-				m_playerReadyText.at(playerPtr.get())->setFillColor(sf::Color::Green);
+				m_playerReadyText.at(playerPtr)->setString("   READY   ");
+				m_playerReadyText.at(playerPtr)->setFillColor(sf::Color::Green);
 			}
 			break;
 		}

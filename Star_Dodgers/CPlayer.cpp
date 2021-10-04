@@ -1,3 +1,5 @@
+#include <vector>
+#include <iterator>
 #include "CPlayer.h"
 #include "CBall.h"
 #include "CMath.h"
@@ -5,15 +7,18 @@
 
 #define PI 3.14159265f
 
-CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos)
+CPlayer::CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vector2f _pos)
 {
-	SetController(_controllerIndex);
+	m_aimSprite = new sf::Sprite();
+	m_velocitySprite = new sf::Sprite();
+
+	SetController(_controllerNum);
 	SetAimSprite(_texName);
 	SetTeam(_team);
 
 	//m_aimSprite->setOrigin(0, 0);
 	m_velocitySprite->setTexture(*CResourceHolder::GetTexture("Move_Direction.png"));
-	m_velocitySprite->setScale(0.2, 0.2);
+	m_velocitySprite->setScale(0.2f, 0.2f);
 	m_velocitySprite->setOrigin(m_velocitySprite->getLocalBounds().width / 2.0f, m_velocitySprite->getLocalBounds().height / 2.0f);
 	m_aimSprite->setPosition(_pos);
 	m_aimSprite->setOrigin(m_aimSprite->getLocalBounds().width / 2.0f, m_aimSprite->getLocalBounds().height / 2.0f);
@@ -39,15 +44,22 @@ CPlayer::~CPlayer()
 
 	if (playerDrawables.size() == 2)
 	{
+		int mod = (playerDrawables[0] > playerDrawables[1]) ? 0 : 1;
 		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[0]);
-		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[1] - 1);
+		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[1] - mod);
 	}
 	else if (playerDrawables.size() == 1)
 	{
 		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[0]);
 	}
 
-	m_shouldDelete = true;
+	//m_shouldDelete = true;
+
+	/*delete m_aimSprite;
+	m_aimSprite = 0;
+
+	delete m_velocitySprite;
+	m_velocitySprite = 0;*/
 }
 
 void CPlayer::Update(float _fDeltaTime)
@@ -128,12 +140,12 @@ void CPlayer::FixedUpdate()
 
 void CPlayer::LateUpdate(float _fDeltaTime)
 {
-	//if (m_shouldDelete) { m_controller.~shared_ptr(); }
+	
 }
 
 void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 {
-	if (_event.gamepadIndex != m_controller->GetIndex())
+	if (_event.gamepadIndex != m_controller->GetGamepadIndex())
 		return;
 
 	int xpos = 3;

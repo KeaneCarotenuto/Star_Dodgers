@@ -15,7 +15,7 @@ CGameManager::CGameManager()
 
 	// scene currently running - controls which objects are added to CObjectController to be updated
 	m_activeScene = nullptr;
-	m_isGameplay = false;  // is scene main game mode
+	m_isJoinableScene = true;  // can players join the game during this scene
 }
 
 CGameManager::~CGameManager() 
@@ -47,18 +47,32 @@ void CGameManager::Initialise()
 			if (sf::Joystick::isConnected(joystick)) 
 			{
 				// assigns connected controller to a CGamepad object
-				AddController();
+				//AddController();
+				OnJoystickConnect(joystick);
 			}
 		}
 	}
 }
 
-// adds controller to m_connectedController vector
-void CGameManager::AddController()
+// this function manages the event of a joystick connecting to the game and calls notify watchers. manages situations such as player reconnecting controller
+// and new controllers connecting to game.
+void CGameManager::OnJoystickConnect(int _jsID)
 {
-	CGamepad* newController = new CGamepad(m_controllerCount);
-	if (sf::Joystick::isConnected(m_controllerCount))
+	for (int i = 0; i < m_controllerCount; i++)
 	{
+		if (_jsID == m_connectedControllers[i].get()->GetGamepadIndex())
+		{
+			// reconnect
+			NotifyObservers(m_controllerCount, true);
+			std::cout << "controller[" << _jsID << "] was reconnected." << std::endl;
+			return;
+		}
+	}
+
+	// if there is a free player spot avaliable add new controller/player
+	if (m_controllerCount < 4)
+	{
+		CGamepad* newController = new CGamepad(_jsID);
 		// this ensures that there is a valid sf::Joystick to link the controller to before it is added to the vector
 		m_connectedControllers.push_back(std::shared_ptr<CGamepad>(newController));
 		NotifyObservers(m_controllerCount, true);
@@ -70,25 +84,37 @@ void CGameManager::AddController()
 		}
 		m_controllerCount++; // increase controllerCount as this controller has been assigned to a CGamepad object
 	}
+	else
+	{
+		// error message about too many controllers
+		std::cout << "error: cannot add new controller as max player limit has been reached." << std::endl;
+	}
 }
 
-// checks which controller is disconnected and call notify watchers
-void CGameManager::ControllerDisconnected()
+// this function is used to manage controllers disconnecting from game and calls notify watchers
+void CGameManager::OnJoystickDisconnect(int _jsID)
 {
-	for (int cont = 0; cont < m_controllerCount; cont++)
-	{
-		if (!sf::Joystick::isConnected(cont))
-		{
-			NotifyObservers(cont, m_isGameplay);
+	std::cout << "controller[" << _jsID << "] was disconnected.";
 
-			// completely remove controller if not in gameplayMode
-			if (m_isGameplay == false) 
-			{ 
-				m_connectedControllers.erase(m_connectedControllers.begin() + cont); 
+	for (int i = 0; i < m_controllerCount; i++)
+	{
+		if (_jsID == m_connectedControllers[i].get()->GetGamepadIndex())
+		{
+			NotifyObservers(i, false);
+
+			// completely remove controller if in a joinable scene
+			if (m_isJoinableScene == true)
+			{
+				m_connectedControllers.erase(m_connectedControllers.begin() + i);
 				m_controllerCount -= 1;
 			}
+
+			break;
 		}
 	}
+	std::cout << std::endl;
+
+	// reset master controller in event current master controller disconnects
 }
 
 // this function returns m_controllerCount
@@ -143,7 +169,7 @@ void CGameManager::RemoveObserver(IObserver* _observer)
 }
 
 // this function notifies/updates all the observers of the m_connectedControllers vector
-void CGameManager::NotifyObservers(int _controllerIndex, bool _isConnected)
+void CGameManager::NotifyObservers(int _controllerNum, bool _isConnected)
 {
 	std::vector<unsigned int> nullElements;
 
@@ -155,7 +181,7 @@ void CGameManager::NotifyObservers(int _controllerIndex, bool _isConnected)
 		}
 		else
 		{
-			m_observers[ele]->JoystickStatusChange(m_isGameplay, _controllerIndex, _isConnected);
+			m_observers[ele]->JoystickStatusChange(m_isJoinableScene, _controllerNum, _isConnected);
 		}
 	}
 
