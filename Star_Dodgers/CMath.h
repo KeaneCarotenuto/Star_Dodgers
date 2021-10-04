@@ -30,6 +30,11 @@ namespace cmath {
 		return _deg / (180.0f / (float)M_PI);
 	}
 
+	template <typename T>
+	static T Clamp(const T& n, const T& lower, const T& upper) {
+		return std::max(lower, std::min(n, upper));
+	}
+
 	static sf::Vector2f Rotate(sf::Vector2f _a, float _degrees) {
 
 		float theta = Radians(_degrees);

@@ -103,6 +103,14 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 			break;
 		}
 	}
+	case Button::SOUTH:
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			m_startTime = cmath::g_clock->getElapsedTime().asSeconds();
+			break;
+		}
+	}
 	}
 }
 
@@ -112,7 +120,11 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 /// <param name="_fDeltaTime">Time since last update</param>
 void CControlsMenu::Update(float _fDeltaTime)
 {
+	sf::Vector2f center = sf::Vector2f(1920 / 2, 1080 / 2);
+	sf::Vector2f left = sf::Vector2f(0, 1080 / 2);
+	sf::Vector2f right = sf::Vector2f(1920, 1080 / 2);
 	
+	m_pageOneHeader->setPosition( Lerp(fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0), center, left));
 	//std::cout << "Loaded";
 }
 

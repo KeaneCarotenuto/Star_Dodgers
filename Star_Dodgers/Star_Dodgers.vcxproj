@@ -157,7 +157,9 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CResourceHolder.cpp" />
     <ClCompile Include="CTeamsManager.cpp" />
+    <ClCompile Include="CUIBar.cpp" />
     <ClCompile Include="EasySFML.cpp" />
+    <ClCompile Include="IUIElement.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,10 +175,12 @@
     <ClInclude Include="CResourceHolder.h" />
     <ClInclude Include="CSceneBase.h" />
     <ClInclude Include="CTeamsManager.h" />
+    <ClInclude Include="CUIBar.h" />
     <ClInclude Include="EasySFML.h" />
     <ClInclude Include="IObservable.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="IGamepadInput.h" />
+    <ClInclude Include="IUIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CPrint.h" />

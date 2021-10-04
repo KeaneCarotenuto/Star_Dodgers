@@ -40,9 +40,14 @@ public:
 private:
 	sf::Text* m_pageOneHeader;
 	sf::Text* m_pageOneText;
+
 	sf::Text* m_pageTwoHeader;
 	sf::Text* m_pageTwoText;
+
 	sf::Text* m_returnPrompt;
+
+	float m_startTime = -1.0;
+	float m_animDuration = 2.0;
 
 	sf::Vector2f Lerp(float _fPercentCompleted, sf::Vector2f _vec2fOrigin, sf::Vector2f _vec2fDestination);
 };
