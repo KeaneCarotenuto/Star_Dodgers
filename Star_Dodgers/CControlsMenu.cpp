@@ -28,6 +28,7 @@ CControlsMenu::CControlsMenu()
 	m_pageOneHeader = new sf::Text("Controls", *font);
 	m_pageOneHeader->setPosition(50, 50);
 	m_pageOneHeader->setFillColor(sf::Color::White);
+	m_pageOneHeader->setOrigin(sf::Vector2f(m_pageOneHeader->getGlobalBounds().width / 2, m_pageOneHeader->getGlobalBounds().height / 2));
 
 	// create the controls text
 	m_pageOneText = new sf::Text("Left joystick moves the player \nRight joystick aims the ball \nRight trigger charges throw \nRight bumper quickly throws \nSquare curves to the left \nCircle curves to the right \nTriangle throws fast ball \nX performs a quick dash", *font);
@@ -108,6 +109,7 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			m_startTime = cmath::g_clock->getElapsedTime().asSeconds();
+			m_menuOption = (m_menuOption + 1) % 4;
 			break;
 		}
 	}
@@ -123,8 +125,24 @@ void CControlsMenu::Update(float _fDeltaTime)
 	sf::Vector2f center = sf::Vector2f(1920 / 2, 1080 / 2);
 	sf::Vector2f left = sf::Vector2f(0, 1080 / 2);
 	sf::Vector2f right = sf::Vector2f(1920, 1080 / 2);
+	switch (m_menuOption)
+	{
+	case 0:
+		m_pageOneHeader->setPosition(Lerp(fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0), right, center));
+		break;
+	case 1:
+		m_pageOneHeader->setPosition(Lerp(fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0), center, left));
+		break;
+	case 2:
+		m_pageOneHeader->setPosition(Lerp(fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0), left, center));
+		break;
+	case 3:
+		m_pageOneHeader->setPosition(Lerp(fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0), center, right));
+		break;
+	default:
+		break;
+	}
 	
-	m_pageOneHeader->setPosition( Lerp(fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0), center, left));
 	//std::cout << "Loaded";
 }
 

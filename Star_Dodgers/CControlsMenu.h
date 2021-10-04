@@ -46,6 +46,7 @@ private:
 
 	sf::Text* m_returnPrompt;
 
+	int m_menuOption = 0;
 	float m_startTime = -1.0;
 	float m_animDuration = 2.0;
 
