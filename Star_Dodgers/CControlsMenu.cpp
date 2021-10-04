@@ -1,8 +1,26 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//----------------------------------------------------------
+// (c) 2021 Media Design School
+//==========================================================
+//   File Name  : CControlsMenu.cpp
+//----------------------------------------------------------
+//  Description : Creates a menu to show the player the controls and the rules of the game
+//----------------------------------------------------------
+//    Author    : Jacob Sullivan
+//----------------------------------------------------------
+//    E-mail    : Jacob.Sullivan@mds.ac.nz
+//==========================================================
 #include "CControlsMenu.h"
 
+/// <summary>
+/// Creates the controls menu and all needed variables 
+/// <para>Author: Jacob</para>
+/// </summary>
 CControlsMenu::CControlsMenu()
 {
-
 	// get font
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
 
@@ -42,6 +60,10 @@ CControlsMenu::CControlsMenu()
 	CGameManager::GetInstance()->GetMasterController()->Bind(dynamic_cast<IGamepadInput*>(this), "ControlsMenu");
 }
 
+/// <summary>
+/// Destroys all of the function 
+/// <para>Author: Jacob</para>
+/// </summary>
 CControlsMenu::~CControlsMenu()
 {
 	for (unsigned int ele = 0; ele < CWindowUtilities::ToDrawList.size(); ele++)
@@ -64,6 +86,10 @@ CControlsMenu::~CControlsMenu()
 	delete m_returnPrompt;
 }
 
+/// <summary>
+/// This handles input in this scene from the main player
+/// </summary>
+/// <param name="_event">Gamepad button input</param>
 void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 {
 	switch (_event.button)
@@ -80,15 +106,27 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 	}
 }
 
+/// <summary>
+/// Update this scene
+/// </summary>
+/// <param name="_fDeltaTime">Time since last update</param>
 void CControlsMenu::Update(float _fDeltaTime)
 {
 	//std::cout << "Loaded";
 }
 
+/// <summary>
+/// Updates with the physics
+/// </summary>
+/// <param name="_fDeltaTime">Time since last update</param>
 void CControlsMenu::FixedUpdate()
 {
 }
 
+/// <summary>
+/// Late update this scene
+/// </summary>
+/// <param name="_fDeltaTime">Time since last late update</param>
 void CControlsMenu::LateUpdate(float _fDeltaTime)
 {
 }

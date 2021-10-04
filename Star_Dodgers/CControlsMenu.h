@@ -1,3 +1,19 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//----------------------------------------------------------
+// (c) 2021 Media Design School
+//==========================================================
+//   File Name  : CControlsMenu.h
+//----------------------------------------------------------
+//  Description : Creates a menu to show the player the controls and the rules of the game
+//----------------------------------------------------------
+//    Author    : Jacob Sullivan
+//----------------------------------------------------------
+//    E-mail    : Jacob.Sullivan@mds.ac.nz
+//==========================================================
+
 #pragma once
 
 #ifndef __CControlsMenu_H__
@@ -12,9 +28,7 @@
 class CControlsMenu : public CSceneBase
 {
 public:
-	//creates the controls menu and all needed variables 
 	CControlsMenu();
-
 	~CControlsMenu();
 
 	void OnButtonInput(GamepadButtonEvent _event);
@@ -23,16 +37,10 @@ public:
 	void LateUpdate(float _fDeltaTime);
 
 private:
-	// text drawn on the controls page
-	sf::Text* m_controlsText;
 	sf::Text* m_controlsHeader;
-
-	// text drawn on the rules page
-	sf::Text* m_rulesText;
+	sf::Text* m_controlsText;
 	sf::Text* m_rulesHeader;
-
-	// prompt to return to main menu
+	sf::Text* m_rulesText;
 	sf::Text* m_returnPrompt;
 };
-
 #endif
