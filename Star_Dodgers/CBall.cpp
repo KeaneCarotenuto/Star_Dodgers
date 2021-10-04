@@ -26,6 +26,20 @@ CBall::~CBall()
 	}
 }
 
+CBall* CBall::GetClosestBall(sf::Vector2f _point)
+{
+	CBall* closest = nullptr;
+
+	for (CBall* _ball : m_allBalls) {
+		if (!_ball) continue;
+		if (!closest || cmath::Distance(_ball->GetPosition(), _point) < cmath::Distance(closest->GetPosition(), _point)) {
+			closest = _ball;
+		}
+	}
+
+	return closest;
+}
+
 void CBall::Update(float _fDeltaTime)
 {
 	
@@ -120,8 +134,6 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 {
 	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
-		SetVelocity({ 0,0 });
-
 		if (m_isWinningBall) {
 			std::cout << (GetOwnerTeam() == Team::BLUE ? "BLUE" : "RED") << " team wins! (Need to hook this up to winning a losing)";
 

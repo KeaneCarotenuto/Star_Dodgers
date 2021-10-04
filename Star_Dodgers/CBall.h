@@ -22,6 +22,7 @@ public:
 	~CBall();
 
 	static std::vector<CBall*> GetAllBalls() { return m_allBalls; };
+	static CBall* GetClosestBall(sf::Vector2f _point);
 
 	void Update(float _fDeltaTime);
 	void FixedUpdate();
