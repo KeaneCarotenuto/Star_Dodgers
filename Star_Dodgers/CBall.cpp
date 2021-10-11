@@ -21,9 +21,9 @@ CBall::CBall()
 
 CBall::~CBall()
 {
-	std::vector<sf::Drawable*>::iterator position = std::find(CWindowUtilities::ToDrawList.begin(), CWindowUtilities::ToDrawList.end(), m_sprite);
-	if (position != CWindowUtilities::ToDrawList.end()) {
-		CWindowUtilities::ToDrawList.erase(position);
+	std::vector<sf::Drawable*>::iterator position = std::find(CWindowUtilities::m_drawList.begin(), CWindowUtilities::m_drawList.end(), m_sprite);
+	if (position != CWindowUtilities::m_drawList.end()) {
+		CWindowUtilities::m_drawList.erase(position);
 	}
 	delete m_sprite;
 
