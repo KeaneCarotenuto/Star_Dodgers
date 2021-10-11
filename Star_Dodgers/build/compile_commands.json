@@ -56,6 +56,11 @@
 },
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CUIImage.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CUIImage.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CUIImage.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
   "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/EasySFML.cpp",
   "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/EasySFML.cpp"
 },

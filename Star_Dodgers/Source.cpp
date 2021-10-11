@@ -71,14 +71,14 @@ int main()
 
 		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
-		{
+    { 
 			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
 		}
 		UIManager::Draw();
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-
+    
 		
 
 		CGameManager::GetInstance()->DeleteNonActiveScenes();

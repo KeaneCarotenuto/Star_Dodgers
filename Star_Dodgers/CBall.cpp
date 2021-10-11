@@ -17,6 +17,7 @@ CBall::CBall()
 	CWindowUtilities::Draw(GetSprite());
 
 	m_allBalls.push_back(this);
+  
 }
 
 CBall::~CBall()
@@ -91,6 +92,7 @@ void CBall::FixedUpdate()
 				SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
 				break;
 
+
 			case ThrowStyle::None:
 
 				break;
@@ -103,6 +105,7 @@ void CBall::FixedUpdate()
 		//Update velocity and pos
 		SetVelocity(GetVelocity() + GetAcceleration());
 		SetPosition(GetPosition() + GetVelocity());
+    
 	}
 	else {
 		//If player is holding ball, follow player
@@ -170,6 +173,7 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 			CTeamsManager::GetInstance()->ResetScore(Team::BLUE);
 			CTeamsManager::GetInstance()->ResetScore(Team::RED);
+      
 		}
 		else {
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);

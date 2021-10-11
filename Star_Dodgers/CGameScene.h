@@ -18,9 +18,12 @@ public:
 	void LateUpdate(float _fDeltaTime);
 	void OnButtonInput(GamepadButtonEvent _event);
 	float f = 0.0f;
+	
 
 private:
 	std::vector<int> m_controllerIndex;
+	CUIBar* m_redScore, *m_blueScore;
+	CUIImage* m_uiFrameImg;
 };
 
 #endif  // __CGAME_SCENE_H__

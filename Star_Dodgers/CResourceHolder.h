@@ -25,6 +25,9 @@ public:
 	static sf::Texture* GetTexture(std::string _name);
 	static void CreateFont(std::string _name);
 	static sf::Font* GetFont(std::string _name);
+	static void CreateShader(std::string _name, std::string _vertexName, std::string _fragmentName);
+	static void CreateShader(std::string _name, sf::Shader::Type _type);
+	static sf::Shader* GetShader(std::string _name);
 
 	// sound assets too maybe
 
@@ -33,6 +36,7 @@ private:
 	static std::map<std::string, sf::Image*> m_imageMap;
 	static std::map<std::string, sf::Texture*> m_textureMap;
 	static std::map<std::string, sf::Font*> m_fontMap;
+	static std::map<std::string, sf::Shader*> m_shaderMap;
 };
 
 #endif  // __CRESOURCE_HOLDER_H__

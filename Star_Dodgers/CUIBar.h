@@ -5,10 +5,11 @@
 class CUIBar : public IUIElement
 {
 public:
-    CUIBar(int _Zindex, float& _valueToTrack, sf::Vector2f _position, sf::Vector2f _scale, float _rotation, sf::Texture* _barTex, sf::Texture* _bgTex);
+    CUIBar(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, float _rotation, sf::Texture* _barTex, sf::Texture* _bgTex);
+    void SetFill(float _max, float _val);
 private:
     void DrawUI(sf::RenderWindow* _window);
-    float& m_value;
+    float m_value;
     sf::Sprite m_bgSprite;
     sf::Sprite m_barSprite;
 

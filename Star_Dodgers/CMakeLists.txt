@@ -22,4 +22,6 @@ target_link_libraries(Star_Dodgers sfml-graphics sfml-window sfml-system )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CPack)

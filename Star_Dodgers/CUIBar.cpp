@@ -1,8 +1,9 @@
 #include "CUIBar.h"
 
-CUIBar::CUIBar(int _Zindex, float& _valueToTrack, sf::Vector2f _position, sf::Vector2f _scale, float _rotation, sf::Texture* _barTex, sf::Texture* _bgTex) : m_value(_valueToTrack) 
+CUIBar::CUIBar(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, float _rotation, sf::Texture* _barTex, sf::Texture* _bgTex) 
 {
     SetZIndex(_Zindex);
+    m_value = 0.0f;
     m_barSprite.setTexture(*_barTex);
     m_bgSprite.setTexture(*_bgTex);
     m_bgSprite.setPosition(_position);
@@ -21,4 +22,15 @@ void CUIBar::DrawUI(sf::RenderWindow* _window) {
     
     _window->draw(m_barSprite);
     _window->draw(m_bgSprite);
+}
+
+void CUIBar::SetFill(float _max, float _val) 
+{
+    if (_val == 0.0f || _max == 0.0f)
+    {
+        m_value = 0.0f;
+        return;
+    }
+    
+    m_value = _val/_max;
 }
