@@ -99,6 +99,9 @@
     <ClCompile Include="CUIBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CUIImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGamepad.h">
@@ -153,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CUIBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

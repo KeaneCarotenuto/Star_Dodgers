@@ -12,7 +12,7 @@ CBall::CBall()
 {
 	SetSprite("Ball.png");
 	SetPosition(sf::Vector2f(0.0f, 0.0f));
-	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f , m_sprite->getLocalBounds().height / 2.0f);
+	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f, m_sprite->getLocalBounds().height / 2.0f);
 
 	CWindowUtilities::Draw(GetSprite());
 
@@ -21,8 +21,18 @@ CBall::CBall()
 
 CBall::~CBall()
 {
-	std::vector<CBall*>::iterator it = std::find(GetAllBalls().begin(), GetAllBalls().end(), this);
-	if (it != GetAllBalls().end()) {
+	std::vector<sf::Drawable*>::iterator position = std::find(CWindowUtilities::ToDrawList.begin(), CWindowUtilities::ToDrawList.end(), m_sprite);
+	if (position != CWindowUtilities::ToDrawList.end()) {
+		CWindowUtilities::ToDrawList.erase(position);
+	}
+	delete m_sprite;
+
+	for (CBall* _child : m_childBalls) {
+		CObjectController::Destroy(_child);
+	}
+
+	std::vector<CBall*>::iterator it = std::find(m_allBalls.begin(), m_allBalls.end(), this);
+	if (it != m_allBalls.end()) {
 		m_allBalls.erase(it);
 	}
 	else {
@@ -52,7 +62,7 @@ CBall* CBall::GetClosestBall(sf::Vector2f _point)
 
 void CBall::Update(float _fDeltaTime)
 {
-	
+
 }
 
 /// <summary>
@@ -70,33 +80,74 @@ void CBall::FixedUpdate()
 		AllPlayerCollision();
 
 		//Update accel
-		m_acceleration = - GetVelocity() * 0.01f;
+		m_acceleration = -GetVelocity() * 0.01f;
 
+		//depending on the ball type, perform some movement
+		PerformThrowStyle();
+
+		PerformPower();
+
+		//Update velocity and pos
+		SetVelocity(GetVelocity() + GetAcceleration());
+		SetPosition(GetPosition() + GetVelocity());
+	}
+	else {
+		//If player is holding ball, follow player
+		SetPosition(m_holder->GetPosition());
+	}
+}
+
+void CBall::PerformThrowStyle()
+{
+	switch (m_throwStyle)
+	{
+	case ThrowStyle::Fastball:
+		m_acceleration = { 0,0 };
+		break;
+	case ThrowStyle::LeftCurve:
+		SetVelocity(cmath::Rotate(GetVelocity(), -1.5f));
+		break;
+	case ThrowStyle::RightCurve:
+		SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
+		break;
+
+	case ThrowStyle::None:
+
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CBall::PerformPower()
+{
+
+	switch (m_power)
+	{
+	case CBall::BallPower::None:
 		//If ball is slow enough, come to a stop
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
 			ResetBall();
 		}
-		else
-		{
-			//Otherwise, depending on the ball type, perform some movement
-			switch (m_throwStyle)
-			{
-			case ThrowStyle::Fastball:
-				m_acceleration = { 0,0 };
-				break;
-			case ThrowStyle::LeftCurve:
-				SetVelocity(cmath::Rotate(GetVelocity(), -1.5f));
-				break;
-			case ThrowStyle::RightCurve:
-				SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
-				break;
+		break;
 
-			case ThrowStyle::None:
+	case CBall::BallPower::Homing:
+		break;
 
-				break;
+	case CBall::BallPower::Exploding:
+		break;
 
-			default:
-				break;
+	case CBall::BallPower::BulletHell:
+		//If ball is slow enough, come to a stop
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			SetVelocity({ 0.0f, 0.0f });
+			SetAcceleration({ 0.0f, 0.0f });
+
+			//For the first time, activate power
+			if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
+				m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
+				m_powerDuration = 4.0f;
 			}
 		}
 
@@ -109,15 +160,15 @@ void CBall::FixedUpdate()
 				//spawn a ball every so often, and shoot it at some angle based on time
 
 				static bool canSpawn = true;
-				float sinVal = sin(float(M_PI)/2.0f + cmath::g_clock->getElapsedTime().asSeconds() * 40.0f);
-				
+				float sinVal = sin(float(M_PI) / 2.0f + cmath::g_clock->getElapsedTime().asSeconds() * 40.0f);
+
 				//Spawn ball, then wait to be allowed to spawn again. Using sine waves to time it.
 				if (canSpawn && sinVal >= 0.5f)
 				{
 					canSpawn = false;
 					CBall* childBall = new CBall();
 					childBall->SetPosition(GetPosition());
-					childBall->SetVelocity({cos(cmath::g_clock->getElapsedTime().asSeconds()), sin(cmath::g_clock->getElapsedTime().asSeconds()) });
+					childBall->SetVelocity({ cos(cmath::g_clock->getElapsedTime().asSeconds()), sin(cmath::g_clock->getElapsedTime().asSeconds()) });
 					childBall->m_canPickup = false;
 					childBall->SetOwnerTeam(m_ownerTeam);
 
@@ -126,7 +177,7 @@ void CBall::FixedUpdate()
 				else if (sinVal <= -0.5f) {
 					canSpawn = true;
 				}
-				
+
 			}
 			else {
 				//Stop powerups
@@ -141,11 +192,12 @@ void CBall::FixedUpdate()
 				ResetBall();
 			}
 		}
-		
 
-		
 
-	
+		break;
+
+	default:
+		break;
 	}
 }
 
@@ -312,12 +364,13 @@ void CBall::SpecificPlayerInteractions(CPlayer* _player)
 /// <param name="_player"></param>
 void CBall::TryCatch(CPlayer* _player)
 {
+	if (!m_canPickup) return;
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryCatch> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
 	if (m_ownerTeam == Team::UNDECIDED || m_ownerTeam == _player->GetTeam()) return;
 
 	if (cmath::Distance(_player->GetPosition(), this->GetPosition()) <= m_catchRadius) {
-		m_power = CBall::BallPower::Homing;
+		m_power = CBall::BallPower::BulletHell;
 		ForcePickup(_player);
 	}
 	else {
@@ -332,6 +385,7 @@ void CBall::TryCatch(CPlayer* _player)
 /// <param name="_player"></param>
 void CBall::TryPickup(CPlayer* _player)
 {
+	if (!m_canPickup) return;
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryPickup> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
 	if (m_ownerTeam != Team::UNDECIDED && m_ownerTeam != _player->GetTeam()) return;
@@ -416,9 +470,9 @@ void CBall::Throw(float _speed)
 		}
 	}
 	else {
-		SetVelocity({(float) ( 5 - rand() % 10), (float)(5 - rand() % 10) });
+		SetVelocity({ (float)(5 - rand() % 10), (float)(5 - rand() % 10) });
 	}
-	
+
 
 	m_holder = nullptr;
 }
