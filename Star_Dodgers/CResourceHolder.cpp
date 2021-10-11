@@ -19,6 +19,7 @@ void CResourceHolder::Initialise()
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 
 	m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080 - titlebarHeight - taskbarBeight, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::Default);
+	m_window->setFramerateLimit(60);
 	m_window->setPosition({ 0, 0 });
 	m_window->requestFocus();
 
