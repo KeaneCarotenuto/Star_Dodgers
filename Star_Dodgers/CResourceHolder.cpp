@@ -49,6 +49,7 @@ void CResourceHolder::Initialise()
 	CreateFont("comic.ttf");
 
 	CreateShader("starry.glsl", sf::Shader::Fragment);
+	CreateShader("screenshake.glsl", sf::Shader::Fragment);
 
 	
 	

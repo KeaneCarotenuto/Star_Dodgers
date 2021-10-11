@@ -29,7 +29,8 @@ void main( void )
 
 
     float isStar = (pow(rand(fpos), 100.0 / iDensity)) * sin((iTime/(100.0/iSpeed)) * (rand(filteredRes) * (3.14159)));
-	gl_FragColor = vec4(isStar, isStar, isStar, 1.0);
+    float nebula = (rand(fpos) * sin((rand(filteredRes) * (3.14159)))) * 0.1;
+	gl_FragColor = vec4(max(isStar, nebula), isStar, max(isStar, nebula * 2.0), 1.0);
     
 }
 	
