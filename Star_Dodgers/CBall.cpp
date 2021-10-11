@@ -144,19 +144,25 @@ void CBall::PerformPower()
 			SetVelocity({ 0.0f, 0.0f });
 			SetAcceleration({ 0.0f, 0.0f });
 
+			//For the first time, activate power
 			if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
 				m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
 				m_powerDuration = 4.0f;
 			}
 		}
 
+		//If the power is active
 		if (m_powerActivationTime != -INFINITY && m_powerDuration != -INFINITY) {
+
+			//if the power still has time
 			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
 
-				static bool canSpawn = true;
+				//spawn a ball every so often, and shoot it at some angle based on time
 
+				static bool canSpawn = true;
 				float sinVal = sin(float(M_PI)/2.0f + cmath::g_clock->getElapsedTime().asSeconds() * 40.0f);
 				
+				//Spawn ball, then wait to be allowed to spawn again. Using sine waves to time it.
 				if (canSpawn && sinVal >= 0.5f)
 				{
 					canSpawn = false;
@@ -174,6 +180,7 @@ void CBall::PerformPower()
 				
 			}
 			else {
+				//Stop powerups
 				m_powerActivationTime = -INFINITY;
 				m_powerDuration = -INFINITY;
 
