@@ -10,8 +10,5 @@ CUIImage::CUIImage(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, flo
 }
 
 void CUIImage::DrawUI(sf::RenderWindow* _window) {
-    CResourceHolder::GetShader("starry.glsl")->setUniform("iTime", cmath::g_clock->getElapsedTime().asSeconds());
-    CResourceHolder::GetShader("starry.glsl")->setUniform("iResolution", sf::Vector2f{1920.0f, 1080.0f});
-
-    _window->draw(m_Sprite, CResourceHolder::GetShader("starry.glsl"));
+    _window->draw(m_Sprite);
 }

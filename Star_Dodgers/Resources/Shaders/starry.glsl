@@ -3,7 +3,7 @@ precision mediump float;
 #endif
 
 
-uniform float iResolution;
+uniform vec2 iResolution;
 uniform float iTime;
 //uniform float iTimeDelta
 

@@ -88,13 +88,13 @@ CLobby::CLobby()
 CLobby::~CLobby()
 {
 	std::vector<sf::Drawable*> erase;
-	for (unsigned int ele = 0; ele < CWindowUtilities::ToDrawList.size(); ele++)
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
 	{
-		if (CWindowUtilities::ToDrawList[ele] == m_title)
+		if (CWindowUtilities::m_drawList[ele] == m_title)
 		{
 			// if title text is found in ToDrawList, create an iterator pointing to the position of the title then
 			// erase the element at the iterator and all the elements up to the last team seperator are erased
-			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::ToDrawList.begin() + ele;
+			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
 			erase.insert(erase.begin(), iter, iter + 10);
 			ele += 10;
 		}
@@ -103,7 +103,7 @@ CLobby::~CLobby()
 		std::map<CPlayer*, sf::Text*>::iterator readyIter = m_playerReadyText.begin();
 		while (readyIter != m_playerReadyText.end())
 		{
-			if (CWindowUtilities::ToDrawList[ele] == readyIter->second)
+			if (CWindowUtilities::m_drawList[ele] == readyIter->second)
 			{
 				erase.push_back(readyIter->second);
 				break;
