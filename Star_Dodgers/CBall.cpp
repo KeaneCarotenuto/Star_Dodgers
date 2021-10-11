@@ -21,8 +21,18 @@ CBall::CBall()
 
 CBall::~CBall()
 {
-	std::vector<CBall*>::iterator it = std::find(GetAllBalls().begin(), GetAllBalls().end(), this);
-	if (it != GetAllBalls().end()) {
+	std::vector<sf::Drawable*>::iterator position = std::find(CWindowUtilities::ToDrawList.begin(), CWindowUtilities::ToDrawList.end(), m_sprite);
+	if (position != CWindowUtilities::ToDrawList.end()) {
+		CWindowUtilities::ToDrawList.erase(position);
+	}
+	delete m_sprite;
+
+	for (CBall* _child : m_childBalls) {
+		CObjectController::Destroy(_child);
+	}
+
+	std::vector<CBall*>::iterator it = std::find(m_allBalls.begin(), m_allBalls.end(), this);
+	if (it != m_allBalls.end()) {
 		m_allBalls.erase(it);
 	}
 	else {
@@ -72,33 +82,10 @@ void CBall::FixedUpdate()
 		//Update accel
 		m_acceleration = - GetVelocity() * 0.01f;
 
-		//If ball is slow enough, come to a stop
-		if (cmath::Mag(GetVelocity()) <= 0.25f) {
-			ResetBall();
-		}
-		else
-		{
-			//Otherwise, depending on the ball type, perform some movement
-			switch (m_throwStyle)
-			{
-			case ThrowStyle::Fastball:
-				m_acceleration = { 0,0 };
-				break;
-			case ThrowStyle::LeftCurve:
-				SetVelocity(cmath::Rotate(GetVelocity(), -1.5f));
-				break;
-			case ThrowStyle::RightCurve:
-				SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
-				break;
+		//depending on the ball type, perform some movement
+		PerformThrowStyle();
 
-			case ThrowStyle::None:
-
-				break;
-
-			default:
-				break;
-			}
-		}
+		PerformPower();
 
 		//Update velocity and pos
 		SetVelocity(GetVelocity() + GetAcceleration());
@@ -107,6 +94,103 @@ void CBall::FixedUpdate()
 	else {
 		//If player is holding ball, follow player
 		SetPosition(m_holder->GetPosition());
+	}
+}
+
+void CBall::PerformThrowStyle()
+{
+	switch (m_throwStyle)
+	{
+	case ThrowStyle::Fastball:
+		m_acceleration = { 0,0 };
+		break;
+	case ThrowStyle::LeftCurve:
+		SetVelocity(cmath::Rotate(GetVelocity(), -1.5f));
+		break;
+	case ThrowStyle::RightCurve:
+		SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
+		break;
+
+	case ThrowStyle::None:
+
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CBall::PerformPower()
+{
+
+	switch (m_power)
+	{
+	case CBall::BallPower::None:
+		//If ball is slow enough, come to a stop
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			ResetBall();
+		}
+		break;
+
+	case CBall::BallPower::Homing:
+		break;
+
+	case CBall::BallPower::Exploding:
+		break;
+
+	case CBall::BallPower::BulletHell:
+		//If ball is slow enough, come to a stop
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			SetVelocity({ 0.0f, 0.0f });
+			SetAcceleration({ 0.0f, 0.0f });
+
+			if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
+				m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
+				m_powerDuration = 4.0f;
+			}
+		}
+
+		if (m_powerActivationTime != -INFINITY && m_powerDuration != -INFINITY) {
+			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
+
+				static bool canSpawn = true;
+
+				float sinVal = sin(float(M_PI)/2.0f + cmath::g_clock->getElapsedTime().asSeconds() * 40.0f);
+				
+				if (canSpawn && sinVal >= 0.5f)
+				{
+					canSpawn = false;
+					CBall* childBall = new CBall();
+					childBall->SetPosition(GetPosition());
+					childBall->SetVelocity({cos(cmath::g_clock->getElapsedTime().asSeconds()), sin(cmath::g_clock->getElapsedTime().asSeconds()) });
+					childBall->m_canPickup = false;
+					childBall->SetOwnerTeam(m_ownerTeam);
+
+					m_childBalls.push_back(childBall);
+				}
+				else if (sinVal <= -0.5f) {
+					canSpawn = true;
+				}
+				
+			}
+			else {
+				m_powerActivationTime = -INFINITY;
+				m_powerDuration = -INFINITY;
+
+				for (CBall* _childBall : m_childBalls) {
+					CObjectController::Destroy(_childBall);
+				}
+				m_childBalls.clear();
+
+				ResetBall();
+			}
+		}
+		
+
+		break;
+
+	default:
+		break;
 	}
 }
 
@@ -273,12 +357,13 @@ void CBall::SpecificPlayerInteractions(CPlayer* _player)
 /// <param name="_player"></param>
 void CBall::TryCatch(CPlayer* _player)
 {
+	if (!m_canPickup) return;
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryCatch> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
 	if (m_ownerTeam == Team::UNDECIDED || m_ownerTeam == _player->GetTeam()) return;
 
 	if (cmath::Distance(_player->GetPosition(), this->GetPosition()) <= m_catchRadius) {
-		m_power = CBall::BallPower::Homing;
+		m_power = CBall::BallPower::BulletHell;
 		ForcePickup(_player);
 	}
 	else {
@@ -293,6 +378,7 @@ void CBall::TryCatch(CPlayer* _player)
 /// <param name="_player"></param>
 void CBall::TryPickup(CPlayer* _player)
 {
+	if (!m_canPickup) return;
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::TryPickup> [_player] is Null\n"; return; }
 	if (m_holder != nullptr) return;
 	if (m_ownerTeam != Team::UNDECIDED && m_ownerTeam != _player->GetTeam()) return;
