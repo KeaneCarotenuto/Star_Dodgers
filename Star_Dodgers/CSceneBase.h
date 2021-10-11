@@ -6,6 +6,7 @@
 #include "EasySFML.h"
 #include "IGamepadInput.h"
 #include "CUIBar.h"
+#include "CUIImage.h"
 
 
 // container class for scenes
