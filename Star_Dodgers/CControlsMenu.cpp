@@ -25,28 +25,41 @@ CControlsMenu::CControlsMenu()
 	auto pageCreator = new PageInfo;
 	pageCreator->m_header = "Rules";
 	pageCreator->m_text = "Hit an opponent to score a point\nScore 10 points to charge a winning ball \nHit a winning ball and your team clames victory\nMiss it and you have to charge up again \n \nThrow buttons are used to pick up balls \nThe ball will change to your colour when thrown \nCatch a ball right before being hit to gain a powerup \nPowerups can get you easy points but are a risky play";
-	pageCreator->m_image = sf::Texture();
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Players.png"))
+	{
+		std::cout << "failed to load Players.png" << std::endl;
+	}
 	m_pageList.push_back(pageCreator);
 
 	//Second page
 	pageCreator = new PageInfo;
 	pageCreator->m_header = "Controls";
 	pageCreator->m_text = "Left joystick moves the player \nRight joystick aims the ball \nRight trigger charges throw \nRight bumper quickly throws \nSquare curves to the left \nCircle curves to the right \nTriangle throws fast ball \nX performs a quick dash";
-	pageCreator->m_image = sf::Texture();
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/P1.png"))
+	{
+		std::cout << "failed to load P1.png" << std::endl;
+	}
 	m_pageList.push_back(pageCreator);
 
 	//Third page
 	pageCreator = new PageInfo;
 	pageCreator->m_header = "Page3";
 	pageCreator->m_text = "Page3 text goes here";
-	pageCreator->m_image = sf::Texture();
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/P2.png"))
+	{
+		std::cout << "failed to load P2.png" << std::endl;
+	}
 	m_pageList.push_back(pageCreator);
 
 	//Fourth page
 	pageCreator = new PageInfo;
 	pageCreator->m_header = "Page4";
 	pageCreator->m_text = "Page4 text goes here";
-	pageCreator->m_image = sf::Texture();
+	pageCreator->m_image = new sf::Texture();
+
 	m_pageList.push_back(pageCreator);
 
 	// get font
@@ -71,9 +84,11 @@ CControlsMenu::CControlsMenu()
 
 	// create the first image
 	m_pageTwoImage = new sf::RectangleShape(sf::Vector2f(50, 50));
-	m_pageTwoImage->setFillColor(sf::Color::Red);
+	m_pageTwoImage->setTexture(m_pageList[0]->m_image, true);
+	m_pageTwoImage->setSize(sf::Vector2f(m_pageTwoImage->getTexture()->getSize()));
 	m_pageTwoImage->setPosition(960, 50);
-	m_pageTwoImage->setOrigin(sf::Vector2f(m_pageOneImage->getGlobalBounds().width / 2, m_pageOneImage->getGlobalBounds().height / 2));
+	m_pageTwoImage->setOrigin(sf::Vector2f(m_pageTwoImage->getGlobalBounds().width / 2, m_pageTwoImage->getGlobalBounds().height / 2));
+	
 
 	// create the first text
 	m_pageTwoText = new sf::Text(m_pageList[0]->m_text, *font);
@@ -299,6 +314,10 @@ void CControlsMenu::NewPage()
 	m_pageOneImage = m_pageTwoImage;
 	//set the new page 
 	m_pageTwoImage = temp2;
+	//change to the new texture
+	m_pageTwoImage->setTexture(m_pageList[m_currentPage]->m_image, true);
+	//change to the size of the texture
+	m_pageTwoImage->setSize(sf::Vector2f(m_pageTwoImage->getTexture()->getSize()));
 
 	//hold the old page
 	auto temp3 = m_pageOneText;

@@ -41,7 +41,7 @@ public:
 	{
 		std::string m_header;
 		std::string m_text;
-		sf::Texture m_image;
+		sf::Texture* m_image;
 	};
 	
 private:
