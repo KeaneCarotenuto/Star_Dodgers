@@ -143,10 +143,9 @@ void CBall::FixedUpdate()
 		}
 		
 
-		break;
+		
 
-	default:
-		break;
+	
 	}
 }
 

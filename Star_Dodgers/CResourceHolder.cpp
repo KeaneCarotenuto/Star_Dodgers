@@ -18,7 +18,7 @@ void CResourceHolder::Initialise()
 	float taskbarBeight = 40;
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 
-	m_window = new sf::RenderWindow(sf::VideoMode(desktop.width, desktop.height, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::None);
+	m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080 - titlebarHeight - taskbarBeight, desktop.bitsPerPixel), "Star Dodgers - By ClosedGL", sf::Style::Default);
 	m_window->setPosition({ 0, 0 });
 	m_window->requestFocus();
 

@@ -2,6 +2,8 @@
 #define A16FE15C_B520_46C1_AD73_4B3093E4EAE8
 #include "IUIElement.h"
 #include "EasySFML.h"
+
+
 class CUIBar : public IUIElement
 {
 public:
