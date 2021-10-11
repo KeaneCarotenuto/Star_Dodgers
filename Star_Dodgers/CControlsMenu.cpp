@@ -122,14 +122,14 @@ CControlsMenu::CControlsMenu()
 /// </summary>
 CControlsMenu::~CControlsMenu()
 {
-	for (unsigned int ele = 0; ele < CWindowUtilities::ToDrawList.size(); ele++)
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
 	{
-		if (CWindowUtilities::ToDrawList[ele] == m_pageOneHeader || CWindowUtilities::ToDrawList[ele] == m_pageTwoHeader)
+		if (CWindowUtilities::m_drawList[ele] == m_pageOneHeader || CWindowUtilities::m_drawList[ele] == m_pageTwoHeader)
 		{
 			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
 			// erase the element at the iterator and the 3 elements after it so that text is removed from the list
-			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::ToDrawList.begin() + ele;
-			CWindowUtilities::ToDrawList.erase(iter, iter + 7);
+			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
+			CWindowUtilities::m_drawList.erase(iter, iter + 7);
 			break;
 		}
 	}

@@ -40,14 +40,14 @@ CMainMenu::CMainMenu()
 
 CMainMenu::~CMainMenu()
 {
-	for (unsigned int ele = 0; ele < CWindowUtilities::ToDrawList.size(); ele++)
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
 	{
-		if (CWindowUtilities::ToDrawList[ele] == m_playButton)
+		if (CWindowUtilities::m_drawList[ele] == m_playButton)
 		{
 			// if play button is found in ToDrawList, create an iterator pointing to the position of the play button then
 			// erase the element at the iterator and the 3 elements after it so that all buttons are removed from the list
-			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::ToDrawList.begin() + ele;
-			CWindowUtilities::ToDrawList.erase(iter, iter + 4);
+			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
+			CWindowUtilities::m_drawList.erase(iter, iter + 4);
 			break;
 		}
 	}

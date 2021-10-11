@@ -29,9 +29,9 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 CPlayer::~CPlayer()
 {
 	std::vector<int> playerDrawables;
-	for (int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
+	for (int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
 	{
-		if (CWindowUtilities::ToDrawList[i] == m_aimSprite || CWindowUtilities::ToDrawList[i] == m_velocitySprite)
+		if (CWindowUtilities::m_drawList[i] == m_aimSprite || CWindowUtilities::m_drawList[i] == m_velocitySprite)
 		{
 			playerDrawables.push_back(i);
 		}
@@ -39,12 +39,12 @@ CPlayer::~CPlayer()
 
 	if (playerDrawables.size() == 2)
 	{
-		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[0]);
-		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[1] - 1);
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[1] - 1);
 	}
 	else if (playerDrawables.size() == 1)
 	{
-		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[0]);
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
 	}
 
 	m_shouldDelete = true;

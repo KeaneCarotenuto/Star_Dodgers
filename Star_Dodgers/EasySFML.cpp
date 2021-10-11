@@ -158,7 +158,7 @@ CGameObject **CObjectController::GetHead()
 
 void CWindowUtilities::Draw(sf::Drawable *Draw)
 {
-	ToDrawList.push_back(Draw); //Add the object to the draw list
+	m_drawList.push_back(Draw); //Add the object to the draw list
 }
 
 void CWindowUtilities::Draw(sf::Drawable *Draw, sf::Vector2f Pos)
@@ -166,7 +166,18 @@ void CWindowUtilities::Draw(sf::Drawable *Draw, sf::Vector2f Pos)
 
 	if (sqrt(pow(Pos.x - ScreenCentre.x, 2) + pow(Pos.y - ScreenCentre.y, 2)) <= RenderDistance)
 	{
-		ToDrawList.push_back(Draw); //Add the object to the draw list
+		m_drawList.push_back(Draw); //Add the object to the draw list
+	}
+}
+
+void CWindowUtilities::Draw(sf::Drawable *_draw, sf::Shader *_shader) {
+	m_drawListShader.push_back(std::pair<sf::Drawable*, sf::Shader*>(_draw, _shader));
+}
+
+void CWindowUtilities::Draw(sf::Drawable *_draw, sf::Shader *_shader, sf::Vector2f Pos) {
+	if (sqrt(pow(Pos.x - ScreenCentre.x, 2) + pow(Pos.y - ScreenCentre.y, 2)) <= RenderDistance)
+	{
+		m_drawListShader.push_back(std::pair<sf::Drawable*, sf::Shader*>(_draw, _shader)); //Add the object to the draw list
 	}
 }
 
@@ -179,6 +190,8 @@ sf::Vector2f CWindowUtilities::ScreenCentre = sf::Vector2f(50, 50);
 
 float CWindowUtilities::RenderDistance = 1500;
 
-std::vector<sf::Drawable *> CWindowUtilities::ToDrawList;
+std::vector<sf::Drawable *> CWindowUtilities::m_drawList;
+
+std::vector<std::pair<sf::Drawable *, sf::Shader *>> CWindowUtilities::m_drawListShader;
 
 std::vector<CGameObject *> CObjectController::ToDeleteList;

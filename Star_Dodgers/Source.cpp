@@ -70,10 +70,15 @@ int main()
 		}
 
 		CResourceHolder::GetWindow()->clear();
-		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
-    { 
-			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
+		for (unsigned int i = 0; i < CWindowUtilities::m_drawListShader.size(); i++)
+    	{ 
+			CResourceHolder::GetWindow()->draw(*CWindowUtilities::m_drawListShader[i].first, CWindowUtilities::m_drawListShader[i].second);
 		}
+		for (unsigned int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
+    	{ 
+			CResourceHolder::GetWindow()->draw(*CWindowUtilities::m_drawList[i]);
+		}
+		
 		UIManager::Draw();
 		CResourceHolder::GetWindow()->display();
 

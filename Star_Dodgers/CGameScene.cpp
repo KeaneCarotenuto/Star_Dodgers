@@ -48,6 +48,9 @@ CGameScene::CGameScene(int _playerCount)
 	m_blueScore = new CUIBar(1, sf::Vector2f(1850.0f, 775.0f), sf::Vector2f(5.0f, 3.0f), 270, CResourceHolder::GetTexture("UIBarBlue.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
 	CBall* newBall2 = new CBall();
 	newBall2->SetVelocity({ 15,-10 });
+	m_starrySky.setTexture(*CResourceHolder::GetTexture("UIframeimg.png"));
+	CWindowUtilities::Draw(&m_starrySky, CResourceHolder::GetShader("starry.glsl"));
+	
 }
 
 CGameScene::~CGameScene()
@@ -57,12 +60,15 @@ CGameScene::~CGameScene()
 
 void CGameScene::Update(float _fDeltaTime)
 {
+	CResourceHolder::GetShader("starry.glsl")->setUniform("iResolution", sf::Vector2f{1920.0f,1080.0f});
+	CResourceHolder::GetShader("starry.glsl")->setUniform("iTime", cmath::g_clock->getElapsedTime().asSeconds());
 	for (unsigned int cont = 0; cont < m_controllerIndex.size(); cont++)
 	{
 		
 	}
 	m_redScore->SetFill(100.0f, CTeamsManager::GetInstance()->GetScore(Team::RED));
 	m_blueScore->SetFill(100.0f, CTeamsManager::GetInstance()->GetScore(Team::BLUE));
+	
 }
 
 void CGameScene::FixedUpdate()
