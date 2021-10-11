@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1">
+      <UniqueIdentifier>{23c4a2c6-d80d-4556-83c1-93db82738570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\bin">
+      <UniqueIdentifier>{a148eb22-579a-4b45-afb2-4cb910b3bd57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include">
+      <UniqueIdentifier>{db2a2860-3b4a-43f2-a078-6c2dce15767d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\lib">
+      <UniqueIdentifier>{aa652cfb-f5e8-41d7-8702-f241f8230f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include\SFML">
+      <UniqueIdentifier>{0e0e9d38-8385-4b6b-b3f9-3ff72cf8e63e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include\SFML\Audio">
+      <UniqueIdentifier>{7e931dd8-cba0-4855-90ca-08c731412726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include\SFML\Graphics">
+      <UniqueIdentifier>{e2592750-916b-41d4-8cb4-2581d87c781b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include\SFML\Network">
+      <UniqueIdentifier>{55fb3cc5-68fd-440c-a3af-1b0cf0f27ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include\SFML\System">
+      <UniqueIdentifier>{f55fb5dd-5869-41de-aa16-05af3e935033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\include\SFML\Window">
+      <UniqueIdentifier>{f12cd104-290b-4bd9-88a0-7d165ec4dac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\lib\cmake">
+      <UniqueIdentifier>{0a9a5139-f258-4fea-a9db-d1bbeac6fa4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\SFML-2.5.1\lib\cmake\SFML">
+      <UniqueIdentifier>{ee4c43de-6cb7-41cb-90dd-3be1fa2d4394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{11110cdd-4b3d-4342-8d15-21027cd934ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{a6a341ed-d56d-443d-aeaa-b9aeb7152f26}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CGamepad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySFML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainMenu.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="CResourceHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="CLobby.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="CTeamsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControlsMenu.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CGamepad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySFML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGamepadInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainMenu.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CResourceHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneBase.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameScene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CLobby.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CTeamsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IObservable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControlsMenu.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CPrint.h">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
