@@ -23,6 +23,66 @@ CControlsMenu::CControlsMenu()
 {
 	//First page
 	auto pageCreator = new PageInfo;
+	pageCreator->m_header = "Players";
+	pageCreator->m_text = " These are all of the players in the game.\nEach player takes control of one of these.";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Players.png"))
+	{
+		std::cout << "failed to load Players.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
+	pageCreator->m_header = "Moving";
+	pageCreator->m_text = "The left joystick controls the players movement.";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/P1.png"))
+	{
+		std::cout << "failed to load P1.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
+	pageCreator->m_header = "Dashing";
+	pageCreator->m_text = "         While Moving the player can press x to perform a short dash. \nThis can be used to avoid incoming balls or move quickly around the screen.";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/P2.png"))
+	{
+		std::cout << "failed to load P2.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
+	pageCreator->m_header = "Stars";
+	pageCreator->m_text = "                 This is a Star.\n These are the how you score points";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball.png"))
+	{
+		std::cout << "failed to load Ball.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
+	pageCreator->m_header = "Thowing";
+	pageCreator->m_text = "Stars can be thrown quickly with R1\n     Stars can be charged with R2";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball.png"))
+	{
+		std::cout << "failed to load Ball.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
+	pageCreator->m_header = "Augmented Thows";
+	pageCreator->m_text = "Stars can be augmented to move in different ways\n     This is done using Square, Triangle and circle";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball.png"))
+	{
+		std::cout << "failed to load Ball.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
 	pageCreator->m_header = "Rules";
 	pageCreator->m_text = "Hit an opponent to score a point\nScore 10 points to charge a winning ball \nHit a winning ball and your team clames victory\nMiss it and you have to charge up again \n \nThrow buttons are used to pick up balls \nThe ball will change to your colour when thrown \nCatch a ball right before being hit to gain a powerup \nPowerups can get you easy points but are a risky play";
 	pageCreator->m_image = new sf::Texture();
@@ -64,6 +124,7 @@ CControlsMenu::CControlsMenu()
 
 	// get font
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
+	
 
 	// create the transistion header
 	m_pageOneHeader = new sf::Text("", *font);
