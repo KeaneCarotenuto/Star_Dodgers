@@ -64,5 +64,19 @@ private:
 
 	sf::Vector2f Lerp(float _fPercentCompleted, sf::Vector2f _vec2fOrigin, sf::Vector2f _vec2fDestination);
 
+	void CentreAll();
+	void NewPage();
+
+	const sf::Vector2f topCenter = sf::Vector2f(1920 / 2, 100);
+	const sf::Vector2f topLeft = sf::Vector2f(-1920 / 2, 100);
+	const sf::Vector2f topRight = sf::Vector2f(1920 + 1920 / 2, 100);
+	
+	const sf::Vector2f midCenter = sf::Vector2f(1920 / 2, 1080 / 2);
+	const sf::Vector2f midLeft = sf::Vector2f(-1920 / 2, 1080 / 2);
+	const sf::Vector2f midRight = sf::Vector2f(1920 + 1920 / 2, 1080 / 2);
+	
+	const sf::Vector2f botCenter = sf::Vector2f(1920 / 2, 3 * 1080 / 4);
+	const sf::Vector2f botLeft = sf::Vector2f(-1920 / 2, 3 * 1080 / 4);
+	const sf::Vector2f botRight = sf::Vector2f(1920 + 1920 / 2, 3 * 1080 / 4);
 };
 #endif

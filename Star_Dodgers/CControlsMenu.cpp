@@ -129,6 +129,7 @@ CControlsMenu::~CControlsMenu()
 
 /// <summary>
 /// This handles input in this scene from the main player
+/// <para>Author: Jacob</para>
 /// </summary>
 /// <param name="_event">Gamepad button input</param>
 void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
@@ -155,43 +156,12 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 				{
 					m_currentPage = m_pageList.size() - 1;
 				}
-
-				m_startTime = cmath::g_clock->getElapsedTime().asSeconds();
+				//direction if transition
 				m_menuOption = 1;
-
-				//hold the old page
-				auto temp = m_pageOneHeader;
-				//set the old page to the scroll off screen object
-				m_pageOneHeader = m_pageTwoHeader;
-				//set the new page 
-				m_pageTwoHeader = temp;
-				//change the page text
-				m_pageTwoHeader->setString(m_pageList[m_currentPage]->m_header);
-
-				//hold the old page
-				auto temp2 = m_pageOneImage;
-				//set the old page to the scroll off screen object
-				m_pageOneImage = m_pageTwoImage;
-				//set the new page 
-				m_pageTwoImage = temp2;
-
-				//hold the old page
-				auto temp3 = m_pageOneText;
-				//set the old page to the scroll off screen object
-				m_pageOneText = m_pageTwoText;
-				//set the new page 
-				m_pageTwoText = temp3;
-
-				m_pageTwoText->setString(m_pageList[m_currentPage]->m_text);
-
-				//centre everything
-				m_pageOneHeader->setOrigin(sf::Vector2f(m_pageOneHeader->getGlobalBounds().width / 2, m_pageOneHeader->getGlobalBounds().height / 2));
-				m_pageOneImage->setOrigin(sf::Vector2f(m_pageOneImage->getGlobalBounds().width / 2, m_pageOneImage->getGlobalBounds().height / 2));
-				m_pageOneText->setOrigin(sf::Vector2f(m_pageOneText->getGlobalBounds().width / 2, m_pageOneText->getGlobalBounds().height / 2));
-
-				m_pageTwoHeader->setOrigin(sf::Vector2f(m_pageTwoHeader->getGlobalBounds().width / 2, m_pageTwoHeader->getGlobalBounds().height / 2));
-				m_pageTwoImage->setOrigin(sf::Vector2f(m_pageTwoImage->getGlobalBounds().width / 2, m_pageTwoImage->getGlobalBounds().height / 2));
-				m_pageTwoText->setOrigin(sf::Vector2f(m_pageTwoText->getGlobalBounds().width / 2, m_pageTwoText->getGlobalBounds().height / 2));
+				//Chane the page
+				NewPage();
+				//move all assets centred
+				CentreAll();
 			}
 			break;
 		}
@@ -209,43 +179,12 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 				{
 					m_currentPage = 0;
 				}
-
-				m_startTime = cmath::g_clock->getElapsedTime().asSeconds();
+				//direction if transition
 				m_menuOption = 0;
-
-				//hold the old page
-				auto temp = m_pageOneHeader;
-				//set the old page to the scroll off screen object
-				m_pageOneHeader = m_pageTwoHeader;
-				//set the new page 
-				m_pageTwoHeader = temp;
-				//change the page text
-				m_pageTwoHeader->setString(m_pageList[m_currentPage]->m_header);
-
-				//hold the old page
-				auto temp2 = m_pageOneImage;
-				//set the old page to the scroll off screen object
-				m_pageOneImage = m_pageTwoImage;
-				//set the new page 
-				m_pageTwoImage = temp2;
-
-				//hold the old page
-				auto temp3 = m_pageOneText;
-				//set the old page to the scroll off screen object
-				m_pageOneText = m_pageTwoText;
-				//set the new page 
-				m_pageTwoText = temp3;
-
-				m_pageTwoText->setString(m_pageList[m_currentPage]->m_text);
-
-				//centre everything
-				m_pageOneHeader->setOrigin(sf::Vector2f(m_pageOneHeader->getGlobalBounds().width / 2, m_pageOneHeader->getGlobalBounds().height / 2));				
-				m_pageOneImage->setOrigin(sf::Vector2f(m_pageOneImage->getGlobalBounds().width / 2, m_pageOneImage->getGlobalBounds().height / 2));
-				m_pageOneText->setOrigin(sf::Vector2f(m_pageOneText->getGlobalBounds().width / 2, m_pageOneText->getGlobalBounds().height / 2));
-
-				m_pageTwoHeader->setOrigin(sf::Vector2f(m_pageTwoHeader->getGlobalBounds().width / 2, m_pageTwoHeader->getGlobalBounds().height / 2));
-				m_pageTwoImage->setOrigin(sf::Vector2f(m_pageTwoImage->getGlobalBounds().width / 2, m_pageTwoImage->getGlobalBounds().height / 2));
-				m_pageTwoText->setOrigin(sf::Vector2f(m_pageTwoText->getGlobalBounds().width / 2, m_pageTwoText->getGlobalBounds().height / 2));
+				//Chane the page
+				NewPage();
+				//move all assets centred
+				CentreAll();
 			}
 			break;
 		}
@@ -255,21 +194,11 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 
 /// <summary>
 /// Update this scene
+/// <para>Author: Jacob</para>
 /// </summary>
 /// <param name="_fDeltaTime">Time since last update</param>
 void CControlsMenu::Update(float _fDeltaTime)
 {
-	sf::Vector2f topCenter = sf::Vector2f(1920 / 2, 100);
-	sf::Vector2f topLeft = sf::Vector2f(-1920 / 2, 100);
-	sf::Vector2f topRight = sf::Vector2f(1920 + 1920 / 2, 100);
-
-	sf::Vector2f midCenter = sf::Vector2f(1920 / 2, 1080/2);
-	sf::Vector2f midLeft = sf::Vector2f(-1920 / 2, 1080 / 2);
-	sf::Vector2f midRight = sf::Vector2f(1920 + 1920 / 2, 1080 / 2);
-
-	sf::Vector2f botCenter = sf::Vector2f(1920 / 2, 3 * 1080 / 4);
-	sf::Vector2f botLeft = sf::Vector2f(-1920 / 2, 3 * 1080 / 4);
-	sf::Vector2f botRight = sf::Vector2f(1920 + 1920 / 2, 3* 1080 / 4);
 	switch (m_menuOption)
 	{
 	case 0:
@@ -297,12 +226,11 @@ void CControlsMenu::Update(float _fDeltaTime)
 	default:
 		break;
 	}
-	
-	//std::cout << "Loaded";
 }
 
 /// <summary>
 /// Updates with the physics
+/// <para>Author: Jacob</para>
 /// </summary>
 /// <param name="_fDeltaTime">Time since last update</param>
 void CControlsMenu::FixedUpdate()
@@ -311,6 +239,7 @@ void CControlsMenu::FixedUpdate()
 
 /// <summary>
 /// Late update this scene
+/// <para>Author: Jacob</para>
 /// </summary>
 /// <param name="_fDeltaTime">Time since last late update</param>
 void CControlsMenu::LateUpdate(float _fDeltaTime)
@@ -319,6 +248,7 @@ void CControlsMenu::LateUpdate(float _fDeltaTime)
 
 /// <summary>
 /// produces a smooth movement from the origin to the destination 
+/// <para>Author: Jacob</para>
 /// </summary>
 /// <param name="_fPercentCompleted">value between 0-1 for percent done</param>
 /// <param name="_vec2fOrigin">Starting point of the lerp</param>
@@ -327,4 +257,55 @@ sf::Vector2f CControlsMenu::Lerp(float _fPercentCompleted, sf::Vector2f _vec2fOr
 {
 	float m_smothedMovement = 0.5 * sin(M_PI * _fPercentCompleted - M_PI / 2) + 0.5;
 	return _vec2fOrigin + m_smothedMovement * (_vec2fDestination - _vec2fOrigin);
+}
+
+/// <summary>
+/// Recentre all of the headers, images and text currently loaded
+/// <para>Author: Jacob</para>
+/// </summary>
+void CControlsMenu::CentreAll()
+{
+	//centre everything
+	m_pageOneHeader->setOrigin(sf::Vector2f(m_pageOneHeader->getGlobalBounds().width / 2, m_pageOneHeader->getGlobalBounds().height / 2));
+	m_pageOneImage->setOrigin(sf::Vector2f(m_pageOneImage->getGlobalBounds().width / 2, m_pageOneImage->getGlobalBounds().height / 2));
+	m_pageOneText->setOrigin(sf::Vector2f(m_pageOneText->getGlobalBounds().width / 2, m_pageOneText->getGlobalBounds().height / 2));
+
+	m_pageTwoHeader->setOrigin(sf::Vector2f(m_pageTwoHeader->getGlobalBounds().width / 2, m_pageTwoHeader->getGlobalBounds().height / 2));
+	m_pageTwoImage->setOrigin(sf::Vector2f(m_pageTwoImage->getGlobalBounds().width / 2, m_pageTwoImage->getGlobalBounds().height / 2));
+	m_pageTwoText->setOrigin(sf::Vector2f(m_pageTwoText->getGlobalBounds().width / 2, m_pageTwoText->getGlobalBounds().height / 2));
+}
+
+/// <summary>
+/// swaps the current page to the transition page and load the new page content
+/// <para>pageOne = old page; </para>
+/// <para>pageTwo = new page;</para>
+/// <para>Author: Jacob</para>
+/// </summary>
+void CControlsMenu::NewPage()
+{
+	m_startTime = cmath::g_clock->getElapsedTime().asSeconds();
+	//hold the old page
+	auto temp = m_pageOneHeader;
+	//set the old page to the scroll off screen object
+	m_pageOneHeader = m_pageTwoHeader;
+	//set the new page 
+	m_pageTwoHeader = temp;
+	//change the page text
+	m_pageTwoHeader->setString(m_pageList[m_currentPage]->m_header);
+
+	//hold the old page
+	auto temp2 = m_pageOneImage;
+	//set the old page to the scroll off screen object
+	m_pageOneImage = m_pageTwoImage;
+	//set the new page 
+	m_pageTwoImage = temp2;
+
+	//hold the old page
+	auto temp3 = m_pageOneText;
+	//set the old page to the scroll off screen object
+	m_pageOneText = m_pageTwoText;
+	//set the new page 
+	m_pageTwoText = temp3;
+
+	m_pageTwoText->setString(m_pageList[m_currentPage]->m_text);
 }
