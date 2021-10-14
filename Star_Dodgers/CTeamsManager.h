@@ -6,7 +6,7 @@
 #include "IObserver.h"
 #include "IObservable.h"
 #include <unordered_map>
-#include <list>
+#include <vector>
 #include <memory>
 
 enum class Team
@@ -27,10 +27,10 @@ public:
 
 	void AddToTeam(std::shared_ptr<CPlayer> _player, Team _newTeam);
 	int GetTeamCount(Team _team);
-	std::map<int, std::shared_ptr<CPlayer>> &GetTeam(Team _team);
+	std::vector<std::shared_ptr<CPlayer>> GetTeam(Team _team);
 	std::shared_ptr<CPlayer> GetPlayer(int _controllerIndex);
 
-	void RemovePlayer(std::shared_ptr<CPlayer> _player);
+	void RemovePlayer(std::shared_ptr<CPlayer> _player, int _controllerIndex);
 	int GetPlayerCount();
 	bool AreAllPlayersReady();
 
@@ -54,8 +54,7 @@ private:
 	std::vector<IObserver *> m_observers;                  // objects that watch CTeamsManager class for team updates
 
 	std::unordered_map<int, std::shared_ptr<CPlayer>> m_allPlayers;  // map of all players, key is the element of the controller in CGameManager.m_connectedControllers
-	std::list<int> m_freeIcons;                            // list of icons avaliable for player use
-	int m_teamCount[3] = { 0, 0, 0 };                      // array that stores the number of players in each team
+	std::vector<int> m_freeIcons;                          // vector of icons avaliable for player use
 
 	//std::map<int, std::shared_ptr<CPlayer>> m_redTeam;
 	//std::map<int, std::shared_ptr<CPlayer>> m_blueTeam;

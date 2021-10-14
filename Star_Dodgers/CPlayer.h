@@ -36,7 +36,9 @@ public:
 
 	void SetAimSprite(std::string _texName) { m_aimSprite->setTexture(*CResourceHolder::GetTexture(_texName)); }
 	sf::Sprite* GetAimSprite() { return(m_aimSprite); }
+	int GetIconElement() { return(m_iconEle); }
 	void AddVelocitySpriteToDrawList() { CWindowUtilities::Draw(m_velocitySprite); }
+	void StopRendering();
 
 	void SetTeam(Team _team);
 	Team GetTeam() { return(m_team); }
@@ -62,6 +64,7 @@ private:
 	std::shared_ptr<CGamepad> m_controller;
 	Team m_team = Team::UNDECIDED;
 	sf::Sprite* m_aimSprite;
+	int m_iconEle;
 	sf::Sprite* m_velocitySprite;
 	bool m_isReadyToPlay;
 	

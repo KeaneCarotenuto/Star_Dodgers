@@ -11,10 +11,12 @@ CPlayer::CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vecto
 {
 	m_aimSprite = new sf::Sprite();
 	m_velocitySprite = new sf::Sprite();
-
+	
 	SetController(_controllerNum);
 	SetAimSprite(_texName);
 	SetTeam(_team);
+
+	m_iconEle = (int)_texName[12];
 
 	//m_aimSprite->setOrigin(0, 0);
 	m_velocitySprite->setTexture(*CResourceHolder::GetTexture("Move_Direction.png"));
@@ -33,33 +35,7 @@ CPlayer::CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vecto
 
 CPlayer::~CPlayer()
 {
-	std::vector<int> playerDrawables;
-	for (int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
-	{
-		if (CWindowUtilities::m_drawList[i] == m_aimSprite || CWindowUtilities::m_drawList[i] == m_velocitySprite)
-		{
-			playerDrawables.push_back(i);
-		}
-	}
-
-	if (playerDrawables.size() == 2)
-	{
-		int mod = (playerDrawables[0] > playerDrawables[1]) ? 0 : 1;
-		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[0]);
-		CWindowUtilities::ToDrawList.erase(CWindowUtilities::ToDrawList.begin() + playerDrawables[1] - mod);
-	}
-	else if (playerDrawables.size() == 1)
-	{
-		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
-	}
-
-	//m_shouldDelete = true;
-
-	/*delete m_aimSprite;
-	m_aimSprite = 0;
-
-	delete m_velocitySprite;
-	m_velocitySprite = 0;*/
+	StopRendering();
 }
 
 void CPlayer::Update(float _fDeltaTime)
@@ -231,6 +207,26 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		break;
 	default:
 		break;
+	}
+}
+
+// this function removes the player sprites from the drawList
+void CPlayer::StopRendering()
+{
+	std::vector<int> removeVec;
+
+	for (unsigned int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
+	{
+		if ((CWindowUtilities::m_drawList[i] == m_aimSprite) || (CWindowUtilities::m_drawList[i] == m_velocitySprite))
+		{
+			removeVec.push_back(i);
+			if (removeVec.size() >= 2) { break; }
+		}
+	}
+
+	for (int i = 0; i < removeVec.size(); i++)
+	{
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + removeVec[i]);
 	}
 }
 
