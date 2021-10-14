@@ -11,10 +11,15 @@
 #include "CLobby.h"
 #include <ctime>
 #include "CGameScene.h"
+#include "CMath.h"
+
+sf::Clock* cmath::g_clock = new sf::Clock();
 
 int main()
 {
 	srand((unsigned int)time(NULL));
+
+	cmath::g_clock->restart();
 
 	// create all resources that the project will use including the render window, font, sound and images
 	CResourceHolder::Initialise();
@@ -30,6 +35,9 @@ int main()
 	CGameManager::GetInstance()->Initialise();					 // initial game settings setup
 	CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>(); // set active scene
 
+	
+	sf::RenderTexture ppBuffer;
+	ppBuffer.create(CResourceHolder::GetWindowSize().x, CResourceHolder::GetWindowSize().y);
 	
 
 	while (CResourceHolder::GetWindow()->isOpen() == true)
@@ -64,16 +72,29 @@ int main()
 				CGameManager::GetInstance()->OnJoystickConnect(event.joystickConnect.joystickId);
 			}
 		}
-
+		ppBuffer.clear();
 		CResourceHolder::GetWindow()->clear();
-		for (unsigned int i = 0; i < CWindowUtilities::ToDrawList.size(); i++)
-		{
-			CResourceHolder::GetWindow()->draw(*CWindowUtilities::ToDrawList[i]);
+		for (unsigned int i = 0; i < CWindowUtilities::m_drawListShader.size(); i++)
+    	{ 
+			ppBuffer.draw(*CWindowUtilities::m_drawListShader[i].first, CWindowUtilities::m_drawListShader[i].second);
 		}
+		for (unsigned int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
+    	{ 
+			ppBuffer.draw(*CWindowUtilities::m_drawList[i]);
+		}
+		sf::Sprite rendertex(ppBuffer.getTexture());
+		
+		CResourceHolder::GetShader("screenshake.glsl")->setUniform("iImageTexture", sf::Shader::CurrentTexture);
+		CResourceHolder::GetShader("screenshake.glsl")->setUniform("iResolution", (sf::Vector2f)CResourceHolder::GetWindowSize());
+		CResourceHolder::GetShader("screenshake.glsl")->setUniform("iTime", cmath::g_clock->getElapsedTime().asSeconds());
+		CResourceHolder::GetShader("screenshake.glsl")->setUniform("ShakeAmplitude", sf::Vector2f(0.00f, 0.00f));
+		CResourceHolder::GetShader("screenshake.glsl")->setUniform("ShakeFrequency", sf::Vector2f(50.0f, 50.0f));
+		CResourceHolder::GetWindow()->draw(rendertex, CResourceHolder::GetShader("screenshake.glsl"));
+		UIManager::Draw();
 		CResourceHolder::GetWindow()->display();
 
 		CObjectController::UpdateObjects();
-
+    
 		
 
 		CGameManager::GetInstance()->DeleteNonActiveScenes();

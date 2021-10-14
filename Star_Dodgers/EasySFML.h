@@ -259,7 +259,10 @@ class CWindowUtilities
 {
 public:
 	/// <summary>A vector of all the objects to be drawn this frame</summary>
-	static std::vector<sf::Drawable *> ToDrawList;
+	static std::vector<sf::Drawable *> m_drawList;
+
+	/// <summary>A vector of all the objects to be drawn this frame</summary>
+	static std::vector<std::pair<sf::Drawable *, sf::Shader *>> m_drawListShader;
 
 	static sf::Vector2f ScreenCentre;
 	static float RenderDistance;
@@ -276,8 +279,10 @@ public:
 	/// Type: sf::Drawable Pointer
 	/// </para></param>
 	// ********************************************************************************
-	static void Draw(sf::Drawable *Draw);
-	static void Draw(sf::Drawable *Draw, sf::Vector2f Pos);
+	static void Draw(sf::Drawable *_draw);
+	static void Draw(sf::Drawable *_draw, sf::Vector2f Pos);
+	static void Draw(sf::Drawable *Draw, sf::Shader *_shader);
+	static void Draw(sf::Drawable *Draw, sf::Shader *_shader, sf::Vector2f Pos);
 };
 
 #endif

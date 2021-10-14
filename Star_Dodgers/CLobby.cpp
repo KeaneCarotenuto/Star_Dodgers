@@ -112,7 +112,7 @@ CLobby::~CLobby()
 		std::map<std::shared_ptr<CPlayer>, sf::Text*>::iterator readyIter = m_playerReadyText.begin();
 		while (readyIter != m_playerReadyText.end())
 		{
-			if (CWindowUtilities::ToDrawList[ele] == readyIter->second)
+			if (CWindowUtilities::m_drawList[ele] == readyIter->second)
 			{
 				iter += ele;
 				CWindowUtilities::ToDrawList.erase(iter);

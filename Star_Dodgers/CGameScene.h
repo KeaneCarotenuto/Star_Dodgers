@@ -4,6 +4,7 @@
 #define __CGAME_SCENE_H__
 
 #include "CSceneBase.h"
+#include "CMath.h"
 
 class CGameScene : public CSceneBase
 {
@@ -16,9 +17,14 @@ public:
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
 	void OnButtonInput(GamepadButtonEvent _event);
+	float f = 0.0f;
+	
 
 private:
 	std::vector<int> m_controllerIndex;
+	CUIBar* m_redScore, *m_blueScore;
+	CUIImage* m_uiFrameImg;
+	sf::Sprite m_starrySky;
 };
 
 #endif  // __CGAME_SCENE_H__
