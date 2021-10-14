@@ -3,6 +3,10 @@
 
 CTeamsManager::CTeamsManager()
 {
+	for (int i = 0; i < 4; i++)
+	{
+		m_freeIcons.push_back(i);
+	}
 }
 
 CTeamsManager::~CTeamsManager()
@@ -25,7 +29,7 @@ CTeamsManager* CTeamsManager::GetInstance()
 
 void CTeamsManager::AddToTeam(std::shared_ptr<CPlayer> _player, Team _newTeam)
 {
-	std::map<int, std::shared_ptr<CPlayer>>* newTeamMap = (_newTeam == Team::UNDECIDED) ? &m_undecided : ((_newTeam == Team::RED) ? &m_redTeam : &m_blueTeam);
+	/*std::map<int, std::shared_ptr<CPlayer>>* newTeamMap = (_newTeam == Team::UNDECIDED) ? &m_undecided : ((_newTeam == Team::RED) ? &m_redTeam : &m_blueTeam);
 	std::map<int, std::shared_ptr<CPlayer>>::iterator newTeamIter = newTeamMap->begin();
 
 	// convert teams into ints to update observers
@@ -83,13 +87,13 @@ void CTeamsManager::AddToTeam(std::shared_ptr<CPlayer> _player, Team _newTeam)
 		// icon shake, sound, (haptic feedback?) to show player cannot join requested team
 
 		NotifyObservers(oldTeam, oldTeam);
-	}
+	}*/
 }
 
 // this function returns the number of elements in a specified team 
 int CTeamsManager::GetTeamCount(Team _team)
 {
-	if (_team == Team::UNDECIDED)
+	/*if (_team == Team::UNDECIDED)
 	{
 		return(m_undecided.size());
 	}
@@ -100,13 +104,13 @@ int CTeamsManager::GetTeamCount(Team _team)
 	else
 	{
 		return(m_blueTeam.size());
-	}
+	}*/
 }
 
 // this function returns the specified teamMap
 std::map<int, std::shared_ptr<CPlayer>>& CTeamsManager::GetTeam(Team _team)
 {
-	if (_team == Team::UNDECIDED)
+	/*if (_team == Team::UNDECIDED)
 	{
 		return(m_undecided);
 	}
@@ -117,12 +121,13 @@ std::map<int, std::shared_ptr<CPlayer>>& CTeamsManager::GetTeam(Team _team)
 	else
 	{
 		return(m_blueTeam);
-	}
+	}*/
 }
 
 // returns a shared pointer to a player instance based on controller index
 std::shared_ptr<CPlayer> CTeamsManager::GetPlayer(int _controllerIndex)
 {
+	/*
 	for(unsigned int ele = 0; ele < m_allPlayers.size(); ele++)
 	{
 		if (m_allPlayers[ele]->GetControllerIndex() == _controllerIndex)
@@ -130,15 +135,24 @@ std::shared_ptr<CPlayer> CTeamsManager::GetPlayer(int _controllerIndex)
 			return(m_allPlayers[ele]);
 		}
 	}
+	*/
 
-	std::cout << "Error - no controller has index " << _controllerIndex << std::endl;
-	return(nullptr);
+	std::unordered_map<int, std::shared_ptr<CPlayer>>::iterator iter = m_allPlayers.find(_controllerIndex);
+	if (iter != m_allPlayers.end())
+	{
+		return(iter->second);
+	}
+	else
+	{
+		std::cout << "Error - no controller has index " << _controllerIndex << " : player " << _controllerIndex << " does not exists." << std::endl;
+		return(nullptr);
+	}
 }
 
 // removes player from all included vectors and maps then calls destructor
 void CTeamsManager::RemovePlayer(std::shared_ptr<CPlayer> _player)
 {
-	std::map<int, std::shared_ptr<CPlayer>>* teamMap = (_player.get()->GetTeam() == Team::UNDECIDED) ? &m_undecided : ((_player.get()->GetTeam() == Team::RED) ? &m_redTeam : &m_blueTeam);
+	/*std::map<int, std::shared_ptr<CPlayer>>* teamMap = (_player.get()->GetTeam() == Team::UNDECIDED) ? &m_undecided : ((_player.get()->GetTeam() == Team::RED) ? &m_redTeam : &m_blueTeam);
 	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = teamMap->begin();
 	while (iter != teamMap->end())
 	{
@@ -155,7 +169,7 @@ void CTeamsManager::RemovePlayer(std::shared_ptr<CPlayer> _player)
 	if (playerIndex >= 0) { m_allPlayers.erase(m_allPlayers.begin() + playerIndex); }
 
 	//_player.get()->~CPlayer();
-	_player.~shared_ptr();
+	_player.~shared_ptr();*/
 }
 
 // returns the total number of players in all teams
@@ -181,8 +195,32 @@ bool CTeamsManager::AreAllPlayersReady()
 // updates players and teams based on game state and controller states
 void CTeamsManager::JoystickStatusChange(bool _isJoinableScene, int _controllerNum, bool _isConnected)
 {
+	if (_isConnected)
+	{
+		if (_isJoinableScene) // New Player create
+		{
+
+		}
+		
+		if (!_isJoinableScene)  // reconnected controller
+		{
+
+		}
+	}
+	else
+	{
+		if (_isJoinableScene)  // delete player
+		{
+
+		}
+		else   // disconnected controller / pause menu
+		{
+
+		}
+	}
+
 	// add player if the game is currently in a joinable scene - a scene where the game is not being played or loaded.
-	if (_isConnected && _isJoinableScene)
+	/*if (_isConnected && _isJoinableScene)
 	{
 		std::string playerLabel = "P" + std::to_string(_controllerNum + 1);
 		std::shared_ptr<CPlayer> playerObj(new CPlayer(_controllerNum, playerLabel + ".png", Team::UNDECIDED, sf::Vector2f(0, 0)));
@@ -206,13 +244,13 @@ void CTeamsManager::JoystickStatusChange(bool _isJoinableScene, int _controllerN
 		
 		//Team team = GetPlayer(_controllerNum).get()->GetTeam();
 		//GetPlayer(_controllerNum).get()->~CPlayer();
-	}
+	}*/
 }
 
 // this function adds a observer to be notified of changes to any of the teamMaps
 void CTeamsManager::AddObserver(IObserver* _observer)
 {
-	m_observers.push_back(_observer);
+	/*m_observers.push_back(_observer);
 
 	if (m_observers.size() == 1) // when lobby is added
 	{
@@ -222,13 +260,13 @@ void CTeamsManager::AddObserver(IObserver* _observer)
 			m_allPlayers[ele] = std::make_shared<CPlayer>(CPlayer(ele, playerLabel + ".png", Team::UNDECIDED, sf::Vector2f(0, 0)));
 			AddToTeam(m_allPlayers[ele], Team::UNDECIDED);
 		} 
-	}
+	}*/
 }
 
 // this function removes a observer of all of the teamMaps
 void CTeamsManager::RemoveObserver(IObserver* _observer)
 {
-	int watch = -1;
+	/*int watch = -1;
 	for (unsigned int ele = 0; ele < m_observers.size(); ele++)
 	{
 		if (m_observers[ele] == _observer) { watch = ele; break; }
@@ -237,7 +275,7 @@ void CTeamsManager::RemoveObserver(IObserver* _observer)
 	if (watch >= 0)
 	{
 		m_observers.erase(m_observers.begin() + watch);
-	}
+	}*/
 }
 
 void CTeamsManager::AddScore(Team _team, float _amount)
@@ -309,7 +347,7 @@ float CTeamsManager::GetScore(Team _team)
 // this function tells all observers of the teamMaps to call TeamChange - notifies observers that a player has changed teams
 void CTeamsManager::NotifyObservers(int _team1, int _team2)
 {
-	std::vector<unsigned int> nullElements;
+	/*std::vector<unsigned int> nullElements;
 
 	for (unsigned int ele = 0; ele < m_observers.size(); ele++)
 	{
@@ -328,13 +366,13 @@ void CTeamsManager::NotifyObservers(int _team1, int _team2)
 		int ele = nullElements.size() - 1;
 		RemoveObserver(m_observers[nullElements[ele]]);
 		nullElements.pop_back();
-	}
+	}*/
 }
 
 // this function tells all observers of the teamMaps to call NewPlayer - notifies observers that a new player has joined the game
 void CTeamsManager::NotifyObservers(std::shared_ptr<CPlayer> _player, int _controller)
 {
-	std::vector<unsigned int> nullElements;
+	/*std::vector<unsigned int> nullElements;
 
 	for (unsigned int ele = 0; ele < m_observers.size(); ele++)
 	{
@@ -353,7 +391,7 @@ void CTeamsManager::NotifyObservers(std::shared_ptr<CPlayer> _player, int _contr
 		int ele = nullElements.size() - 1;
 		RemoveObserver(m_observers[nullElements[ele]]);
 		nullElements.pop_back();
-	}
+	}*/
 }
 
 

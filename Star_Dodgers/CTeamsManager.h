@@ -5,7 +5,8 @@
 
 #include "IObserver.h"
 #include "IObservable.h"
-#include <map>
+#include <unordered_map>
+#include <list>
 #include <memory>
 
 enum class Team
@@ -50,12 +51,16 @@ private:
 
 	void NotifyObservers(int _team1, int _team2);
 	void NotifyObservers(std::shared_ptr<CPlayer> _player, int _controller);
-	std::vector<IObserver *> m_observers; // objects that watch CTeamsManager class for team updates
+	std::vector<IObserver *> m_observers;                  // objects that watch CTeamsManager class for team updates
 
-	std::map<int, std::shared_ptr<CPlayer>> m_redTeam;
-	std::map<int, std::shared_ptr<CPlayer>> m_blueTeam;
-	std::map<int, std::shared_ptr<CPlayer>> m_undecided;
-	std::vector<std::shared_ptr<CPlayer>> m_allPlayers;
+	std::unordered_map<int, std::shared_ptr<CPlayer>> m_allPlayers;  // map of all players, key is the element of the controller in CGameManager.m_connectedControllers
+	std::list<int> m_freeIcons;                            // list of icons avaliable for player use
+	int m_teamCount[3] = { 0, 0, 0 };                      // array that stores the number of players in each team
+
+	//std::map<int, std::shared_ptr<CPlayer>> m_redTeam;
+	//std::map<int, std::shared_ptr<CPlayer>> m_blueTeam;
+	//std::map<int, std::shared_ptr<CPlayer>> m_undecided;
+	//std::vector<std::shared_ptr<CPlayer>> m_allPlayers;
 
 	float m_winningBallScore = 100.0f;
 	float m_redTeamScore = 0.0f;
