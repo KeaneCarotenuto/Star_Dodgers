@@ -103,6 +103,8 @@ private:
 
 	Team m_ownerTeam = Team::UNDECIDED;
 	CPlayer* m_holder = nullptr;
+
+	sf::Sound m_ballSFX;
 };
 
 #endif // __CBall_H__

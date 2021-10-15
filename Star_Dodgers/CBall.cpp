@@ -15,7 +15,7 @@ CBall::CBall()
 	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f, m_sprite->getLocalBounds().height / 2.0f);
 
 	CWindowUtilities::Draw(GetSprite());
-
+	m_ballSFX.setBuffer(*CResourceHolder::GetSoundBuffer("bullethit_cannon.wav"));
 	m_allBalls.push_back(this);
 }
 
@@ -501,6 +501,7 @@ void CBall::WallCollision()
 
 	if (hitWall) {
 		m_throwStyle = ThrowStyle::None;
+		m_ballSFX.play();
 	}
 }
 
