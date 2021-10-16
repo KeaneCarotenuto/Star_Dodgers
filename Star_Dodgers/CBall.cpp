@@ -502,6 +502,8 @@ void CBall::WallCollision()
 	if (hitWall) {
 		m_throwStyle = ThrowStyle::None;
 		m_ballSFX.play();
+		CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.3f);
+		CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);
 	}
 }
 

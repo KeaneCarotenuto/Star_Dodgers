@@ -12,6 +12,7 @@
 #include <ctime>
 #include "CGameScene.h"
 #include "CMath.h"
+#include "CPostProcessing.h"
 
 sf::Clock* cmath::g_clock = new sf::Clock();
 
@@ -71,6 +72,9 @@ int main()
 				CGameManager::GetInstance()->AddController();
 			}
 		}
+
+		CPostProcessing::GetInstance()->Update();
+
 		ppBuffer.clear();
 		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::m_drawListShader.size(); i++)
@@ -81,14 +85,8 @@ int main()
     	{ 
 			ppBuffer.draw(*CWindowUtilities::m_drawList[i]);
 		}
-		sf::Sprite rendertex(ppBuffer.getTexture());
-		
-		CResourceHolder::GetShader("screenshake.glsl")->setUniform("iImageTexture", sf::Shader::CurrentTexture);
-		CResourceHolder::GetShader("screenshake.glsl")->setUniform("iResolution", (sf::Vector2f)CResourceHolder::GetWindowSize());
-		CResourceHolder::GetShader("screenshake.glsl")->setUniform("iTime", cmath::g_clock->getElapsedTime().asSeconds());
-		CResourceHolder::GetShader("screenshake.glsl")->setUniform("ShakeAmplitude", sf::Vector2f(0.00f, 0.00f));
-		CResourceHolder::GetShader("screenshake.glsl")->setUniform("ShakeFrequency", sf::Vector2f(50.0f, 50.0f));
-		CResourceHolder::GetWindow()->draw(rendertex, CResourceHolder::GetShader("screenshake.glsl"));
+		CPostProcessing::GetInstance()->ApplyPostProcessing(ppBuffer.getTexture(), *CResourceHolder::GetWindow());
+		//CResourceHolder::GetWindow()->draw();
 		UIManager::Draw();
 		CResourceHolder::GetWindow()->display();
 

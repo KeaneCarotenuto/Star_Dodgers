@@ -7,6 +7,7 @@
 #include "CTeamsManager.h"
 #include "CGameManager.h"
 #include "CPlayer.h"
+#include "CPostProcessing.h"
 #include <memory>
 
 

@@ -213,6 +213,13 @@ build CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o: CXX_COMPILER__Star_Dodgers_Debu
   OBJECT_DIR = CMakeFiles/Star_Dodgers.dir
   OBJECT_FILE_DIR = CMakeFiles/Star_Dodgers.dir
 
+build CMakeFiles/Star_Dodgers.dir/CPostProcessing.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPostProcessing.cpp || cmake_object_order_depends_target_Star_Dodgers
+  DEP_FILE = CMakeFiles/Star_Dodgers.dir/CPostProcessing.cpp.o.d
+  FLAGS = -g
+  INCLUDES = -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers
+  OBJECT_DIR = CMakeFiles/Star_Dodgers.dir
+  OBJECT_FILE_DIR = CMakeFiles/Star_Dodgers.dir
+
 build CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CResourceHolder.cpp || cmake_object_order_depends_target_Star_Dodgers
   DEP_FILE = CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o.d
   FLAGS = -g
@@ -277,7 +284,7 @@ build CMakeFiles/Star_Dodgers.dir/Test.cpp.o: CXX_COMPILER__Star_Dodgers_Debug /
 #############################################
 # Link the executable Star_Dodgers
 
-build Star_Dodgers: CXX_EXECUTABLE_LINKER__Star_Dodgers_Debug CMakeFiles/Star_Dodgers.dir/CBall.cpp.o CMakeFiles/Star_Dodgers.dir/CControlsMenu.cpp.o CMakeFiles/Star_Dodgers.dir/CGameManager.cpp.o CMakeFiles/Star_Dodgers.dir/CGameScene.cpp.o CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o CMakeFiles/Star_Dodgers.dir/CLobby.cpp.o CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o CMakeFiles/Star_Dodgers.dir/CTeamsManager.cpp.o CMakeFiles/Star_Dodgers.dir/CUIBar.cpp.o CMakeFiles/Star_Dodgers.dir/CUIImage.cpp.o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o CMakeFiles/Star_Dodgers.dir/IUIElement.cpp.o CMakeFiles/Star_Dodgers.dir/Source.cpp.o CMakeFiles/Star_Dodgers.dir/Test.cpp.o | /usr/lib/libsfml-graphics.so.2.5.1 /usr/lib/libsfml-window.so.2.5.1 /usr/lib/libsfml-audio.so.2.5.1 /usr/lib/libsfml-system.so.2.5.1
+build Star_Dodgers: CXX_EXECUTABLE_LINKER__Star_Dodgers_Debug CMakeFiles/Star_Dodgers.dir/CBall.cpp.o CMakeFiles/Star_Dodgers.dir/CControlsMenu.cpp.o CMakeFiles/Star_Dodgers.dir/CGameManager.cpp.o CMakeFiles/Star_Dodgers.dir/CGameScene.cpp.o CMakeFiles/Star_Dodgers.dir/CGamepad.cpp.o CMakeFiles/Star_Dodgers.dir/CLobby.cpp.o CMakeFiles/Star_Dodgers.dir/CMainMenu.cpp.o CMakeFiles/Star_Dodgers.dir/CPlayer.cpp.o CMakeFiles/Star_Dodgers.dir/CPostProcessing.cpp.o CMakeFiles/Star_Dodgers.dir/CResourceHolder.cpp.o CMakeFiles/Star_Dodgers.dir/CTeamsManager.cpp.o CMakeFiles/Star_Dodgers.dir/CUIBar.cpp.o CMakeFiles/Star_Dodgers.dir/CUIImage.cpp.o CMakeFiles/Star_Dodgers.dir/EasySFML.cpp.o CMakeFiles/Star_Dodgers.dir/IUIElement.cpp.o CMakeFiles/Star_Dodgers.dir/Source.cpp.o CMakeFiles/Star_Dodgers.dir/Test.cpp.o | /usr/lib/libsfml-graphics.so.2.5.1 /usr/lib/libsfml-window.so.2.5.1 /usr/lib/libsfml-audio.so.2.5.1 /usr/lib/libsfml-system.so.2.5.1
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = /usr/lib/libsfml-graphics.so.2.5.1  /usr/lib/libsfml-window.so.2.5.1  /usr/lib/libsfml-audio.so.2.5.1  /usr/lib/libsfml-system.so.2.5.1
