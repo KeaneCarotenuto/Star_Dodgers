@@ -17,7 +17,7 @@ CLobby::CLobby()
 	m_lobbySegmentsLeft[1] = m_lobby.left;
 	// start of previous section + width of a player in previous section + gaps for previous section + lines
 	m_lobbySegmentsLeft[0] = (m_lobby.width / 3.0f) + 1.0f;
-	m_lobbySegmentsLeft[2] = ((m_lobby.width * 2.0f) / 3.0f) + 1.0f;
+	m_lobbySegmentsLeft[2] = ((m_lobby.width * 2.0f) / 3.0f) + 2.0f;
 
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
 	m_neutral = sf::Color(125, 125, 125, 150);
@@ -38,8 +38,8 @@ CLobby::CLobby()
 	{
 		std::string label;
 		sf::Color colour;
-		if (i == 0) { label = "Undecided"; colour = sf::Color::Red; }
-		else if (i == 1) { label = "Red Team"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
+		if (i == 0) { label = "Undecided"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
+		else if (i == 1) { label = "Red Team"; colour = sf::Color::Red; }
 		else { label = "Blue Team"; colour = sf::Color::Blue; }
 
 		m_teamLabels[i] = new sf::Text(label, *font, 30);
@@ -267,7 +267,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 		float playerSize = (changedTeams[t] == Team::UNDECIDED) ? 50.0f : 150.0f;
 
 		//positional data
-		float xGap = (((m_lobby.width - 2.0f) / 3.0f) - playerSize) / 2.0f; // -2 for lines, /3 as 3 sectiions, /2 as 1 sect has 2 gaps
+		float xGap = (((m_lobby.width - 2.0f) / 6.0f));//3.0f) - playerSize) / 2.0f; // -2 for lines, /3 as 3 sectiions, /2 as 1 sect has 2 gaps
 		float yGap = (m_lobby.height - ((playerSize + 20.0f) * (float)teamCount)) / (float)(teamCount + 1);  // +20 to account for ready text, *teamCount to get total height of all players combined, lobbyHeight - totalHeight to center, /teamCount + 1 as there are 1 more gap than playerCount
 		float xPos = m_lobbySegmentsLeft[(int)changedTeams[t]] + xGap;
 		float yPos = m_lobby.top + yGap;
