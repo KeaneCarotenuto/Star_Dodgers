@@ -41,6 +41,11 @@
 },
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CPostGameScene.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPostGameScene.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPostGameScene.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
   "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CPostProcessing.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPostProcessing.cpp",
   "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CPostProcessing.cpp"
 },
@@ -63,6 +68,11 @@
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
   "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CUIImage.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CUIImage.cpp",
   "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CUIImage.cpp"
+},
+{
+  "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",
+  "command": "/usr/bin/c++ -I/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers -g -o CMakeFiles/Star_Dodgers.dir/CUITimer.cpp.o -c /home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CUITimer.cpp",
+  "file": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/CUITimer.cpp"
 },
 {
   "directory": "/home/neryst/Documents/Repos/Star_Dodgers/Star_Dodgers/build",

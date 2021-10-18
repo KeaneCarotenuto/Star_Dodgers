@@ -402,6 +402,9 @@ void CBall::PerformPower()
 
 			//if the power still has time
 			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
+				
+				CPostProcessing::GetInstance()->AddScreenShake(sf::Vector2f{0.5f, 0.5f}, sf::Vector2f{10.0f,10.0f}, 0.3f);
+
 
 				//spawn a ball every so often, and shoot it at some angle based on time
 
@@ -742,9 +745,13 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 				CGameManager::GetInstance()->TeamWon(GetOwnerTeam());
 				CTeamsManager::GetInstance()->ResetScore(Team::BLUE);
 				CTeamsManager::GetInstance()->ResetScore(Team::RED);
+				CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()*2.0f), sf::Vector2f{50.0f,50.0f}, 0.8f);
+				CPostProcessing::GetInstance()->AddChromaAberration(0.002f, 0.5f);
 			}
 			else {
 				CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+				CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()/2.0f), sf::Vector2f{50.0f,50.0f}, 0.3f);
+				CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);
 			}
 
 			didHit = true;
@@ -772,6 +779,8 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 
 			didHit = true;
+			CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.5f);
+			CPostProcessing::GetInstance()->AddChromaAberration(0.0015f, 0.3f);
 			break;
 
 		default:
