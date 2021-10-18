@@ -30,6 +30,7 @@ private:
 	CUIBar* m_redScore, *m_blueScore;
 	CUIImage* m_uiFrameImg;
 	sf::Sprite m_starrySky;
+	CUITimer* m_timer;
 };
 
 #endif  // __CGAME_SCENE_H__

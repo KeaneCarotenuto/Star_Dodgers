@@ -69,6 +69,8 @@ CGameScene::CGameScene()
 	
 	m_starrySky.setTexture(*CResourceHolder::GetTexture("UIframeimg.png"));
 	CWindowUtilities::Draw(&m_starrySky, CResourceHolder::GetShader("starry.glsl"));
+
+	m_timer = new CUITimer(1, {930.0f, 20.0f}, {2.0f, 2.0f}, 0.0f);
 	
 }
 
