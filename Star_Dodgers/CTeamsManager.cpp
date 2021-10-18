@@ -121,6 +121,32 @@ std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Te
 {
 	std::shared_ptr<CPlayer> closest = nullptr;
 
+	std::vector<std::shared_ptr<CPlayer>> redMap = GetTeam(Team::RED);
+	std::vector<std::shared_ptr<CPlayer>> blueMap = GetTeam(Team::BLUE);
+	std::vector<std::shared_ptr<CPlayer>> tempMap;
+	switch (_team)
+	{
+	case Team::UNDECIDED:
+	{
+		tempMap.insert(tempMap.begin(), redMap.begin(), redMap.end());
+		tempMap.insert(tempMap.begin(), blueMap.begin(), blueMap.end());
+		break;
+	}
+	case Team::RED: {tempMap = redMap; break; }
+	case Team::BLUE: {tempMap = blueMap; break; }
+	default:
+		break;
+	}
+
+	for (unsigned int p = 0; p < tempMap.size(); p++)
+	{
+		if (!tempMap[p]) continue;
+		if (!closest || cmath::Distance(tempMap[p]->GetPosition(), _point) < cmath::Distance(closest->GetPosition(), _point)) {
+			closest = tempMap[p];
+		}
+	}
+
+	/*
 	std::map<int, std::shared_ptr<CPlayer>> tempMap = {};
 	if (_team == Team::UNDECIDED) {
 		tempMap.insert(m_redTeam.begin(), m_redTeam.end());
@@ -132,7 +158,7 @@ std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Te
 		if (!closest || cmath::Distance(_playerPair.second->GetPosition(), _point) < cmath::Distance(closest->GetPosition(), _point)) {
 			closest = _playerPair.second;
 		}
-	}
+	}*/
 
 	return closest;
 }

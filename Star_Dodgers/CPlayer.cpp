@@ -7,6 +7,9 @@
 
 CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos)
 {
+	m_aimSprite = new sf::Sprite();
+	m_velocitySprite = new sf::Sprite();
+
 	SetController(_controllerIndex);
 	SetAimSprite(_texName);
 	SetTeam(_team);
@@ -35,7 +38,7 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 
 CPlayer::~CPlayer()
 {
-	std::vector<int> playerDrawables;
+	/*std::vector<int> playerDrawables;
 	for (int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
 	{
 		if (CWindowUtilities::m_drawList[i] == m_aimSprite || CWindowUtilities::m_drawList[i] == m_velocitySprite)
@@ -55,6 +58,7 @@ CPlayer::~CPlayer()
 	}
 
 	m_shouldDelete = true;
+	*/
 }
 
 void CPlayer::Update(float _fDeltaTime)
@@ -141,7 +145,7 @@ void CPlayer::LateUpdate(float _fDeltaTime)
 
 void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 {
-	if (_event.gamepadIndex != m_controller->GetIndex())
+	if (_event.gamepadIndex != m_controller->GetGamepadIndex())
 		return;
 
 	int xpos = 3;
@@ -236,6 +240,26 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		break;
 	default:
 		break;
+	}
+}
+
+// this function removes the player sprites from the drawList
+void CPlayer::StopRendering()
+{
+	std::vector<int> removeVec;
+
+	for (unsigned int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
+	{
+		if ((CWindowUtilities::m_drawList[i] == m_aimSprite) || (CWindowUtilities::m_drawList[i] == m_velocitySprite))
+		{
+			removeVec.push_back(i);
+			if (removeVec.size() >= 2) { break; }
+		}
+	}
+
+	for (int i = 0; i < removeVec.size(); i++)
+	{
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + removeVec[i]);
 	}
 }
 
