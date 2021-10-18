@@ -86,12 +86,15 @@ CGameScene::~CGameScene()
 		
 	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
-		CTeamsManager::GetInstance()->RemovePlayer(CTeamsManager::GetInstance()->GetPlayer(itt), itt);
+		CTeamsManager::GetInstance()->GetPlayer(itt).get()->StopRendering();
 	}
 
 	delete m_redScore;
+	m_redScore = nullptr;
 	delete m_blueScore;
+	m_blueScore = nullptr;
 	delete m_uiFrameImg;
+	m_uiFrameImg = nullptr;
 
 	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawListShader.size(); ele++)
 	{
@@ -134,18 +137,7 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
-	switch (_event.button)
-	{
 	
-	case Button::DPAD_RIGHT:
-	{
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			GameOver( Team::BLUE);
-			break;
-		}
-	}
-	}
 }
 
 /// <summary>
@@ -155,10 +147,10 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 /// <param name="_team">This is the winning team</param>
 void CGameScene::GameOver(Team _winningTeam)
 {
-	CGameManager::GetInstance()->ChangeActiveScene<CControlsMenu>();
 	// unbind controllers
 	for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 	{
 		CGameManager::GetInstance()->GetController(cont)->Unbind("Gameplay");
 	}
+	CGameManager::GetInstance()->ChangeActiveScene<CControlsMenu>();
 }

@@ -55,7 +55,7 @@ private:
 	void NotifyObservers(std::shared_ptr<CPlayer> _player, int _controller);
 	std::vector<IObserver *> m_observers;                  // objects that watch CTeamsManager class for team updates
 
-	std::unordered_map<int, std::shared_ptr<CPlayer>> m_allPlayers;  // map of all players, key is the element of the controller in CGameManager.m_connectedControllers
+	std::map<int, std::shared_ptr<CPlayer>> m_allPlayers;  // map of all players, key is the element of the controller in CGameManager.m_connectedControllers
 	std::vector<int> m_freeIcons;                          // vector of icons avaliable for player use
 
 	//std::map<int, std::shared_ptr<CPlayer>> m_redTeam;

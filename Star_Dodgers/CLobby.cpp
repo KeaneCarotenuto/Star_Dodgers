@@ -225,6 +225,7 @@ void CLobby::LateUpdate(float _fDeltaTime)
 
 	if (m_canLoadMenu)
 	{
+		//CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
 		// unbind controllers
 		for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 		{
@@ -286,13 +287,16 @@ void CLobby::TeamChange(int _team1, int _team2)
 
 		if (CTeamsManager::GetInstance()->GetPlayer(r).get() != nullptr)
 		{
-			CPlayer tempPlayer = *CTeamsManager::GetInstance()->GetPlayer(r).get();
-			readyStr = (tempPlayer.IsPlayerReady()) ? "   READY   " : "<not ready>";
+			CPlayer* tempPlayer = CTeamsManager::GetInstance()->GetPlayer(r).get();
+			readyStr = (tempPlayer->IsPlayerReady()) ? "   READY   " : "<not ready>";
 			m_playerReadyText[r]->setString(readyStr);
-			readyColour = (tempPlayer.IsPlayerReady()) ? sf::Color::Green : sf::Color::Magenta;
+			readyColour = (tempPlayer->IsPlayerReady()) ? sf::Color::Green : sf::Color::Magenta;
 			// xPos + ((playerSize - m_playerReadyText.at(teamVector.at(p))->getGlobalBounds().width) / 2.0f);
-			readyPos.x = tempPlayer.GetPosition().x - (m_playerReadyText[r]->getGlobalBounds().width / 2.f);
-			readyPos.y = tempPlayer.GetPosition().y + 5.f + (tempPlayer.GetRect().height / 2.f);
+			readyPos.x = tempPlayer->GetPosition().x - (m_playerReadyText[r]->getGlobalBounds().width / 2.f);
+			readyPos.y = tempPlayer->GetPosition().y + 5.f + (tempPlayer->GetRect().height / 2.f);
+			//CObjectController::Destroy(tempPlayer);
+			tempPlayer = nullptr;
+			delete(tempPlayer);
 		}
 
 		m_playerReadyText[r]->setFillColor(readyColour);
@@ -301,6 +305,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 }
 
 // this function changes elements in the playerReadyText when a new player is added. also handles controller binding and adding drawables
+
 void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 {
 	m_playerReadyText[_controller] = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);

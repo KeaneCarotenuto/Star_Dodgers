@@ -38,27 +38,28 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 
 CPlayer::~CPlayer()
 {
-	/*std::vector<int> playerDrawables;
-	for (int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawListShader.size(); ele++)
 	{
-		if (CWindowUtilities::m_drawList[i] == m_aimSprite || CWindowUtilities::m_drawList[i] == m_velocitySprite)
+		if (CWindowUtilities::m_drawListShader[ele].first == m_aimSprite)
 		{
-			playerDrawables.push_back(i);
+			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
+			// erase the element at the iterator 
+			auto iter = CWindowUtilities::m_drawListShader.begin() + ele;
+			CWindowUtilities::m_drawListShader.erase(iter);
+			break;
 		}
 	}
-
-	if (playerDrawables.size() == 2)
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawListShader.size(); ele++)
 	{
-		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
-		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[1] - 1);
+		if (CWindowUtilities::m_drawListShader[ele].first == m_velocitySprite)
+		{
+			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
+			// erase the element at the iterator 
+			auto iter = CWindowUtilities::m_drawListShader.begin() + ele;
+			CWindowUtilities::m_drawListShader.erase(iter);
+			break;
+		}
 	}
-	else if (playerDrawables.size() == 1)
-	{
-		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
-	}
-
-	m_shouldDelete = true;
-	*/
 }
 
 void CPlayer::Update(float _fDeltaTime)
