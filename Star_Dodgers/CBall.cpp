@@ -341,6 +341,9 @@ void CBall::PerformPower()
 
 			//if the power still has time
 			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
+				
+				CPostProcessing::GetInstance()->AddScreenShake(sf::Vector2f{0.5f, 0.5f}, sf::Vector2f{10.0f,10.0f}, 0.3f);
+
 
 				//spawn a ball every so often, and shoot it at some angle based on time
 
@@ -543,8 +546,9 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = CBall::BallPower::Exploding;
-		//m_power = rand() % 2 ? CBall::BallPower::SuperFast : CBall::BallPower::BulletHell;
+		//m_power = CBall::BallPower::Exploding;
+		m_power = (CBall::BallPower)((rand() % 4)+1); //This should work...
+		m_powerupSFX.play();
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
@@ -676,9 +680,13 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 				CTeamsManager::GetInstance()->ResetScore(Team::BLUE);
 				CTeamsManager::GetInstance()->ResetScore(Team::RED);
+				CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()*2.0f), sf::Vector2f{50.0f,50.0f}, 0.8f);
+				CPostProcessing::GetInstance()->AddChromaAberration(0.002f, 0.5f);
 			}
 			else {
 				CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+				CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()/2.0f), sf::Vector2f{50.0f,50.0f}, 0.3f);
+				CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);
 			}
 
 			ResetBall();
@@ -700,6 +708,8 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 		case CBall::BallPower::SuperFast:
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+			CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.5f);
+			CPostProcessing::GetInstance()->AddChromaAberration(0.0015f, 0.3f);
 			break;
 
 		default:

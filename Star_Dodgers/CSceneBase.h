@@ -7,6 +7,7 @@
 #include "IGamepadInput.h"
 #include "CUIBar.h"
 #include "CUIImage.h"
+#include "CUITimer.h"
 
 
 // container class for scenes
