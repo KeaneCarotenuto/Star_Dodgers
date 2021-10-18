@@ -5,6 +5,7 @@
 #include <map>
 #include "CGameScene.h"
 #include "CPostGameScene.h"
+#include "CControlsMenu.h"
 
 CGameScene::CGameScene(int _playerCount)
 {
@@ -60,7 +61,40 @@ CGameScene::~CGameScene()
 {
 	//need a destructor
 	CObjectController::Destroy(newBall);
+	newBall = nullptr;
+
 	CObjectController::Destroy(newBall2);
+	newBall2 = nullptr;
+
+	/*for (auto RedItt = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin(); RedItt != CTeamsManager::GetInstance()->GetTeam(Team::RED).end(); RedItt++)
+	{
+		CTeamsManager::GetInstance()->RemovePlayer(RedItt->second);
+	}
+	for (auto BlueItt = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin(); BlueItt != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end(); BlueItt++)
+	{
+		CTeamsManager::GetInstance()->RemovePlayer(BlueItt->second);
+	}*/
+		
+	for (int itt = 0; itt < CTeamsManager::GetInstance()->GetPlayerCount(); itt++)
+	{
+		CTeamsManager::GetInstance()->RemovePlayer(CTeamsManager::GetInstance()->GetPlayer(itt));
+	}
+
+	delete m_redScore;
+	delete m_blueScore;
+	delete m_uiFrameImg;
+
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
+	{
+		if (CWindowUtilities::m_drawList[ele] == &m_starrySky)
+		{
+			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
+			// erase the element at the iterator and the 3 elements after it so that text is removed from the list
+			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
+			CWindowUtilities::m_drawList.erase(iter);
+			break;
+		}
+	}
 }
 
 void CGameScene::Update(float _fDeltaTime)
