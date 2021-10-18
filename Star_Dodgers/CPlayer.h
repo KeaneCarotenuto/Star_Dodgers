@@ -33,6 +33,8 @@ public:
 	void SetController(std::shared_ptr<CGamepad> _controller) { m_controller = _controller; }
 	void SetController(int _controllerNum) { m_controller = CGameManager::GetInstance()->GetController(_controllerNum); }
 	int GetControllerIndex() const { return(m_controller->GetGamepadIndex()); }
+	void BindController(std::string _bindName, IGamepadInput* _inputMap);
+	void UnbindController(std::string _bindName);
 
 	void SetAimSprite(std::string _texName) { m_aimSprite->setTexture(*CResourceHolder::GetTexture(_texName)); }
 	sf::Sprite* GetAimSprite() { return(m_aimSprite); }

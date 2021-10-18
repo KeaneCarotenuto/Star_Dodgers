@@ -275,3 +275,15 @@ void CPlayer::Dodge()
 		m_dodgeTimer = 3.0f;
 	}
 }
+
+void CPlayer::BindController(std::string _bindName, IGamepadInput* _inputMap)
+{
+	IGamepadInput* inputMapping = (_inputMap == nullptr ? dynamic_cast<IGamepadInput*>(this) : _inputMap);
+	m_controller.get()->Bind(inputMapping, _bindName);
+}
+
+void CPlayer::UnbindController(std::string _bindName)
+{
+	m_controller.get()->Unbind(_bindName);
+}
+

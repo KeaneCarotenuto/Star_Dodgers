@@ -56,7 +56,7 @@ int main()
 			// skip straight to game mode - creates players based on number of controllers that are connected
 			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
 			{
-				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>(CGameManager::GetInstance()->GetControllerCount());
+				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game

@@ -450,7 +450,8 @@ void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 {
 	m_playerReadyText[_controller] = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);
 
-	CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
+	_player.get()->BindController("Lobby", dynamic_cast<IGamepadInput*>(this));
+	//CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
 
 	//CWindowUtilities::Draw(_player.get()->GetAimSprite());
 	_player.get()->AddAimSpriteToDrawlist();

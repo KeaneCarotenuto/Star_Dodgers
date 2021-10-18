@@ -572,6 +572,12 @@ void CBall::Throw(float _speed)
 /// </summary>
 void CBall::AllPlayerCollision()
 {
+	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
+	{
+		SpecificPlayerCollision(CTeamsManager::GetInstance()->GetPlayer(i).get());
+	}
+
+	/*
 	//These two loops should be replaced with a single loop through "CTeamsManager::GetAllPlayers() - But its not working atm."
 	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
 	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
@@ -590,7 +596,7 @@ void CBall::AllPlayerCollision()
 		SpecificPlayerCollision(_player);
 
 		++iter;
-	}
+	}*/
 }
 
 /// <summary>
