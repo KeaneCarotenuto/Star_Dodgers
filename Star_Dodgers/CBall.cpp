@@ -213,6 +213,14 @@ void CBall::ActivatePower()
 			m_powerDuration = 4.0f;
 		}
 		break;
+	case CBall::BallPower::SuperFast:
+		//For the first time, activate power
+		if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
+			m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
+			m_powerDuration = 4.0f;
+		}
+		break;
+		break;
 	default:
 		break;
 	}
@@ -225,6 +233,8 @@ void CBall::PerformPower()
 	switch (m_power)
 	{
 	case CBall::BallPower::None:
+		m_canPickup = true;
+
 		//If ball is slow enough, come to a stop
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
 			ResetBall();
@@ -282,6 +292,24 @@ void CBall::PerformPower()
 		}
 
 
+		break;
+
+	case CBall::BallPower::SuperFast:
+		m_canPickup = true;
+
+		//If the power is active
+		if (m_powerActivationTime != -INFINITY && m_powerDuration != -INFINITY) {
+			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
+				m_acceleration = { 0,0 };
+			}
+			else {
+				StopPower();
+			}
+		}
+
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			ResetBall();
+		}
 		break;
 
 	default:
@@ -419,16 +447,21 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = CBall::BallPower::BulletHell;
+		m_power = rand() % 2 ? CBall::BallPower::SuperFast : CBall::BallPower::BulletHell;
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
 }
 
+/// <summary>
+/// Sets current ball to winning ball
+/// </summary>
 void CBall::SetWinningBall()
 {
 	m_isWinningBall = true;
 	m_power = CBall::BallPower::None;
+
+	UpdateVisuals();
 }
 
 /// <summary>
@@ -460,6 +493,24 @@ void CBall::Throw(float _speed)
 			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, -45));
 			break;
 
+		default:
+			break;
+		}
+
+		switch (m_power)
+		{
+		case CBall::BallPower::None:
+			break;
+		case CBall::BallPower::Homing:
+			break;
+		case CBall::BallPower::Exploding:
+			break;
+		case CBall::BallPower::BulletHell:
+			break;
+		case CBall::BallPower::SuperFast:
+			SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed * 2.0f);
+			ActivatePower();
+			break;
 		default:
 			break;
 		}
@@ -510,25 +561,17 @@ void CBall::AllPlayerCollision()
 /// <param name="_player"></param>
 void CBall::SpecificPlayerCollision(CPlayer* _player)
 {
+	//Check for hit
 	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
-		if (std::find(m_hitPlayers.begin(), m_hitPlayers.end(), _player) != m_hitPlayers.end()) {
-			return;
-		}
-		else {
-			m_hitPlayers.push_back(_player);
-		}
-		if (m_parent && std::find(m_parent->m_hitPlayers.begin(), m_parent->m_hitPlayers.end(), _player) != m_parent->m_hitPlayers.end()) {
-			return;
-		}
-		else {
-			if (m_parent) m_parent->m_hitPlayers.push_back(_player);
-		}
-
+		//Perform power specific interaction
 		switch (m_power)
 		{
 		case CBall::BallPower::None:
-			//If winning ball, add score
+			//if already hit, skip
+			if (CheckAlreadyHit(_player)) return;
+
+			//If winning ball, add score (Can only be winning ball if not power)
 			if (m_isWinningBall) {
 				std::cout << (GetOwnerTeam() == Team::BLUE ? "BLUE" : "RED") << " team wins! (Need to hook this up to winning a losing)";
 
@@ -549,14 +592,46 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 			break;
 
 		case CBall::BallPower::BulletHell:
+			//if already hit, skip
+			if (CheckAlreadyHit(_player)) return;
+
+			//add points, do power
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 			ActivatePower();
+			break;
+
+		case CBall::BallPower::SuperFast:
+
 			break;
 
 		default:
 			break;
 		}
 	}
+}
+
+/// <summary>
+/// Checks if already hit player, otherwise add player to list of already hit
+/// </summary>
+/// <param name="_player"></param>
+/// <returns></returns>
+bool CBall::CheckAlreadyHit(CPlayer*& _player)
+{
+	//Check if ball has already hit player this reset
+	if (std::find(m_hitPlayers.begin(), m_hitPlayers.end(), _player) != m_hitPlayers.end()) {
+		return true;
+	}
+	else {
+		m_hitPlayers.push_back(_player);
+	}
+	if (m_parent && std::find(m_parent->m_hitPlayers.begin(), m_parent->m_hitPlayers.end(), _player) != m_parent->m_hitPlayers.end()) {
+		return true;
+	}
+	else {
+		if (m_parent) m_parent->m_hitPlayers.push_back(_player);
+	}
+
+	return false;
 }
 
 /// <summary>
@@ -581,6 +656,17 @@ void CBall::WallCollision()
 		hitWall = true;
 	}
 
+	if (m_power == BallPower::SuperFast) {
+		if (
+			(GetVelocity().x > 0 && GetPosition().x + GetSprite()->getGlobalBounds().width / 2.0f >= (GetOwnerTeam() == Team::RED ? CResourceHolder::GetWindow()->getSize().x : CResourceHolder::GetWindow()->getSize().x / 2.0f)) ||
+			(GetVelocity().x < 0 && GetPosition().x - GetSprite()->getGlobalBounds().width / 2.0f <= (GetOwnerTeam() == Team::RED ? CResourceHolder::GetWindow()->getSize().x / 2.0f : 0))
+			)
+		{
+			SetVelocity(sf::Vector2f(-m_velocity.x, m_velocity.y));
+			hitWall = true;
+		}
+	}
+
 	if (hitWall) {
 		switch (m_power)
 		{
@@ -592,6 +678,9 @@ void CBall::WallCollision()
 			break;
 		case CBall::BallPower::BulletHell:
 			ActivatePower();
+			break;
+		case CBall::BallPower::SuperFast:
+			
 			break;
 		default:
 			break;
