@@ -4,6 +4,7 @@
 #include "CResourceHolder.h"
 #include <map>
 #include "CGameScene.h"
+#include "CPostGameScene.h"
 
 CGameScene::CGameScene(int _playerCount)
 {
@@ -55,7 +56,7 @@ CGameScene::CGameScene(int _playerCount)
 
 CGameScene::~CGameScene()
 {
-
+	//need a destructor
 }
 
 void CGameScene::Update(float _fDeltaTime)
@@ -84,4 +85,10 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
 
+}
+
+void CGameScene::GameOver(Team _team)
+{
+	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>(_team);
+	CGameManager::GetInstance()->GetMasterController()->Unbind("Gameplay");
 }

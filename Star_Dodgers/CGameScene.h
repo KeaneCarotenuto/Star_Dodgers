@@ -21,6 +21,8 @@ public:
 	
 
 private:
+	void GameOver(Team _team);
+
 	std::vector<int> m_controllerIndex;
 	CUIBar* m_redScore, *m_blueScore;
 	CUIImage* m_uiFrameImg;
