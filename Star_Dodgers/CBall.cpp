@@ -593,8 +593,7 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = CBall::BallPower::Homing;
-		//m_power = rand() % 2 ? CBall::BallPower::SuperFast : CBall::BallPower::BulletHell;
+		m_power = static_cast<BallPower>(rand() % 5);
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
