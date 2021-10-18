@@ -161,6 +161,7 @@
     <ClCompile Include="CTeamsManager.cpp" />
     <ClCompile Include="CUIBar.cpp" />
     <ClCompile Include="CUIImage.cpp" />
+    <ClCompile Include="CUITimer.cpp" />
     <ClCompile Include="EasySFML.cpp" />
     <ClCompile Include="IUIElement.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="CTeamsManager.h" />
     <ClInclude Include="CUIBar.h" />
     <ClInclude Include="CUIImage.h" />
+    <ClInclude Include="CUITimer.h" />
     <ClInclude Include="EasySFML.h" />
     <ClInclude Include="IObservable.h" />
     <ClInclude Include="IObserver.h" />
