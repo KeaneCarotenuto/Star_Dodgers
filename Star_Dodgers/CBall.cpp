@@ -4,6 +4,8 @@
 
 std::vector<CBall*> CBall::m_allBalls;
 
+#pragma region Construct/Destruct
+
 /// <summary>
 /// Ball Constructor
 /// <para>Author: Keane</para>
@@ -19,6 +21,9 @@ CBall::CBall()
 	m_allBalls.push_back(this);
 }
 
+/// <summary>
+/// Ball destructor
+/// </summary>
 CBall::~CBall()
 {
 	std::vector<sf::Drawable*>::iterator position = std::find(CWindowUtilities::m_drawList.begin(), CWindowUtilities::m_drawList.end(), m_sprite);
@@ -39,6 +44,10 @@ CBall::~CBall()
 		std::cerr << "\nWARNING: <CBall::~CBall> [this] does not exist in [m_allBalls]\n";
 	}
 }
+
+#pragma endregion
+
+#pragma region Utility
 
 /// <summary>
 /// Returns the ball that is closest to the given point
@@ -131,6 +140,8 @@ void CBall::ResetBall()
 	SetOwnerTeam(Team::UNDECIDED);
 }
 
+#pragma endregion
+
 void CBall::Update(float _fDeltaTime)
 {
 
@@ -168,6 +179,9 @@ void CBall::FixedUpdate()
 	}
 }
 
+/// <summary>
+/// Performs the movement for the throw styles
+/// </summary>
 void CBall::PerformThrowStyle()
 {
 	switch (m_throwStyle)
@@ -193,6 +207,9 @@ void CBall::PerformThrowStyle()
 
 #pragma region Powers
 
+/// <summary>
+/// Activates the actual power of the ball
+/// </summary>
 void CBall::ActivatePower()
 {
 	switch (m_power)
@@ -226,7 +243,9 @@ void CBall::ActivatePower()
 	}
 }
 
-
+/// <summary>
+/// The logic for the ball during update
+/// </summary>
 void CBall::PerformPower()
 {
 
@@ -316,6 +335,9 @@ void CBall::PerformPower()
 	}
 }
 
+/// <summary>
+/// Stops the power DOESNT RESET
+/// </summary>
 void CBall::StopPower()
 {
 	m_powerActivationTime = -INFINITY;
