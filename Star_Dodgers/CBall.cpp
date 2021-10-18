@@ -604,7 +604,7 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = static_cast<BallPower>(rand() % 5);
+		m_power = static_cast<BallPower>(1 + (rand() % 4));
 		m_powerupSFX.play();
 	}
 
@@ -846,8 +846,7 @@ void CBall::WallCollision()
 
 	case CBall::BallPower::BulletHell:
 		if (HitMidline(Team::UNDECIDED)) {
-			SetVelocity(sf::Vector2f(-m_velocity.x, m_velocity.y));
-			hitWall = true;
+			ActivatePower();
 		}
 		break;
 
@@ -864,25 +863,6 @@ void CBall::WallCollision()
 	}
 
 	if (hitWall) {
-		switch (m_power)
-		{
-		case CBall::BallPower::None:
-			break;
-		case CBall::BallPower::Homing:
-			break;
-		case CBall::BallPower::Exploding:
-			ActivatePower();
-			break;
-		case CBall::BallPower::BulletHell:
-			ActivatePower();
-			break;
-		case CBall::BallPower::SuperFast:
-			
-			break;
-		default:
-			break;
-		}
-
 		m_throwStyle = ThrowStyle::Normal;
 		m_wallbounceSFX.play();
 		CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.3f);
