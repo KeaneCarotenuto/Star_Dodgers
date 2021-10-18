@@ -47,6 +47,15 @@ void CResourceHolder::Initialise()
 	CreateTexture("UIBarBlue.png");
 	CreateTexture("UIframeimg.png");
 	CreateSoundBuffer("bullethit_cannon.wav");
+	CreateSoundBuffer("Throw.wav");
+	CreateSoundBuffer("Dash.wav");
+	CreateSoundBuffer("Explosion.wav");
+	CreateSoundBuffer("Catch.wav");
+	CreateSoundBuffer("GoldenStarPickup.wav");
+	CreateSoundBuffer("Powerup.wav");
+	CreateSoundBuffer("MenuSelect.wav");
+	CreateSoundBuffer("MenuCancel.wav");
+	CreateSoundBuffer("MenuMove.wav");
 	CreateFont("comic.ttf");
 
 	CreateShader("starry.glsl", sf::Shader::Fragment);

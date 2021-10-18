@@ -32,6 +32,10 @@ CMainMenu::CMainMenu()
 	m_quitButton->setPosition(950, 650);
 	m_quitButton->setFillColor(m_neutral);
 
+	m_moveSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuMove.wav"));
+	m_selectSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuSelect.wav"));
+	m_cancelSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuCancel.wav"));
+
 	CWindowUtilities::Draw(m_playButton);
 	CWindowUtilities::Draw(m_controlsButton);
 	CWindowUtilities::Draw(m_settingsButton);
@@ -135,6 +139,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 				m_selectedItem -= 2;
 			}
+			m_moveSFX.play();
 		}
 		break;
 	}
@@ -154,6 +159,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 				m_selectedItem -= 1;
 			}
+			m_moveSFX.play();
 		}
 		break;
 	}
@@ -170,6 +176,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 				m_selectedItem += 2;
 			}
+			m_moveSFX.play();
 		}
 		break;
 	}
@@ -189,6 +196,7 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 				m_selectedItem -= 1;
 			}
+			m_moveSFX.play();
 		}
 		break;
 	}
@@ -202,22 +210,25 @@ void CMainMenu::OnButtonInput(GamepadButtonEvent _event)
 			{
 				CGameManager::GetInstance()->ChangeActiveScene<CLobby>();
 				CGameManager::GetInstance()->GetMasterController()->Unbind("MainMenu");
-				
+				m_selectSFX.play();
 				break;
 			}
 			case 1: // controls
 			{
 				CGameManager::GetInstance()->ChangeActiveScene<CControlsMenu>();
 				CGameManager::GetInstance()->GetMasterController()->Unbind("MainMenu");
+				m_selectSFX.play();
 				break;
 			}
 			case 2: // settings
 			{
+				m_selectSFX.play();
 				break;
 			}
 			case 3: // quit game
 			{
 				CResourceHolder::GetWindow()->close();
+				m_cancelSFX.play();
 				break;
 			}
 			}

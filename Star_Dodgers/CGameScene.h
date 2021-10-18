@@ -19,11 +19,10 @@ public:
 	void LateUpdate(float _fDeltaTime);
 	void OnButtonInput(GamepadButtonEvent _event);
 	float f = 0.0f;
-	
+	Team m_winningTeam = Team::UNDECIDED;
+	void GameOver(Team _winningTeam);
 
 private:
-	void GameOver(Team _team);
-
 	CBall* newBall;
 	CBall* newBall2;
 

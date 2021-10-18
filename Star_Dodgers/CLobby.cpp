@@ -95,6 +95,12 @@ CLobby::CLobby()
 	{
 		CWindowUtilities::Draw(m_playerReadyText[i]);
 	}
+
+	m_moveSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuMove.wav"));
+	m_selectSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuSelect.wav"));
+	m_cancelSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuCancel.wav"));
+
+	m_selectSFX.play();
 }
 
 CLobby::~CLobby()
@@ -223,6 +229,7 @@ void CLobby::LateUpdate(float _fDeltaTime)
 		for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 		{
 			CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
+			CTeamsManager::GetInstance()->GetPlayer(cont)->StopRendering();
 		}
 
 		CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
@@ -318,6 +325,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		{
 		case Button::DPAD_LEFT:
 		{
+			m_moveSFX.play();
 			switch (playerPtr->GetTeam())
 			{
 			case Team::UNDECIDED:
@@ -335,6 +343,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		}
 		case Button::DPAD_RIGHT:
 		{
+			m_moveSFX.play();
 			switch (playerPtr->GetTeam())
 			{
 			case Team::UNDECIDED:
@@ -352,6 +361,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		}
 		case Button::SOUTH:
 		{
+			m_selectSFX.play();
 			if (team != Team::UNDECIDED)
 			{
 				playerPtr.get()->SetIsReady(true);
@@ -360,6 +370,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		}
 		case Button::EAST: // back
 		{
+			m_cancelSFX.play();
 			m_canLoadMenu = true;
 			break;
 		}

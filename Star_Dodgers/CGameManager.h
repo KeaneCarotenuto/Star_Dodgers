@@ -51,6 +51,7 @@ public:
 		m_activeScene = new NewScene(_param...); // set new activeScene
 	}
 	void DeleteNonActiveScenes();
+	void TeamWon(Team _winningTeam);
 
 private:
 	CGameManager();

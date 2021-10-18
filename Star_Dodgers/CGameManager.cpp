@@ -5,6 +5,7 @@
 #include "IObserver.h"
 #include "CLobby.h"
 #include "CGameManager.h"
+#include "CGameScene.h"
 
 CGameManager::CGameManager() 
 {
@@ -202,4 +203,13 @@ void CGameManager::DeleteNonActiveScenes()
 		m_scenesToDestroy.pop_back();
 		tempScene->~CSceneBase();
 	}
+}
+
+/// <summary>
+/// This lets classes that can access the CGameManager class trigger the winning state of the CGameScene class
+/// </summary>
+/// <param name="_winningTeam">This is the winning team</param>
+void CGameManager::TeamWon(Team _winningTeam)
+{ 
+	static_cast<CGameScene*>(m_activeScene)->m_winningTeam = _winningTeam;
 }

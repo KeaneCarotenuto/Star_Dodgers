@@ -11,7 +11,8 @@ CGameScene::CGameScene()
 {
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
-		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
+		CGameManager::GetInstance()->GetController(i)->Bind(CTeamsManager::GetInstance()->GetPlayer(i).get(), "P" + std::to_string(i));
+		//CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
 		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
@@ -71,25 +72,19 @@ CGameScene::CGameScene()
 	
 }
 
+
+/// <summary>
+/// Removes all of the components that are in the game scene from their stored locations 
+/// </summary>
 CGameScene::~CGameScene()
 {
-	//need a destructor
 	CObjectController::Destroy(newBall);
 	newBall = nullptr;
 
 	CObjectController::Destroy(newBall2);
 	newBall2 = nullptr;
-
-	/*for (auto RedItt = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin(); RedItt != CTeamsManager::GetInstance()->GetTeam(Team::RED).end(); RedItt++)
-	{
-		CTeamsManager::GetInstance()->RemovePlayer(RedItt->second);
-	}
-	for (auto BlueItt = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin(); BlueItt != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end(); BlueItt++)
-	{
-		CTeamsManager::GetInstance()->RemovePlayer(BlueItt->second);
-	}*/
 		
-	for (int itt = 0; itt < CTeamsManager::GetInstance()->GetPlayerCount(); itt++)
+	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
 		CTeamsManager::GetInstance()->RemovePlayer(CTeamsManager::GetInstance()->GetPlayer(itt), itt);
 	}
@@ -98,14 +93,14 @@ CGameScene::~CGameScene()
 	delete m_blueScore;
 	delete m_uiFrameImg;
 
-	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawListShader.size(); ele++)
 	{
-		if (CWindowUtilities::m_drawList[ele] == &m_starrySky)
+		if (CWindowUtilities::m_drawListShader[ele].first == &m_starrySky)
 		{
 			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
-			// erase the element at the iterator and the 3 elements after it so that text is removed from the list
-			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
-			CWindowUtilities::m_drawList.erase(iter);
+			// erase the element at the iterator 
+			auto iter = CWindowUtilities::m_drawListShader.begin() + ele;
+			CWindowUtilities::m_drawListShader.erase(iter);
 			break;
 		}
 	}
@@ -131,23 +126,26 @@ void CGameScene::FixedUpdate()
 
 void CGameScene::LateUpdate(float _fDeltaTime)
 {
-	
+	if (m_winningTeam != Team::UNDECIDED)
+	{
+		GameOver(m_winningTeam);
+	}
 }
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
 	switch (_event.button)
 	{
-	case Button::EAST:
+	
+	case Button::DPAD_RIGHT:
 	{
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
-			CGameScene::GameOver(Team::UNDECIDED);
+			GameOver( Team::BLUE);
 			break;
 		}
 	}
 	}
-
 }
 
 /// <summary>
@@ -155,8 +153,12 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 /// <para>Author: Jacob</para>
 /// </summary>
 /// <param name="_team">This is the winning team</param>
-void CGameScene::GameOver(Team _team)
+void CGameScene::GameOver(Team _winningTeam)
 {
-	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>();
-	CGameManager::GetInstance()->GetMasterController()->Unbind("Gameplay");
+	CGameManager::GetInstance()->ChangeActiveScene<CControlsMenu>();
+	// unbind controllers
+	for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
+	{
+		CGameManager::GetInstance()->GetController(cont)->Unbind("Gameplay");
+	}
 }

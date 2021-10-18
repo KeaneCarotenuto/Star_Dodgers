@@ -1,5 +1,3 @@
-#include <vector>
-#include <iterator>
 #include "CPlayer.h"
 #include "CBall.h"
 #include "CMath.h"
@@ -7,20 +5,18 @@
 
 #define PI 3.14159265f
 
-CPlayer::CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vector2f _pos)
+CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos)
 {
 	m_aimSprite = new sf::Sprite();
 	m_velocitySprite = new sf::Sprite();
-	
-	SetController(_controllerNum);
+
+	SetController(_controllerIndex);
 	SetAimSprite(_texName);
 	SetTeam(_team);
 
-	m_iconEle = (int)_texName[12];
-
 	//m_aimSprite->setOrigin(0, 0);
 	m_velocitySprite->setTexture(*CResourceHolder::GetTexture("Move_Direction.png"));
-	m_velocitySprite->setScale(0.2f, 0.2f);
+	m_velocitySprite->setScale(0.2, 0.2);
 	m_velocitySprite->setOrigin(m_velocitySprite->getLocalBounds().width / 2.0f, m_velocitySprite->getLocalBounds().height / 2.0f);
 	m_aimSprite->setPosition(_pos);
 	m_aimSprite->setOrigin(m_aimSprite->getLocalBounds().width / 2.0f, m_aimSprite->getLocalBounds().height / 2.0f);
@@ -32,11 +28,37 @@ CPlayer::CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vecto
 	m_leftAnalogStickSensitivity = 0.1f;
 	m_rightAnalogStickSensitivity = 1.0f;
 
+	m_throwSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Throw.wav"));
+	m_catchSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Catch.wav"));
+	m_hurtSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Explosion.wav"));
+	m_dashSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Dash.wav"));
+	m_powerupSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Powerup.wav"));
+	m_goldenStarSFX.setBuffer(*CResourceHolder::GetSoundBuffer("GoldenStarPickup.wav"));
 }
 
 CPlayer::~CPlayer()
 {
-	//StopRendering();
+	/*std::vector<int> playerDrawables;
+	for (int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
+	{
+		if (CWindowUtilities::m_drawList[i] == m_aimSprite || CWindowUtilities::m_drawList[i] == m_velocitySprite)
+		{
+			playerDrawables.push_back(i);
+		}
+	}
+
+	if (playerDrawables.size() == 2)
+	{
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[1] - 1);
+	}
+	else if (playerDrawables.size() == 1)
+	{
+		CWindowUtilities::m_drawList.erase(CWindowUtilities::m_drawList.begin() + playerDrawables[0]);
+	}
+
+	m_shouldDelete = true;
+	*/
 }
 
 void CPlayer::Update(float _fDeltaTime)
@@ -91,6 +113,7 @@ void CPlayer::Update(float _fDeltaTime)
         newAimAngle /= PI;
         m_currentAimAngle = newAimAngle;
     }
+	
 
     float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
     newVelAngle *= 180.0f;
@@ -117,7 +140,7 @@ void CPlayer::FixedUpdate()
 
 void CPlayer::LateUpdate(float _fDeltaTime)
 {
-	
+	//if (m_shouldDelete) { m_controller.~shared_ptr(); }
 }
 
 void CPlayer::OnButtonInput(GamepadButtonEvent _event)
@@ -142,6 +165,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		if (m_dodgeCooldown <= 0.0f) //If Cooldown finished, begin dodge
 		{
 			m_dodgeTimer = 0.2f;
+			m_dashSFX.play();
 		}
 		
 		break;
@@ -165,6 +189,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 				if (_ball->IsHeld() && _ball->GetHolder() == this)
 				{
 					_ball->Throw();
+					m_throwSFX.play();
 					actionTaken = true;
 					break;
 				}
@@ -172,6 +197,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 
 			if (!actionTaken) {
 				CBall::GetClosestBall(this->GetPosition())->SpecificPlayerInteractions(this);
+				m_catchSFX.play();
 			}
 		}
 		break;
@@ -202,6 +228,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 				if (_ball->IsHeld() && _ball->GetHolder() == this)
 				{
 					_ball->Throw();
+					m_throwSFX.play();
 				}
 			}
 		}
