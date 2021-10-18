@@ -7,9 +7,22 @@
 #include "CPostGameScene.h"
 #include "CControlsMenu.h"
 
-CGameScene::CGameScene(int _playerCount)
+CGameScene::CGameScene()
 {
-	/*for (int i = 0; i < _playerCount; i++)
+	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
+	{
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
+		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->AddVelocitySpriteToDrawList();
+
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("Gameplay", dynamic_cast<IGamepadInput*>(this));
+		//m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
+	}
+
+	/*
+	for (int i = 0; i < _playerCount; i++)
 	{
 		Team team = (((i + 1) % 2) == 0) ? Team::RED : Team::BLUE;
 		std::string playerLabel = "P" + std::to_string(i + 1);
@@ -40,7 +53,8 @@ CGameScene::CGameScene(int _playerCount)
 		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
 		// setup UI
 		++iter;
-	}*/
+	}
+	*/
 
 	newBall = new CBall();
 	newBall->SetVelocity({ 10,-10 });
@@ -71,7 +85,7 @@ CGameScene::~CGameScene()
 		
 	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
-		CTeamsManager::GetInstance()->RemovePlayer(CTeamsManager::GetInstance()->GetPlayer(itt));
+		CTeamsManager::GetInstance()->RemovePlayer(CTeamsManager::GetInstance()->GetPlayer(itt), itt);
 	}
 
 	delete m_redScore;

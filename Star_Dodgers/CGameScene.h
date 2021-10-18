@@ -10,7 +10,7 @@
 class CGameScene : public CSceneBase
 {
 public:
-	CGameScene(int _playerCount = 0);
+	CGameScene();
 	//CGameScene();
 	~CGameScene();
 

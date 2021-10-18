@@ -17,7 +17,7 @@ CLobby::CLobby()
 	m_lobbySegmentsLeft[1] = m_lobby.left;
 	// start of previous section + width of a player in previous section + gaps for previous section + lines
 	m_lobbySegmentsLeft[0] = (m_lobby.width / 3.0f) + 1.0f;
-	m_lobbySegmentsLeft[2] = ((m_lobby.width * 2.0f) / 3.0f) + 1.0f;
+	m_lobbySegmentsLeft[2] = ((m_lobby.width * 2.0f) / 3.0f) + 2.0f;
 
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
 	m_neutral = sf::Color(125, 125, 125, 150);
@@ -38,8 +38,8 @@ CLobby::CLobby()
 	{
 		std::string label;
 		sf::Color colour;
-		if (i == 0) { label = "Undecided"; colour = sf::Color::Red; }
-		else if (i == 1) { label = "Red Team"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
+		if (i == 0) { label = "Undecided"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
+		else if (i == 1) { label = "Red Team"; colour = sf::Color::Red; }
 		else { label = "Blue Team"; colour = sf::Color::Blue; }
 
 		m_teamLabels[i] = new sf::Text(label, *font, 30);
@@ -129,33 +129,6 @@ CLobby::~CLobby()
 			ele -= 1;
 			continue;
 		}
-
-		/*
-		// if any elements of m_playerReadyText are found on in m_drawList, that element is erased. also checks to see if the
-		// player icons also need to be removed
-		std::map<CPlayer*, sf::Text*>::iterator readyIter = m_playerReadyText.begin();
-		while (readyIter != m_playerReadyText.end())
-		{
-			if (CWindowUtilities::m_drawList[ele] == readyIter->first->GetAimSprite())
-			{
-				iter += ele;
-				if (m_canLoadMenu)
-				{
-					CWindowUtilities::m_drawList.erase(iter);
-					iter = CWindowUtilities::m_drawList.begin() + ele;
-				}
-				CWindowUtilities::m_drawList.erase(iter);
-				ele -= 1;
-				break;
-			}
-			else
-			{
-				++readyIter;
-				continue;
-			}
-			//++readyIter;
-		}
-		*/
 	}
 
 	delete m_title;               
@@ -267,7 +240,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 		float playerSize = (changedTeams[t] == Team::UNDECIDED) ? 50.0f : 150.0f;
 
 		//positional data
-		float xGap = (((m_lobby.width - 2.0f) / 3.0f) - playerSize) / 2.0f; // -2 for lines, /3 as 3 sectiions, /2 as 1 sect has 2 gaps
+		float xGap = (((m_lobby.width - 2.0f) / 6.0f));//3.0f) - playerSize) / 2.0f; // -2 for lines, /3 as 3 sectiions, /2 as 1 sect has 2 gaps
 		float yGap = (m_lobby.height - ((playerSize + 20.0f) * (float)teamCount)) / (float)(teamCount + 1);  // +20 to account for ready text, *teamCount to get total height of all players combined, lobbyHeight - totalHeight to center, /teamCount + 1 as there are 1 more gap than playerCount
 		float xPos = m_lobbySegmentsLeft[(int)changedTeams[t]] + xGap;
 		float yPos = m_lobby.top + yGap;
@@ -287,76 +260,7 @@ void CLobby::TeamChange(int _team1, int _team2)
 			// increase yPos and iter
 			yPos += playerSize + yGap + 20.0f; // +20 to account for text
 
-			/*std::string readyStr;
-			if (changedTeams[t] == Team::UNDECIDED)  // undecided players cannot be ready so set accordingly
-			{
-				teamVector.at(p).get()->SetIsReady(false);
-				readyStr = "";
-			}
-			else
-			{
-				readyStr = (teamVector.at(p).get()->IsPlayerReady()) ? "   READY   " : "<not ready>";
-			}
-
-			teamVector.at(p).get()->
-			// set ready text string
-			m_playerReadyText.at(teamVector.at(p))->setString(readyStr);
-			// set ready text colour
-			sf::Color readyColour = (teamVector.at(p).get()->IsPlayerReady()) ? sf::Color::Green : sf::Color::Magenta;
-			m_playerReadyText.at(teamVector.at(p))->setFillColor(readyColour);
-			// set ready text position
-			yPos += playerSize + 5.0f; // increase YPos by playerSize and textGap
-			float readyXPos = xPos + ((playerSize - m_playerReadyText.at(teamVector.at(p))->getGlobalBounds().width) / 2.0f);
-			m_playerReadyText.at(teamVector.at(p))->setPosition(readyXPos, yPos);
-
-			// increase yPos and iter
-			yPos += yGap + 15.0f; // +15 to account for text
-			++iter;*/
 		}
-
-		/*
-		std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(changedTeams[t]).begin();
-		while (iter != CTeamsManager::GetInstance()->GetTeam(changedTeams[t]).end())
-		{
-			// player icon / sprite size and position
-			iter->second.get()->SetPosition({ xPos, yPos });
-			iter->second.get()->SetSize(sf::Vector2f(playerSize, playerSize));
-
-			if (m_playerReadyText.find(iter->second) == m_playerReadyText.end())
-			{
-				// if text does not exist, then create text
-				NewPlayer(iter->second, iter->second.get()->GetControllerIndex());
-			}
-
-			// ready status and text
-			std::string readyStr;
-			if (changedTeams[t] == (int)Team::UNDECIDED)  // undecided players cannot be ready so set accordingly
-			{
-				iter->second.get()->SetIsReady(false);
-				readyStr = "";
-			}
-			else
-			{
-				readyStr = (iter->second.get()->IsPlayerReady()) ? "   READY   " : "<not ready>";
-			}
-
-			// set ready text string
-			m_playerReadyText.at(iter->second)->setString(readyStr);
-			// set ready text colour
-			sf::Color readyColour = (iter->second.get()->IsPlayerReady()) ? sf::Color::Green : sf::Color::Magenta;
-			m_playerReadyText.at(iter->second)->setFillColor(readyColour);
-			// set ready text position
-			yPos += playerSize + 5.0f; // increase YPos by playerSize and textGap
-			float readyXPos = xPos + ((playerSize - m_playerReadyText.at(iter->second)->getGlobalBounds().width) / 2.0f);
-			m_playerReadyText.at(iter->second)->setPosition(readyXPos, yPos);
-
-			// increase yPos and iter
-			yPos += yGap + 15.0f; // +15 to account for text
-			++iter;
-		}
-
-		if (_team1 == _team2) { return; } // ensures that data for team is not set twice
-		*/
 	}
 
 	// update ready text
@@ -387,62 +291,6 @@ void CLobby::TeamChange(int _team1, int _team2)
 		m_playerReadyText[r]->setFillColor(readyColour);
 		m_playerReadyText[r]->setPosition(readyPos);
 	}
-
-	/*int changedTeams[2] = {_team1, _team2};
-
-	for (int t = 0; t < 2; t++)
-	{
-		int teamCount = CTeamsManager::GetInstance()->GetTeamCount((Team)changedTeams[t]);
-		float playerSize = (changedTeams[t] == 0) ? 50.0f : 150.0f;
-
-		//positional data
-		float xGap = (((m_lobby.width - 2.0f) / 3.0f) - playerSize) / 2.0f; // -2 for lines, /3 as 3 sectiions, /2 as 1 sect has 2 gaps
-		float yGap = (m_lobby.height - ((playerSize + 20.0f) * (float)teamCount)) / (float)(teamCount + 1);  // +20 to account for ready text, *teamCount to get total height of all players combined, lobbyHeight - totalHeight to center, /teamCount + 1 as there are 1 more gap than playerCount
-		float xPos = m_lobbySegmentsLeft[changedTeams[t]] + xGap;
-		float yPos = m_lobby.top + yGap;
-
-		std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam((Team)changedTeams[t]).begin();
-		while (iter != CTeamsManager::GetInstance()->GetTeam((Team)changedTeams[t]).end())
-		{
-			// player icon / sprite size and position
-			iter->second.get()->SetPosition({ xPos, yPos } );
-			iter->second.get()->SetSize(sf::Vector2f(playerSize, playerSize));
-
-			if (m_playerReadyText.find(iter->second) == m_playerReadyText.end())
-			{
-				// if text does not exist, then create text
-				NewPlayer(iter->second, iter->second.get()->GetControllerIndex());
-			}
-
-			// ready status and text
-			std::string readyStr;
-			if (changedTeams[t] == (int)Team::UNDECIDED)  // undecided players cannot be ready so set accordingly
-			{
-				iter->second.get()->SetIsReady(false);
-				readyStr = "";
-			}
-			else
-			{
-				readyStr = (iter->second.get()->IsPlayerReady()) ? "   READY   " : "<not ready>";
-			}
-
-			// set ready text string
-			m_playerReadyText.at(iter->second)->setString(readyStr);
-			// set ready text colour
-			sf::Color readyColour = (iter->second.get()->IsPlayerReady()) ? sf::Color::Green : sf::Color::Magenta;
-			m_playerReadyText.at(iter->second)->setFillColor(readyColour);
-			// set ready text position
-			yPos += playerSize + 5.0f; // increase YPos by playerSize and textGap
-			float readyXPos = xPos + ((playerSize - m_playerReadyText.at(iter->second)->getGlobalBounds().width) / 2.0f);
-			m_playerReadyText.at(iter->second)->setPosition(readyXPos, yPos);
-
-			// increase yPos and iter
-			yPos += yGap + 15.0f; // +15 to account for text
-			++iter;
-		}
-
-		if (_team1 == _team2) { return; } // ensures that data for team is not set twice
-	}*/
 }
 
 // this function changes elements in the playerReadyText when a new player is added. also handles controller binding and adding drawables
@@ -450,7 +298,8 @@ void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 {
 	m_playerReadyText[_controller] = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);
 
-	CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
+	_player.get()->BindController("Lobby", dynamic_cast<IGamepadInput*>(this));
+	//CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
 
 	//CWindowUtilities::Draw(_player.get()->GetAimSprite());
 	_player.get()->AddAimSpriteToDrawlist();
