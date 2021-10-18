@@ -17,10 +17,16 @@ CBall::CBall()
 	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f, m_sprite->getLocalBounds().height / 2.0f);
 
 	CWindowUtilities::Draw(GetSprite());
+
 	m_wallbounceSFX.setBuffer(*CResourceHolder::GetSoundBuffer("bullethit_cannon.wav"));
 	m_explodeSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Explosion.wav"));
 	m_goldenStarSFX.setBuffer(*CResourceHolder::GetSoundBuffer("GoldenStarPickup.wav"));
 	m_powerupSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Powerup.wav"));
+	m_throwSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Throw.wav"));
+	m_catchSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Catch.wav"));
+	m_hurtSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Explosion.wav"));
+	m_powerupSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Powerup.wav"));
+
 	m_allBalls.push_back(this);
 }
 
@@ -240,6 +246,8 @@ void CBall::ActivatePower()
 				_homingBall->SetOwnerTeam(m_ownerTeam);
 				m_childBalls.push_back(_homingBall);
 			}
+
+			m_explodeSFX.play();
 		}
 		break;
 
@@ -251,6 +259,8 @@ void CBall::ActivatePower()
 		if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
 			m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
 			m_powerDuration = 3.0f;
+
+			m_explodeSFX.play();
 		}
 		break;
 
@@ -262,6 +272,8 @@ void CBall::ActivatePower()
 		if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
 			m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
 			m_powerDuration = 4.0f;
+
+			m_explodeSFX.play();
 		}
 		break;
 
@@ -350,6 +362,7 @@ void CBall::PerformPower()
 				if (canSpawn && sinVal >= 0.5f)
 				{
 					canSpawn = false;
+					m_explodeSFX.play();
 
 					float speedMulti = 2.0f;
 					const unsigned int maxRotations = 4;
@@ -362,8 +375,6 @@ void CBall::PerformPower()
 						_fragmentBall->SetOwnerTeam(m_ownerTeam);
 						m_childBalls.push_back(_fragmentBall);
 					}
-
-
 				}
 				else if (sinVal <= -0.5f) {
 					canSpawn = true;
@@ -413,8 +424,6 @@ void CBall::PerformPower()
 						childBall->SetOwnerTeam(m_ownerTeam);
 						m_childBalls.push_back(childBall);
 					}
-
-					
 				}
 				else if (sinVal <= -0.5f) {
 					canSpawn = true;
@@ -586,6 +595,8 @@ void CBall::ForceCatch(CPlayer* _player)
 
 	ResetBall();
 
+	m_catchSFX.play();
+
 	m_holder = _player;
 
 	if (CTeamsManager::GetInstance()->GetScore(m_holder->GetTeam()) >= 100) {
@@ -594,6 +605,7 @@ void CBall::ForceCatch(CPlayer* _player)
 	}
 	else {
 		m_power = static_cast<BallPower>(rand() % 5);
+		m_powerupSFX.play();
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
@@ -604,6 +616,8 @@ void CBall::ForceCatch(CPlayer* _player)
 /// </summary>
 void CBall::SetWinningBall()
 {
+	m_goldenStarSFX.play();
+
 	m_isWinningBall = true;
 	m_power = CBall::BallPower::None;
 
@@ -618,6 +632,8 @@ void CBall::SetWinningBall()
 void CBall::Throw(float _speed)
 {
 	if (m_holder == nullptr) return;
+
+	m_throwSFX.play();
 
 	m_throwStyle = m_holder->GetThrowStyle();
 
@@ -708,10 +724,11 @@ void CBall::AllPlayerCollision()
 /// <param name="_player"></param>
 void CBall::SpecificPlayerCollision(CPlayer* _player)
 {
+	bool didHit = false;
+
 	//Check for hit
 	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
-		m_explodeSFX.play();
 		//Perform power specific interaction
 		switch (m_power)
 		{
@@ -730,6 +747,8 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 				CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 			}
 
+			didHit = true;
+
 			ResetBall();
 			break;
 
@@ -742,6 +761,8 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 			ActivatePower();
+
+			didHit = true;
 			break;
 
 		case CBall::BallPower::BulletHell:
@@ -749,11 +770,17 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 		case CBall::BallPower::SuperFast:
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+
+			didHit = true;
 			break;
 
 		default:
 			break;
 		}
+	}
+
+	if (didHit) {
+		m_hurtSFX.play();
 	}
 }
 
@@ -819,7 +846,8 @@ void CBall::WallCollision()
 
 	case CBall::BallPower::BulletHell:
 		if (HitMidline(Team::UNDECIDED)) {
-			ActivatePower();
+			SetVelocity(sf::Vector2f(-m_velocity.x, m_velocity.y));
+			hitWall = true;
 		}
 		break;
 
@@ -846,6 +874,7 @@ void CBall::WallCollision()
 			ActivatePower();
 			break;
 		case CBall::BallPower::BulletHell:
+			ActivatePower();
 			break;
 		case CBall::BallPower::SuperFast:
 			

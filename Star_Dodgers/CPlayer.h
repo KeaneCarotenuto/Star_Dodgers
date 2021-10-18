@@ -86,7 +86,7 @@ private:
 
 	bool m_shouldDelete = false;
 
-	sf::Sound m_throwSFX, m_catchSFX, m_hurtSFX, m_dashSFX, m_powerupSFX, m_goldenStarSFX;
+	sf::Sound m_dashSFX;
 };
 
 #endif // __CPLAYER_H__
