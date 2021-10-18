@@ -223,6 +223,7 @@ void CLobby::LateUpdate(float _fDeltaTime)
 		for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 		{
 			CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
+			CTeamsManager::GetInstance()->GetPlayer(cont)->StopRendering();
 		}
 
 		CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
