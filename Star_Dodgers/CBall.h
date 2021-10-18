@@ -19,6 +19,7 @@ public:
 		Homing,
 		Exploding,
 		BulletHell,
+		SuperFast
 	};
 
 	CBall();
@@ -74,6 +75,8 @@ private:
 
 	void AllPlayerCollision();
 	void SpecificPlayerCollision(CPlayer* _player);
+
+	bool CheckAlreadyHit(CPlayer*& _player);
 	
 	void SetOwnerTeam(Team _team);
 	void UpdateVisuals();
