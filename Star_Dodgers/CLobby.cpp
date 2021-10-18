@@ -83,6 +83,12 @@ CLobby::CLobby()
 
 	// players are created and and CLobby observes changes to the controller count and connection
 	CTeamsManager::GetInstance()->AddObserver(this);
+
+	m_moveSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuMove.wav"));
+	m_selectSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuSelect.wav"));
+	m_cancelSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuCancel.wav"));
+
+	m_selectSFX.play();
 }
 
 CLobby::~CLobby()
@@ -276,6 +282,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		{
 		case Button::DPAD_LEFT:
 		{
+			m_moveSFX.play();
 			switch (playerPtr->GetTeam())
 			{
 			case Team::UNDECIDED:
@@ -293,6 +300,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		}
 		case Button::DPAD_RIGHT:
 		{
+			m_moveSFX.play();
 			switch (playerPtr->GetTeam())
 			{
 			case Team::UNDECIDED:
@@ -312,6 +320,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		{
 			if (team != (int)Team::UNDECIDED)
 			{
+				m_selectSFX.play();
 				playerPtr.get()->SetIsReady(true);
 				m_playerReadyText.at(playerPtr.get())->setString("READY");
 				m_playerReadyText.at(playerPtr.get())->setFillColor(sf::Color::Green);
@@ -321,7 +330,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		case Button::EAST: // back
 		{
 			//CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
-			
+			m_cancelSFX.play();
 			// unbind controllers
 			for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 			{

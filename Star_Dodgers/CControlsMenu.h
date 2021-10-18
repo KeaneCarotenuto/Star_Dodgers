@@ -78,5 +78,7 @@ private:
 	const sf::Vector2f botCenter = sf::Vector2f(1920 / 2, 3 * 1080 / 4);
 	const sf::Vector2f botLeft = sf::Vector2f(-1920 / 2, 3 * 1080 / 4);
 	const sf::Vector2f botRight = sf::Vector2f(1920 + 1920 / 2, 3 * 1080 / 4);
+
+	sf::Sound m_moveSFX, m_selectSFX, m_cancelSFX;
 };
 #endif

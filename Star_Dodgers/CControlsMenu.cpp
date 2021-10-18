@@ -21,6 +21,10 @@
 /// </summary>
 CControlsMenu::CControlsMenu()
 {
+	m_moveSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuMove.wav"));
+	m_selectSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuSelect.wav"));
+	m_cancelSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuCancel.wav"));
+
 	//First page
 	auto pageCreator = new PageInfo;
 	pageCreator->m_header = "Players";
@@ -217,14 +221,17 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
+			m_cancelSFX.play();
 			CGameManager::GetInstance()->GetMasterController()->Unbind("ControlsMenu");
 			break;
 		}
 	}
 	case Button::DPAD_LEFT:
 	{
+		
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
+			m_moveSFX.play();
 			if (fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0) >= 1)
 			{
 				m_currentPage--;
@@ -244,8 +251,10 @@ void CControlsMenu::OnButtonInput(GamepadButtonEvent _event)
 	}
 	case Button::DPAD_RIGHT:
 	{
+		
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
+			m_moveSFX.play();
 			if (fmin(static_cast<double>((cmath::g_clock->getElapsedTime().asSeconds() - m_startTime) / m_animDuration), 1.0) >= 1)
 			{
 

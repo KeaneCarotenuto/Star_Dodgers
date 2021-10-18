@@ -17,7 +17,10 @@ CBall::CBall()
 	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f, m_sprite->getLocalBounds().height / 2.0f);
 
 	CWindowUtilities::Draw(GetSprite());
-	m_ballSFX.setBuffer(*CResourceHolder::GetSoundBuffer("bullethit_cannon.wav"));
+	m_wallbounceSFX.setBuffer(*CResourceHolder::GetSoundBuffer("bullethit_cannon.wav"));
+	m_explodeSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Explosion.wav"));
+	m_goldenStarSFX.setBuffer(*CResourceHolder::GetSoundBuffer("GoldenStarPickup.wav"));
+	m_powerupSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Powerup.wav"));
 	m_allBalls.push_back(this);
 }
 
@@ -397,6 +400,8 @@ void CBall::PerformPower()
 
 	default:
 		break;
+		
+		ResetBall();
 	}
 }
 
@@ -475,6 +480,7 @@ void CBall::TryCatch(CPlayer* _player)
 	}
 	else {
 		//Failed to pickup: some kind of noise or something?
+
 	}
 }
 
@@ -656,6 +662,7 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 	//Check for hit
 	if (GetOwnerTeam() != Team::UNDECIDED && GetOwnerTeam() != _player->GetTeam() && cmath::Distance(_player->GetPosition(), this->GetPosition()) <= 50.0f)
 	{
+		m_explodeSFX.play();
 		//Perform power specific interaction
 		switch (m_power)
 		{
@@ -796,7 +803,7 @@ void CBall::WallCollision()
 		}
 
 		m_throwStyle = ThrowStyle::None;
-		m_ballSFX.play();
+		m_wallbounceSFX.play();
 		CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.3f);
 		CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);
 	}

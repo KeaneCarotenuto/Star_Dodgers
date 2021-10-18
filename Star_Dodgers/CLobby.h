@@ -44,6 +44,8 @@ private:
 	float m_lobbySegmentsLeft[3];     // position of lobby segement top left
 
 	float m_nextSceneCountdown = 0.0f;
+
+	sf::Sound m_moveSFX, m_selectSFX, m_cancelSFX;
 };
 
 #endif  // __CLOBBY_H__
