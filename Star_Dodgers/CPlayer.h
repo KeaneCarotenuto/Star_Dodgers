@@ -22,7 +22,7 @@ enum class ThrowStyle {
 class CPlayer : public CGameObject, public IGamepadInput
 {
 public:
-	CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vector2f _pos);
+	CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vector2f _pos);
 	~CPlayer();
 
 	void Update(float _fDeltaTime);
@@ -32,12 +32,15 @@ public:
 	void OnButtonInput(GamepadButtonEvent _event);
 
 	void SetController(std::shared_ptr<CGamepad> _controller) { m_controller = _controller; }
-	void SetController(int _controllerIndex) { m_controller = CGameManager::GetInstance()->GetController(_controllerIndex); }
-	int GetControllerIndex() const { return(m_controller->GetIndex()); }
+	void SetController(int _controllerNum) { m_controller = CGameManager::GetInstance()->GetController(_controllerNum); }
+	int GetControllerIndex() const { return(m_controller->GetGamepadIndex()); }
 
 	void SetAimSprite(std::string _texName) { m_aimSprite->setTexture(*CResourceHolder::GetTexture(_texName)); }
 	sf::Sprite* GetAimSprite() { return(m_aimSprite); }
+	int GetIconElement() { return(m_iconEle); }
 	void AddVelocitySpriteToDrawList() { CWindowUtilities::Draw(m_velocitySprite); }
+	void AddAimSpriteToDrawlist() { CWindowUtilities::Draw(m_aimSprite); }
+	void StopRendering();
 
 	void SetTeam(Team _team);
 	Team GetTeam() { return(m_team); }
@@ -62,8 +65,9 @@ public:
 private:
 	std::shared_ptr<CGamepad> m_controller;
 	Team m_team = Team::UNDECIDED;
-	sf::Sprite* m_aimSprite = new sf::Sprite();
-	sf::Sprite* m_velocitySprite = new sf::Sprite();
+	sf::Sprite* m_aimSprite;
+	int m_iconEle;
+	sf::Sprite* m_velocitySprite;
 	bool m_isReadyToPlay;
 	
 	float m_speed;

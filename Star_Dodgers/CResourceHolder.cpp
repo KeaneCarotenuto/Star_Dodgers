@@ -35,10 +35,10 @@ void CResourceHolder::Initialise()
 	CreateTexture("Ball_Rainbow.png");
 	CreateTexture("Ball_Rainbow_Blue.png");
 	CreateTexture("Ball_Rainbow_Red.png");
-	CreateTexture("P1.png");
-	CreateTexture("P2.png");
-	CreateTexture("P3.png");
-	CreateTexture("P4.png");
+	CreateTexture("PlayerSprite0.png");
+	CreateTexture("PlayerSprite1.png");
+	CreateTexture("PlayerSprite2.png");
+	CreateTexture("PlayerSprite3.png");
 	CreateTexture("BackButton.png");
 	CreateTexture("X-Ready.png");
 	CreateTexture("Move_Direction.png");

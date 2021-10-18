@@ -9,7 +9,7 @@
 
 CGameScene::CGameScene(int _playerCount)
 {
-	for (int i = 0; i < _playerCount; i++)
+	/*for (int i = 0; i < _playerCount; i++)
 	{
 		Team team = (((i + 1) % 2) == 0) ? Team::RED : Team::BLUE;
 		std::string playerLabel = "P" + std::to_string(i + 1);
@@ -40,7 +40,7 @@ CGameScene::CGameScene(int _playerCount)
 		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
 		// setup UI
 		++iter;
-	}
+	}*/
 
 	newBall = new CBall();
 	newBall->SetVelocity({ 10,-10 });
