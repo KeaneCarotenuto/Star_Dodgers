@@ -47,7 +47,7 @@ void CPlayer::Update(float _fDeltaTime)
     // when dodge timer finishes - set cooldown
     if (m_dodgeTimer < 0.0f)
     {
-        m_dodgeCooldown = 5.0f;
+        m_dodgeCooldown = 2.0f;
         m_dodgeTimer = 0.0f;
     }
 
@@ -138,7 +138,12 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	case Button::EAST:
 		m_throwStyle = ThrowStyle::LeftCurve;
 		break;
-	case Button::SOUTH:
+	case Button::SOUTH: 
+		if (m_dodgeCooldown <= 0.0f) //If Cooldown finished, begin dodge
+		{
+			m_dodgeTimer = 0.2f;
+		}
+		
 		break;
 	case Button::WEST:
 		m_throwStyle = ThrowStyle::RightCurve;

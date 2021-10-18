@@ -18,7 +18,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 add_executable(Star_Dodgers ${SOURCES})
 link_directories(Star_Dodgers SFML-2.5.1/lib)
-target_link_libraries(Star_Dodgers sfml-graphics sfml-window sfml-system )
+target_link_libraries(Star_Dodgers sfml-graphics sfml-window sfml-system sfml-audio )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

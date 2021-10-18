@@ -22,6 +22,10 @@ namespace cmath {
 		return _a / Mag(_a);
 	}
 
+	static sf::Vector2f Abs(sf::Vector2f _a) {
+		return sf::Vector2f(std::abs(_a.x), std::abs(_a.y));
+	}
+
 	static float Degrees(float _rad) {
 		return _rad * (180.0f / (float)M_PI);
 	}

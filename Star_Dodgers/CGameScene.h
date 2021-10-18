@@ -5,6 +5,7 @@
 
 #include "CSceneBase.h"
 #include "CMath.h"
+#include "CBall.h"
 
 class CGameScene : public CSceneBase
 {
@@ -21,6 +22,11 @@ public:
 	
 
 private:
+	void GameOver(Team _team);
+
+	CBall* newBall;
+	CBall* newBall2;
+
 	std::vector<int> m_controllerIndex;
 	CUIBar* m_redScore, *m_blueScore;
 	CUIImage* m_uiFrameImg;

@@ -7,6 +7,7 @@
 #include "CTeamsManager.h"
 #include "CGameManager.h"
 #include "CPlayer.h"
+#include "CPostProcessing.h"
 #include <memory>
 
 
@@ -18,6 +19,7 @@ public:
 		Homing,
 		Exploding,
 		BulletHell,
+		SuperFast
 	};
 
 	CBall();
@@ -49,7 +51,10 @@ public:
 	void LateUpdate(float _fDeltaTime);
 
 	void PerformThrowStyle();
+
 	void PerformPower();
+	void ActivatePower();
+	void StopPower();
 
 	void TryPickup(CPlayer* _player);
 	void TryCatch(CPlayer* _player);
@@ -70,14 +75,22 @@ private:
 
 	void AllPlayerCollision();
 	void SpecificPlayerCollision(CPlayer* _player);
+
+	bool CheckAlreadyHit(CPlayer*& _player);
 	
 	void SetOwnerTeam(Team _team);
 	void UpdateVisuals();
 
 	void ForcePickup(CPlayer* _player);
 	void ForceCatch(CPlayer* _player);
+
+	void SetWinningBall();
 	
 	void WallCollision();
+
+	bool HitMidline(Team _onThisSide);
+
+	CBall* m_parent = nullptr;
 
 	sf::Sprite* m_sprite = new sf::Sprite();
 
@@ -103,6 +116,10 @@ private:
 
 	Team m_ownerTeam = Team::UNDECIDED;
 	CPlayer* m_holder = nullptr;
+
+	std::vector<CPlayer*> m_hitPlayers = {};
+
+	sf::Sound m_ballSFX;
 };
 
 #endif // __CBall_H__

@@ -52,6 +52,7 @@
 #define EASYSFML_H
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <cmath>
 

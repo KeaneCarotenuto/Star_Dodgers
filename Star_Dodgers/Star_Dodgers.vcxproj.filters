@@ -102,6 +102,15 @@
     <ClCompile Include="CUIImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CPostProcessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPostGameScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGamepad.h">
@@ -160,6 +169,15 @@
     </ClInclude>
     <ClInclude Include="CUIImage.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPostProcessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPostGameScene.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

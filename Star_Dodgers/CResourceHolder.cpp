@@ -10,6 +10,7 @@ std::map<std::string, sf::Image *> CResourceHolder::m_imageMap;
 std::map<std::string, sf::Texture*> CResourceHolder::m_textureMap;
 std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
 std::map<std::string, sf::Shader *> CResourceHolder::m_shaderMap;
+std::map<std::string, sf::SoundBuffer *> CResourceHolder::m_soundBufferMap;
 
 // create resources that will be used later in the project
 void CResourceHolder::Initialise()
@@ -45,7 +46,7 @@ void CResourceHolder::Initialise()
 	CreateTexture("UIBarRed.png");
 	CreateTexture("UIBarBlue.png");
 	CreateTexture("UIframeimg.png");
-
+	CreateSoundBuffer("bullethit_cannon.wav");
 	CreateFont("comic.ttf");
 
 	CreateShader("starry.glsl", sf::Shader::Fragment);
@@ -166,6 +167,13 @@ sf::Font *CResourceHolder::GetFont(std::string _name)
 
 	
 }
+/// <summary>
+/// Creates a Shader from the provided file.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <param name="_name">Filename</param>
+/// <param name="_type">Fragment, Geometry, or Vertex</param>
+/// <returns></returns>
 void CResourceHolder::CreateShader(std::string _name, std::string _vertexName, std::string _fragmentName) {
 	std::string path = "Resources/Shaders/";
 
@@ -183,6 +191,13 @@ void CResourceHolder::CreateShader(std::string _name, std::string _vertexName, s
 	}
 }
 
+/// <summary>
+/// Creates a Shader from the provided file.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <param name="_name">Filename</param>
+/// <param name="_type">Fragment, Geometry, or Vertex</param>
+/// <returns></returns>
 void CResourceHolder::CreateShader(std::string _name, sf::Shader::Type _type) {
 	std::string path = "Resources/Shaders/";
 
@@ -200,6 +215,12 @@ void CResourceHolder::CreateShader(std::string _name, sf::Shader::Type _type) {
 	}
 }
 
+/// <summary>
+/// Retrieves a shader by name.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <param name="_name"></param>
+/// <returns></returns>
 sf::Shader* CResourceHolder::GetShader(std::string _name) {
 	// make sure shader is in map
 	std::map<std::string, sf::Shader *>::iterator iter = m_shaderMap.find(_name);
@@ -210,6 +231,51 @@ sf::Shader* CResourceHolder::GetShader(std::string _name) {
 	else
 	{
 		std::cout << "Shader: " << _name << " has not been created yet." << std::endl;
+		return (nullptr);
+	}
+}
+
+/// <summary>
+/// Creates a sound buffer from the provided file.
+/// <para> Only WAV, OGG, anf FLAC supported</para>
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <param name="_name"></param>
+/// <returns></returns>
+void CResourceHolder::CreateSoundBuffer(std::string _name) {
+	std::string path = "Resources/Audio/";
+
+	// check that this shader is not already in map
+	std::map<std::string, sf::SoundBuffer *>::iterator iter = m_soundBufferMap.find(_name);
+	if (iter != m_soundBufferMap.end())
+	{
+		std::cout << "Shader: " << _name << " has already been created. " << std::endl;
+	}
+	else
+	{
+		sf::SoundBuffer *newSoundBuffer = new sf::SoundBuffer();
+		newSoundBuffer->loadFromFile(path + _name);
+		m_soundBufferMap.insert(std::pair<std::string, sf::SoundBuffer *>(_name, newSoundBuffer));
+	}
+}
+
+/// <summary>
+/// Retrieves a sound buffer by name.
+/// <para> Only WAV, OGG, anf FLAC supported</para>
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <param name="_name"></param>
+/// <returns></returns>
+sf::SoundBuffer* CResourceHolder::GetSoundBuffer(std::string _name) {
+	// make sure sound buffer is in map
+	std::map<std::string, sf::SoundBuffer *>::iterator iter = m_soundBufferMap.find(_name);
+	if (iter != m_soundBufferMap.end())
+	{
+		return (iter->second);
+	}
+	else
+	{
+		std::cout << "Sound buffer: " << _name << " has not been created yet." << std::endl;
 		return (nullptr);
 	}
 }
