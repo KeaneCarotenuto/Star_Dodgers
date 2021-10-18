@@ -233,7 +233,6 @@ void CBall::PerformPower()
 	switch (m_power)
 	{
 	case CBall::BallPower::None:
-		m_canPickup = true;
 
 		//If ball is slow enough, come to a stop
 		if (cmath::Mag(GetVelocity()) <= 0.25f) {
@@ -421,6 +420,8 @@ void CBall::ForcePickup(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::ForcePickup> [_player] is Null\n"; return; }
 
+	ResetBall();
+
 	m_holder = _player;
 
 	if (CTeamsManager::GetInstance()->GetScore(m_holder->GetTeam()) >= 100) {
@@ -439,6 +440,8 @@ void CBall::ForcePickup(CPlayer* _player)
 void CBall::ForceCatch(CPlayer* _player)
 {
 	if (_player == nullptr) { std::cerr << "\nWARNING: <CBall::ForceCatch> [_player] is Null\n"; return; }
+
+	ResetBall();
 
 	m_holder = _player;
 
