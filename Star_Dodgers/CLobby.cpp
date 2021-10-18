@@ -196,17 +196,6 @@ CLobby::~CLobby()
 
 void CLobby::Update(float _fDeltaTime)
 {
-	// update ready text - checks if player associated with text still exists
-	for (int r = 0; r < 4; r++)
-	{
-		if (CTeamsManager::GetInstance()->GetPlayer(r).get() != nullptr)
-		{
-			m_playerReadyText[r]->setString("");
-			m_playerReadyText[r]->setFillColor(sf::Color::Transparent);
-			m_playerReadyText[r]->setPosition(sf::Vector2f(0, 0));
-		}
-	}
-
 	// if there is an odd number of players or if not all players are ready, the game cannot start
 	if (((CTeamsManager::GetInstance()->GetPlayerCount() % 2) == 0) && CTeamsManager::GetInstance()->AreAllPlayersReady())
 	{
@@ -373,6 +362,11 @@ void CLobby::TeamChange(int _team1, int _team2)
 	// update ready text
 	for (int r = 0; r < 4; r++)
 	{
+		if (m_playerReadyText[r] == nullptr)
+		{
+			m_playerReadyText[r] = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);
+		}
+
 		// ready text properties
 		std::string readyStr = "";
 		m_playerReadyText[r]->setString(readyStr);
@@ -458,7 +452,8 @@ void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 
 	CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
 
-	CWindowUtilities::Draw(_player.get()->GetAimSprite());
+	//CWindowUtilities::Draw(_player.get()->GetAimSprite());
+	_player.get()->AddAimSpriteToDrawlist();
 
 	TeamChange((int)_player.get()->GetTeam(), (int)_player.get()->GetTeam());
 }

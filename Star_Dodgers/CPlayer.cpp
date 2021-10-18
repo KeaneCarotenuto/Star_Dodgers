@@ -31,11 +31,12 @@ CPlayer::CPlayer(int _controllerNum, std::string _texName, Team _team, sf::Vecto
 	m_speed = 60.0f;
 	m_leftAnalogStickSensitivity = 0.1f;
 	m_rightAnalogStickSensitivity = 1.0f;
+
 }
 
 CPlayer::~CPlayer()
 {
-	StopRendering();
+	//StopRendering();
 }
 
 void CPlayer::Update(float _fDeltaTime)

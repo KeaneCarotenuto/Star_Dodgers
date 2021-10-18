@@ -8,7 +8,7 @@ CMainMenu::CMainMenu()
 {
 	// bind master controller to input settings
 	m_selectedItem = 0;
-	m_canBindController = (CGameManager::GetInstance()->GetMasterController() == nullptr) ? false : true;
+	m_canBindController = (CGameManager::GetInstance()->GetMasterController() == nullptr) ? true : true;
 
 	// get font and set colours
 	sf::Font *font = CResourceHolder::GetFont("comic.ttf");

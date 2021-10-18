@@ -424,7 +424,7 @@ float CTeamsManager::GetScore(Team _team)
 // this function tells all observers of the teamMaps to call TeamChange - notifies observers that a player has changed teams
 void CTeamsManager::NotifyObservers(int _team1, int _team2)
 {
-	/*std::vector<unsigned int> nullElements;
+	std::vector<unsigned int> nullElements;
 
 	for (unsigned int ele = 0; ele < m_observers.size(); ele++)
 	{
@@ -443,7 +443,7 @@ void CTeamsManager::NotifyObservers(int _team1, int _team2)
 		int ele = nullElements.size() - 1;
 		RemoveObserver(m_observers[nullElements[ele]]);
 		nullElements.pop_back();
-	}*/
+	}
 }
 
 // this function tells all observers of the teamMaps to call NewPlayer - notifies observers that a new player has joined the game

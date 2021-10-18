@@ -38,6 +38,7 @@ public:
 	sf::Sprite* GetAimSprite() { return(m_aimSprite); }
 	int GetIconElement() { return(m_iconEle); }
 	void AddVelocitySpriteToDrawList() { CWindowUtilities::Draw(m_velocitySprite); }
+	void AddAimSpriteToDrawlist() { CWindowUtilities::Draw(m_aimSprite); }
 	void StopRendering();
 
 	void SetTeam(Team _team);
