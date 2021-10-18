@@ -32,6 +32,8 @@ public:
 	int GetPlayerCount();
 	bool AreAllPlayersReady();
 
+	std::shared_ptr<CPlayer> GetNearestPlayer(sf::Vector2f _point, Team _team = Team::UNDECIDED);
+
 	bool CanSkipLobby() { return (m_isSkipLobby); }
 
 	void JoystickStatusChange(bool _isGameplayScene, int _controllerIndex, bool _isConnected);

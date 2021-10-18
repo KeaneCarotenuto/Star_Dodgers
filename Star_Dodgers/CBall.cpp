@@ -164,9 +164,6 @@ void CBall::FixedUpdate()
 
 		AllPlayerCollision();
 
-		//Update accel
-		m_acceleration = -GetVelocity() * 0.01f;
-
 		//depending on the ball type, perform some movement
 		PerformThrowStyle();
 
@@ -192,15 +189,20 @@ void CBall::PerformThrowStyle()
 	case ThrowStyle::Fastball:
 		m_acceleration = { 0,0 };
 		break;
+
 	case ThrowStyle::LeftCurve:
 		SetVelocity(cmath::Rotate(GetVelocity(), -1.5f));
 		break;
+
 	case ThrowStyle::RightCurve:
 		SetVelocity(cmath::Rotate(GetVelocity(), 1.5f));
 		break;
 
-	case ThrowStyle::None:
+	case ThrowStyle::Normal:
+		m_acceleration = -GetVelocity() * 0.01f;
+		break;
 
+	case ThrowStyle::None:
 		break;
 
 	default:
@@ -220,7 +222,27 @@ void CBall::ActivatePower()
 	case CBall::BallPower::None:
 		break;
 	case CBall::BallPower::Homing:
+		SetVelocity({ 0.0f, 0.0f });
+		SetAcceleration({ 0.0f, 0.0f });
+
+		//For the first time, activate power
+		if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
+			m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
+			m_powerDuration = 3.0f;
+
+			for (int i = 0; i < 3; i++) {
+				CBall* _homingBall = new CBall();
+				_homingBall->m_parent = this;
+				_homingBall->SetPosition(GetPosition());
+				_homingBall->SetVelocity(2.0f * sf::Vector2f(cos(float(rand() % 100)), sin(float(rand() % 100))));
+				_homingBall->m_canPickup = false;
+				_homingBall->m_throwStyle = ThrowStyle::None;
+				_homingBall->SetOwnerTeam(m_ownerTeam);
+				m_childBalls.push_back(_homingBall);
+			}
+		}
 		break;
+
 	case CBall::BallPower::Exploding:
 		SetVelocity({ 0.0f, 0.0f });
 		SetAcceleration({ 0.0f, 0.0f });
@@ -273,6 +295,34 @@ void CBall::PerformPower()
 		break;
 
 	case CBall::BallPower::Homing:
+		m_canPickup = false;
+
+		//If ball is slow enough, come to a stop
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			ActivatePower();
+		}
+
+		//If the power is active
+		if (m_powerActivationTime != -INFINITY && m_powerDuration != -INFINITY) {
+
+			//if the power still has time
+			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
+
+				for (CBall* _homingBall : m_childBalls) {
+					std::shared_ptr<CPlayer> closest = CTeamsManager::GetInstance()->GetNearestPlayer(_homingBall->GetPosition());
+
+					if (closest) {
+						_homingBall->SetAcceleration(cmath::Normalize(closest->GetPosition() - _homingBall->GetPosition()) * 0.25f);
+					}
+				}
+
+			}
+			else {
+				//Stop powerups
+				ResetBall();
+			}
+		}
+
 		break;
 
 	case CBall::BallPower::Exploding:
@@ -304,13 +354,13 @@ void CBall::PerformPower()
 					float speedMulti = 2.0f;
 					const unsigned int maxRotations = 4;
 					for (int rotation = 0; rotation < maxRotations; rotation++) {
-						CBall* childBall = new CBall();
-						childBall->m_parent = this;
-						childBall->SetPosition(GetPosition());
-						childBall->SetVelocity(speedMulti * cmath::Rotate({ cos(float(rand() % 100)), sin(float(rand() % 100)) }, rotation * (360.0f / maxRotations)));
-						childBall->m_canPickup = false;
-						childBall->SetOwnerTeam(m_ownerTeam);
-						m_childBalls.push_back(childBall);
+						CBall* _fragmentBall = new CBall();
+						_fragmentBall->m_parent = this;
+						_fragmentBall->SetPosition(GetPosition());
+						_fragmentBall->SetVelocity(speedMulti * cmath::Rotate({ cos(float(rand() % 100)), sin(float(rand() % 100)) }, rotation * (360.0f / maxRotations)));
+						_fragmentBall->m_canPickup = false;
+						_fragmentBall->SetOwnerTeam(m_ownerTeam);
+						m_childBalls.push_back(_fragmentBall);
 					}
 
 
@@ -543,7 +593,7 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = CBall::BallPower::Exploding;
+		m_power = CBall::BallPower::Homing;
 		//m_power = rand() % 2 ? CBall::BallPower::SuperFast : CBall::BallPower::BulletHell;
 	}
 
@@ -760,6 +810,9 @@ void CBall::WallCollision()
 		break;
 
 	case CBall::BallPower::Homing:
+		if (HitMidline(Team::UNDECIDED)) {
+			ActivatePower();
+		}
 		break;
 
 	case CBall::BallPower::Exploding:
@@ -802,7 +855,7 @@ void CBall::WallCollision()
 			break;
 		}
 
-		m_throwStyle = ThrowStyle::None;
+		m_throwStyle = ThrowStyle::Normal;
 		m_wallbounceSFX.play();
 		CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.3f);
 		CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);

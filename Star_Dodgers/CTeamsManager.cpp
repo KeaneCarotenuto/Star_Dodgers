@@ -182,6 +182,26 @@ bool CTeamsManager::AreAllPlayersReady()
 	return(true);
 }
 
+std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Team _team)
+{
+	std::shared_ptr<CPlayer> closest = nullptr;
+
+	std::map<int, std::shared_ptr<CPlayer>> tempMap = {};
+	if (_team == Team::UNDECIDED) {
+		tempMap.insert(m_redTeam.begin(), m_redTeam.end());
+		tempMap.insert(m_blueTeam.begin(), m_blueTeam.end());
+	}
+
+	for (std::pair<int, std::shared_ptr<CPlayer>> _playerPair : _team == Team::RED ? m_redTeam : _team == Team::BLUE ? m_blueTeam : tempMap) {
+		if (!_playerPair.second) continue;
+		if (!closest || cmath::Distance(_playerPair.second->GetPosition(), _point) < cmath::Distance(closest->GetPosition(), _point)) {
+			closest = _playerPair.second;
+		}
+	}
+
+	return closest;
+}
+
 // updates players and teams based on game state and controller states
 void CTeamsManager::JoystickStatusChange(bool _isGameplayScene, int _controllerIndex, bool _isConnected)
 {

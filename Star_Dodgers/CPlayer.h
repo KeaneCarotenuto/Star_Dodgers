@@ -15,6 +15,7 @@ enum class ThrowStyle {
 	Fastball,
 	LeftCurve,
 	RightCurve,
+	Normal,
 	None
 };
 
