@@ -219,7 +219,16 @@ void CBall::ActivatePower()
 	case CBall::BallPower::Homing:
 		break;
 	case CBall::BallPower::Exploding:
+		SetVelocity({ 0.0f, 0.0f });
+		SetAcceleration({ 0.0f, 0.0f });
+
+		//For the first time, activate power
+		if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
+			m_powerActivationTime = cmath::g_clock->getElapsedTime().asSeconds();
+			m_powerDuration = 3.0f;
+		}
 		break;
+
 	case CBall::BallPower::BulletHell:
 		SetVelocity({ 0.0f, 0.0f });
 		SetAcceleration({ 0.0f, 0.0f });
@@ -264,6 +273,55 @@ void CBall::PerformPower()
 		break;
 
 	case CBall::BallPower::Exploding:
+		m_canPickup = false;
+
+		m_acceleration = -GetVelocity() * 0.01f;
+
+		//If ball is slow enough, come to a stop
+		if (cmath::Mag(GetVelocity()) <= 0.25f) {
+			ActivatePower();
+		}
+
+		//If the power is active
+		if (m_powerActivationTime != -INFINITY && m_powerDuration != -INFINITY) {
+
+			//if the power still has time
+			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
+
+				//spawn a ball every so often, and shoot it at some angle based on time
+
+				static bool canSpawn = true;
+				float sinVal = sin(float(M_PI) / 2.0f + cmath::g_clock->getElapsedTime().asSeconds() * 10.0f);
+
+				//Spawn ball, then wait to be allowed to spawn again. Using sine waves to time it.
+				if (canSpawn && sinVal >= 0.5f)
+				{
+					canSpawn = false;
+
+					float speedMulti = 2.0f;
+					const unsigned int maxRotations = 4;
+					for (int rotation = 0; rotation < maxRotations; rotation++) {
+						CBall* childBall = new CBall();
+						childBall->m_parent = this;
+						childBall->SetPosition(GetPosition());
+						childBall->SetVelocity(speedMulti * cmath::Rotate({ cos(float(rand() % 100)), sin(float(rand() % 100)) }, rotation * (360.0f / maxRotations)));
+						childBall->m_canPickup = false;
+						childBall->SetOwnerTeam(m_ownerTeam);
+						m_childBalls.push_back(childBall);
+					}
+
+
+				}
+				else if (sinVal <= -0.5f) {
+					canSpawn = true;
+				}
+
+			}
+			else {
+				//Stop powerups
+				ResetBall();
+			}
+		}
 		break;
 
 	case CBall::BallPower::BulletHell:
@@ -479,7 +537,8 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = rand() % 2 ? CBall::BallPower::SuperFast : CBall::BallPower::BulletHell;
+		m_power = CBall::BallPower::Exploding;
+		//m_power = rand() % 2 ? CBall::BallPower::SuperFast : CBall::BallPower::BulletHell;
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
@@ -536,11 +595,12 @@ void CBall::Throw(float _speed)
 		case CBall::BallPower::Homing:
 			break;
 		case CBall::BallPower::Exploding:
+			SetVelocity(GetVelocity() * 0.5f);
 			break;
 		case CBall::BallPower::BulletHell:
 			break;
 		case CBall::BallPower::SuperFast:
-			SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed * 2.0f);
+			SetVelocity(GetVelocity() * 2.0f);
 			ActivatePower();
 			break;
 		default:
@@ -621,19 +681,18 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 			break;
 
 		case CBall::BallPower::Exploding:
+			//if already hit, skip
+			if (CheckAlreadyHit(_player)) return;
+
+			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+			ActivatePower();
 			break;
 
 		case CBall::BallPower::BulletHell:
-			//if already hit, skip
-			//if (CheckAlreadyHit(_player)) return;
-
-			////add points, do power
-			//CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
-			//ActivatePower();
 			break;
 
 		case CBall::BallPower::SuperFast:
-
+			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 			break;
 
 		default:
@@ -725,9 +784,9 @@ void CBall::WallCollision()
 		case CBall::BallPower::Homing:
 			break;
 		case CBall::BallPower::Exploding:
+			ActivatePower();
 			break;
 		case CBall::BallPower::BulletHell:
-			//ActivatePower();
 			break;
 		case CBall::BallPower::SuperFast:
 			
