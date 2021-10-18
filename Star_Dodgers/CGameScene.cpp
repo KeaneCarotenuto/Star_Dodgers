@@ -1,5 +1,5 @@
 #include "CPlayer.h"
-#include "CBall.h"
+
 #include "CTeamsManager.h"
 #include "CResourceHolder.h"
 #include <map>
@@ -41,14 +41,16 @@ CGameScene::CGameScene(int _playerCount)
 		++iter;
 	}
 
-	CBall* newBall = new CBall();
+	newBall = new CBall();
 	newBall->SetVelocity({ 10,-10 });
+	newBall2 = new CBall();
+	newBall2->SetVelocity({ 15,-10 });
+
 	f = 0.2f;
 	m_uiFrameImg = new CUIImage(1, {0.0f, 0.0f}, {1.0f, 1.0f}, 0.0f, CResourceHolder::GetTexture("UIframeimg.png"));
 	m_redScore = new CUIBar(1, sf::Vector2f(10.0f, 775.0f), sf::Vector2f(5.0f, 3.0f), 270, CResourceHolder::GetTexture("UIBarRed.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
 	m_blueScore = new CUIBar(1, sf::Vector2f(1850.0f, 775.0f), sf::Vector2f(5.0f, 3.0f), 270, CResourceHolder::GetTexture("UIBarBlue.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
-	CBall* newBall2 = new CBall();
-	newBall2->SetVelocity({ 15,-10 });
+	
 	m_starrySky.setTexture(*CResourceHolder::GetTexture("UIframeimg.png"));
 	CWindowUtilities::Draw(&m_starrySky, CResourceHolder::GetShader("starry.glsl"));
 	
@@ -57,6 +59,8 @@ CGameScene::CGameScene(int _playerCount)
 CGameScene::~CGameScene()
 {
 	//need a destructor
+	CObjectController::Destroy(newBall);
+	CObjectController::Destroy(newBall2);
 }
 
 void CGameScene::Update(float _fDeltaTime)
@@ -84,11 +88,27 @@ void CGameScene::LateUpdate(float _fDeltaTime)
 
 void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
+	switch (_event.button)
+	{
+	case Button::EAST:
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			CGameScene::GameOver(Team::UNDECIDED);
+			break;
+		}
+	}
+	}
 
 }
 
+/// <summary>
+/// Game over function that moves to the post game scene
+/// <para>Author: Jacob</para>
+/// </summary>
+/// <param name="_team">This is the winning team</param>
 void CGameScene::GameOver(Team _team)
 {
-	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>(_team);
+	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>();
 	CGameManager::GetInstance()->GetMasterController()->Unbind("Gameplay");
 }
