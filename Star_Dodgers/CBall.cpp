@@ -15,7 +15,10 @@ CBall::CBall()
 	m_sprite->setOrigin(m_sprite->getLocalBounds().width / 2.0f, m_sprite->getLocalBounds().height / 2.0f);
 
 	CWindowUtilities::Draw(GetSprite());
-	m_ballSFX.setBuffer(*CResourceHolder::GetSoundBuffer("bullethit_cannon.wav"));
+	m_wallbounceSFX.setBuffer(*CResourceHolder::GetSoundBuffer("bullethit_cannon.wav"));
+	m_explodeSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Explosion.wav"));
+	m_goldenStarSFX.setBuffer(*CResourceHolder::GetSoundBuffer("GoldenStarPickup.wav"));
+	m_powerupSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Powerup.wav"));
 	m_allBalls.push_back(this);
 }
 
@@ -265,7 +268,7 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 		else {
 			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
 		}
-
+		m_explodeSFX.play();
 		ResetBall();
 	}
 }
@@ -412,6 +415,7 @@ void CBall::ForcePickup(CPlayer* _player)
 	if (CTeamsManager::GetInstance()->GetScore(m_holder->GetTeam()) >= 100) {
 		CTeamsManager::GetInstance()->ResetScore(m_holder->GetTeam());
 		m_isWinningBall = true;
+		m_goldenStarSFX.play();
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
@@ -501,7 +505,7 @@ void CBall::WallCollision()
 
 	if (hitWall) {
 		m_throwStyle = ThrowStyle::None;
-		m_ballSFX.play();
+		m_wallbounceSFX.play();
 		CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.3f);
 		CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);
 	}

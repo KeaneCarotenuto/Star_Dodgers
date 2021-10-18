@@ -24,6 +24,13 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 	m_speed = 60.0f;
 	m_leftAnalogStickSensitivity = 0.1f;
 	m_rightAnalogStickSensitivity = 1.0f;
+
+	m_throwSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Throw.wav"));
+	m_catchSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Catch.wav"));
+	m_hurtSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Explosion.wav"));
+	m_dashSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Dash.wav"));
+	m_powerupSFX.setBuffer(*CResourceHolder::GetSoundBuffer("Powerup.wav"));
+	m_goldenStarSFX.setBuffer(*CResourceHolder::GetSoundBuffer("GoldenStarPickup.wav"));
 }
 
 CPlayer::~CPlayer()
@@ -102,6 +109,7 @@ void CPlayer::Update(float _fDeltaTime)
         newAimAngle /= PI;
         m_currentAimAngle = newAimAngle;
     }
+	
 
     float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
     newVelAngle *= 180.0f;
@@ -153,6 +161,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		if (m_dodgeCooldown <= 0.0f) //If Cooldown finished, begin dodge
 		{
 			m_dodgeTimer = 0.2f;
+			m_dashSFX.play();
 		}
 		
 		break;
@@ -176,6 +185,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 				if (_ball->IsHeld() && _ball->GetHolder() == this)
 				{
 					_ball->Throw();
+					m_throwSFX.play();
 					actionTaken = true;
 					break;
 				}
@@ -183,6 +193,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 
 			if (!actionTaken) {
 				CBall::GetClosestBall(this->GetPosition())->SpecificPlayerInteractions(this);
+				m_catchSFX.play();
 			}
 		}
 		break;
@@ -213,6 +224,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 				if (_ball->IsHeld() && _ball->GetHolder() == this)
 				{
 					_ball->Throw();
+					m_throwSFX.play();
 				}
 			}
 		}

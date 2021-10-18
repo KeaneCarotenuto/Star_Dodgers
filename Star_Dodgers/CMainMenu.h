@@ -29,6 +29,8 @@ private:
 	sf::Text *m_controlsButton;
 	sf::Text *m_settingsButton;
 	sf::Text *m_quitButton;
+
+	sf::Sound m_moveSFX, m_selectSFX, m_cancelSFX;
 };
 
 #endif // __CMAINMENU_H__
