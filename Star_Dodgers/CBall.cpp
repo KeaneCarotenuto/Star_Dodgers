@@ -230,6 +230,7 @@ void CBall::ActivatePower()
 			m_powerDuration = 4.0f;
 		}
 		break;
+
 	case CBall::BallPower::SuperFast:
 		//For the first time, activate power
 		if (m_powerActivationTime == -INFINITY || m_powerDuration == -INFINITY) {
@@ -289,14 +290,20 @@ void CBall::PerformPower()
 				if (canSpawn && sinVal >= 0.5f)
 				{
 					canSpawn = false;
-					CBall* childBall = new CBall();
-					childBall->m_parent = this;
-					childBall->SetPosition(GetPosition());
-					childBall->SetVelocity({ cos(cmath::g_clock->getElapsedTime().asSeconds()), sin(cmath::g_clock->getElapsedTime().asSeconds()) });
-					childBall->m_canPickup = false;
-					childBall->SetOwnerTeam(m_ownerTeam);
 
-					m_childBalls.push_back(childBall);
+					float speedMulti = 2.0f;
+					const unsigned int maxRotations = 2;
+					for (int rotation = 0; rotation < maxRotations; rotation++) {
+						CBall* childBall = new CBall();
+						childBall->m_parent = this;
+						childBall->SetPosition(GetPosition());
+						childBall->SetVelocity(speedMulti * cmath::Rotate({cos(cmath::g_clock->getElapsedTime().asSeconds()), sin(cmath::g_clock->getElapsedTime().asSeconds())}, rotation * (360.0f / maxRotations)));
+						childBall->m_canPickup = false;
+						childBall->SetOwnerTeam(m_ownerTeam);
+						m_childBalls.push_back(childBall);
+					}
+
+					
 				}
 				else if (sinVal <= -0.5f) {
 					canSpawn = true;
@@ -618,11 +625,11 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 		case CBall::BallPower::BulletHell:
 			//if already hit, skip
-			if (CheckAlreadyHit(_player)) return;
+			//if (CheckAlreadyHit(_player)) return;
 
-			//add points, do power
-			CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
-			ActivatePower();
+			////add points, do power
+			//CTeamsManager::GetInstance()->AddScore(GetOwnerTeam() == Team::BLUE ? Team::BLUE : Team::RED);
+			//ActivatePower();
 			break;
 
 		case CBall::BallPower::SuperFast:
@@ -681,15 +688,33 @@ void CBall::WallCollision()
 		hitWall = true;
 	}
 
-	if (m_power == BallPower::SuperFast) {
-		if (
-			(GetVelocity().x > 0 && GetPosition().x + GetSprite()->getGlobalBounds().width / 2.0f >= (GetOwnerTeam() == Team::RED ? CResourceHolder::GetWindow()->getSize().x : CResourceHolder::GetWindow()->getSize().x / 2.0f)) ||
-			(GetVelocity().x < 0 && GetPosition().x - GetSprite()->getGlobalBounds().width / 2.0f <= (GetOwnerTeam() == Team::RED ? CResourceHolder::GetWindow()->getSize().x / 2.0f : 0))
-			)
+	switch (m_power)
+	{
+	case CBall::BallPower::None:
+		break;
+
+	case CBall::BallPower::Homing:
+		break;
+
+	case CBall::BallPower::Exploding:
+		break;
+
+	case CBall::BallPower::BulletHell:
+		if (HitMidline(Team::UNDECIDED)) {
+			ActivatePower();
+		}
+		break;
+
+	case CBall::BallPower::SuperFast:
+		if (HitMidline(GetOwnerTeam() == Team::RED ? Team::BLUE : Team::RED))
 		{
 			SetVelocity(sf::Vector2f(-m_velocity.x, m_velocity.y));
 			hitWall = true;
 		}
+		break;
+
+	default:
+		break;
 	}
 
 	if (hitWall) {
@@ -702,7 +727,7 @@ void CBall::WallCollision()
 		case CBall::BallPower::Exploding:
 			break;
 		case CBall::BallPower::BulletHell:
-			ActivatePower();
+			//ActivatePower();
 			break;
 		case CBall::BallPower::SuperFast:
 			
@@ -716,6 +741,26 @@ void CBall::WallCollision()
 		CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.3f);
 		CPostProcessing::GetInstance()->AddChromaAberration(0.001f, 0.3f);
 	}
+}
+
+bool CBall::HitMidline(Team _onThisSide)
+{
+	switch (_onThisSide)
+	{
+	case Team::UNDECIDED:
+		if (abs(GetPosition().x - CResourceHolder::GetWindow()->getSize().x / 2.0f) <= GetSprite()->getGlobalBounds().width / 2.0f) return true;
+		break;
+	case Team::RED:
+		if (GetVelocity().x > 0 && GetPosition().x + GetSprite()->getGlobalBounds().width / 2.0f >= CResourceHolder::GetWindow()->getSize().x / 2.0f) return true;
+		break;
+	case Team::BLUE:
+		if (GetVelocity().x < 0 && GetPosition().x - GetSprite()->getGlobalBounds().width / 2.0f <= CResourceHolder::GetWindow()->getSize().x / 2.0f) return true;
+		break;
+	default:
+		break;
+	}
+
+	return false;
 }
 
 #pragma endregion

@@ -88,6 +88,8 @@ private:
 	
 	void WallCollision();
 
+	bool HitMidline(Team _onThisSide);
+
 	CBall* m_parent = nullptr;
 
 	sf::Sprite* m_sprite = new sf::Sprite();
