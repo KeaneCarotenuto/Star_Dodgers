@@ -722,7 +722,7 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 			//If winning ball, add score (Can only be winning ball if not power)
 			if (m_isWinningBall) {
 				std::cout << (GetOwnerTeam() == Team::BLUE ? "BLUE" : "RED") << " team wins! (Need to hook this up to winning a losing)";
-
+				CGameManager::GetInstance()->TeamWon(GetOwnerTeam());
 				CTeamsManager::GetInstance()->ResetScore(Team::BLUE);
 				CTeamsManager::GetInstance()->ResetScore(Team::RED);
 			}

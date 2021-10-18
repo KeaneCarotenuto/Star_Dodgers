@@ -49,6 +49,7 @@ public:
 		else { m_isGameplay = false; }
 	}
 	void DeleteNonActiveScenes();
+	void TeamWon(Team _winningTeam);
 
 private:
 	CGameManager();
