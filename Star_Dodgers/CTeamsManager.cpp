@@ -70,7 +70,7 @@ std::vector<std::shared_ptr<CPlayer>> CTeamsManager::GetTeam(Team _team)
 // returns a shared pointer to a player instance based on controller index
 std::shared_ptr<CPlayer> CTeamsManager::GetPlayer(int _controllerIndex)
 {
-	std::unordered_map<int, std::shared_ptr<CPlayer>>::iterator iter = m_allPlayers.find(_controllerIndex);
+	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = m_allPlayers.find(_controllerIndex);
 	if (iter != m_allPlayers.end())
 	{
 		return(iter->second);
@@ -93,8 +93,10 @@ void CTeamsManager::RemovePlayer(std::shared_ptr<CPlayer> _player, int _controll
 	}
 
 	m_freeIcons.push_back(_player.get()->GetIconElement());
-	m_allPlayers.erase(nextEle - 1);
-	_player.~shared_ptr();
+	m_allPlayers.at(_controllerIndex) = nullptr;
+	m_allPlayers.erase(_controllerIndex);
+
+	CObjectController::Destroy( _player.get());
 }
 
 // returns the total number of players in all teams
@@ -167,7 +169,7 @@ std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Te
 void CTeamsManager::JoystickStatusChange(bool _isJoinableScene, int _controllerNum, bool _isConnected)
 {
 	// check if this controller is connected to a pre-existing player
-	std::unordered_map<int, std::shared_ptr<CPlayer>>::iterator iter = m_allPlayers.find(_controllerNum);
+	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = m_allPlayers.find(_controllerNum);
 
 	if (_isConnected)
 	{

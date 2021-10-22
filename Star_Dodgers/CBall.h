@@ -120,7 +120,7 @@ private:
 	std::vector<CPlayer*> m_hitPlayers = {};
 
 	
-	sf::Sound m_wallbounceSFX, m_explodeSFX, m_goldenStarSFX, m_powerupSFX;
+	sf::Sound m_wallbounceSFX, m_explodeSFX, m_goldenStarSFX, m_throwSFX, m_catchSFX, m_hurtSFX, m_powerupSFX;
 };
 
 #endif // __CBall_H__

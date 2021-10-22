@@ -13,6 +13,7 @@
 #include "CGameScene.h"
 #include "CMath.h"
 #include "CPostProcessing.h"
+#include "CPostGameScene.h"
 
 sf::Clock* cmath::g_clock = new sf::Clock();
 
@@ -57,6 +58,11 @@ int main()
 			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
 			{
 				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
+			}
+			// skip straight to game mode - creates players based on number of controllers that are connected
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::L))
+			{
+				CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>();
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
