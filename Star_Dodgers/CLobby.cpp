@@ -215,7 +215,9 @@ void CLobby::LateUpdate(float _fDeltaTime)
 			// unbind controllers
 			for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 			{
-				CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
+				//CGameManager::GetInstance()->GetController(cont).get()->Unbind("Lobby");
+				CTeamsManager::GetInstance()->GetPlayer(cont)->UnbindController("Lobby");
+
 			}
 
 			CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
@@ -228,10 +230,12 @@ void CLobby::LateUpdate(float _fDeltaTime)
 		// unbind controllers
 		for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 		{
-			CGameManager::GetInstance()->GetController(cont)->Unbind("Lobby");
+			//CGameManager::GetInstance()->GetController(cont).get()->Unbind("Lobby");
+			CTeamsManager::GetInstance()->GetPlayer(cont)->UnbindController("Lobby");
 			CTeamsManager::GetInstance()->GetPlayer(cont)->StopRendering();
 		}
 
+		CGameManager::GetInstance()->GetMasterController().get()->Unbind("Lobby");
 		CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
 	}
 }
@@ -306,9 +310,7 @@ void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 	m_playerReadyText[_controller] = new sf::Text("", *CResourceHolder::GetFont("comic.ttf"), 15);
 
 	_player.get()->BindController("Lobby", dynamic_cast<IGamepadInput*>(this));
-	//CGameManager::GetInstance()->GetController(_controller)->Bind(dynamic_cast<IGamepadInput*>(this), "Lobby");
 
-	//CWindowUtilities::Draw(_player.get()->GetAimSprite());
 	_player.get()->AddAimSpriteToDrawlist();
 
 	TeamChange((int)_player.get()->GetTeam(), (int)_player.get()->GetTeam());

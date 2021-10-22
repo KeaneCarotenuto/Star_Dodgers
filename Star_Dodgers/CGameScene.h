@@ -11,7 +11,6 @@ class CGameScene : public CSceneBase
 {
 public:
 	CGameScene();
-	//CGameScene();
 	~CGameScene();
 
 	void Update(float _fDeltaTime);

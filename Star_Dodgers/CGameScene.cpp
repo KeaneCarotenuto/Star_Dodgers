@@ -11,8 +11,8 @@ CGameScene::CGameScene()
 {
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
-		CGameManager::GetInstance()->GetController(i)->Bind(CTeamsManager::GetInstance()->GetPlayer(i).get(), "P" + std::to_string(i));
-		//CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
+		//CGameManager::GetInstance()->GetController(i)->Bind(CTeamsManager::GetInstance()->GetPlayer(i).get(), "P" + std::to_string(i));
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
 		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
@@ -141,7 +141,7 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 	{
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
-			GameOver( Team::BLUE);
+			GameOver(Team::BLUE);
 			break;
 		}
 	}
