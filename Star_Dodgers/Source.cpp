@@ -66,12 +66,12 @@ int main()
 			}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
-			if (event.type == sf::Event::JoystickDisconnected) //&& ((CGameManager::GetInstance()->GetControllerCount() == 4) || (CGameManager::GetInstance()->GetControllerCount() == 2)))
+			if (event.type == sf::Event::JoystickDisconnected)
 			{
 				CGameManager::GetInstance()->OnJoystickDisconnect(event.joystickConnect.joystickId);
 			}
 
-			if (event.type == sf::Event::JoystickConnected) //&& (CGameManager::GetInstance()->GetControllerCount() < 5))
+			if (event.type == sf::Event::JoystickConnected)
 			{
 				// check if a disconnected controller first
 				CGameManager::GetInstance()->OnJoystickConnect(event.joystickConnect.joystickId);
