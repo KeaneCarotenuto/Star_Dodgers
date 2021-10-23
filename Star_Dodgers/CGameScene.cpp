@@ -9,11 +9,24 @@
 
 CGameScene::CGameScene()
 {
+	int _redPlayers = 0;
+	int _bluePlayers = 0;
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
-		//CGameManager::GetInstance()->GetController(i)->Bind(CTeamsManager::GetInstance()->GetPlayer(i).get(), "P" + std::to_string(i));
-		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
-		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
+		CGameManager::GetInstance()->GetController(i)->Bind(CTeamsManager::GetInstance()->GetPlayer(i).get(), "P" + std::to_string(i));
+		sf::Vector2f pos;
+		//CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
+		if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::BLUE)
+		{
+			_bluePlayers++;
+			pos = sf::Vector2f(1920 * 3 / 4, _bluePlayers * 1080 / 3);
+		}
+		//CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
+		else if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::RED)
+		{
+			_redPlayers++;
+			pos = sf::Vector2f(1920 * 1 / 4,  (3 - _redPlayers) * 1080 / 3);
+		}
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->AddVelocitySpriteToDrawList();
@@ -57,10 +70,12 @@ CGameScene::CGameScene()
 	}
 	*/
 
-	newBall = new CBall();
-	newBall->SetVelocity({ 10,-10 });
-	newBall2 = new CBall();
-	newBall2->SetVelocity({ 15,-10 });
+	m_newBall = new CBall();
+	m_newBall->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
+	m_newBall->SetVelocity({ -2,-10 });
+	m_newBall2 = new CBall();
+	m_newBall2->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
+	m_newBall2->SetVelocity({ 2,10 });
 
 	f = 0.2f;
 	m_uiFrameImg = new CUIImage(1, {0.0f, 0.0f}, {1.0f, 1.0f}, 0.0f, CResourceHolder::GetTexture("UIframeimg.png"));
@@ -80,11 +95,11 @@ CGameScene::CGameScene()
 /// </summary>
 CGameScene::~CGameScene()
 {
-	CObjectController::Destroy(newBall);
-	newBall = nullptr;
+	CObjectController::Destroy(m_newBall);
+	m_newBall = nullptr;
 
-	CObjectController::Destroy(newBall2);
-	newBall2 = nullptr;
+	CObjectController::Destroy(m_newBall2);
+	m_newBall2 = nullptr;
 		
 	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
@@ -149,10 +164,28 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 /// <param name="_team">This is the winning team</param>
 void CGameScene::GameOver(Team _winningTeam)
 {
+	std::cout << CTeamsManager::GetInstance()->GetScore(Team::RED);
 	// unbind controllers
 	for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 	{
 		CGameManager::GetInstance()->GetController(cont)->Unbind("Gameplay");
 	}
-	CGameManager::GetInstance()->ChangeActiveScene<CControlsMenu>();
+	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>(_winningTeam, m_BlueWiningBalls, m_redWiningBalls);
+}
+
+void CGameScene::WinningThrow(Team _throwingTeam, int _points)
+{
+	switch (_throwingTeam)
+	{
+	case Team::UNDECIDED:
+		break;
+	case Team::RED:
+		m_redWiningBalls += _points;
+		break;
+	case Team::BLUE:
+		m_BlueWiningBalls += _points;
+		break;
+	default:
+		break;
+	}
 }

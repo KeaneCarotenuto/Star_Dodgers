@@ -213,3 +213,12 @@ void CGameManager::TeamWon(Team _winningTeam)
 { 
 	static_cast<CGameScene*>(m_activeScene)->m_winningTeam = _winningTeam;
 }
+
+/// <summary>
+/// This keeps count of the balls hit by each team in the level 
+/// </summary>
+/// <param name="_throwingTeam"> the team that has the winning ball </param>
+void CGameManager::WinningBall(Team _throwingTeam, int _points)
+{
+	static_cast<CGameScene*>(m_activeScene)->WinningThrow(_throwingTeam, _points);
+}

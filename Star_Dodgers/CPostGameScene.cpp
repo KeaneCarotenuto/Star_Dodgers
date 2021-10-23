@@ -1,15 +1,32 @@
 #include "CPostGameScene.h"
 #include "CGameManager.h"
+#include<string>
 
-CPostGameScene::CPostGameScene()
+CPostGameScene::CPostGameScene(Team _winningTeam, int _bluePoints, int _redPoints)
 {
 	// get font
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
-	m_gameWinner = new sf::Text("Blank Team Wins!", *font);
+	switch (_winningTeam)
+	{
+	case Team::UNDECIDED:
+		m_gameWinner = new sf::Text("Blank Team Wins!", *font);
+		break;
+	case Team::RED:
+		m_gameWinner = new sf::Text("Red Team Wins!", *font);
+		break;
+	case Team::BLUE:
+		m_gameWinner = new sf::Text("Blue Team Wins!", *font);
+		break;
+	default:
+		m_gameWinner = new sf::Text("Blank Team Wins!", *font);
+		break;
+	}
+	
 	m_gameWinner->setFillColor(sf::Color::White);
 	m_gameWinner->setPosition(sf::Vector2f(200, 200));
-
-	m_gameSummary = new sf::Text("Red Team scored x Hits \nBlue Team scored x Hits", *font);
+	std::string text1 = "Red Team scored " + std::to_string(_redPoints);
+	std::string text2 = " Hits \nBlue Team scored " + std::to_string(_bluePoints);
+	m_gameSummary = new sf::Text(text1 + text2 + " Hits", *font);
 	m_gameSummary->setFillColor(sf::Color::White);
 	m_gameSummary->setPosition(sf::Vector2f(200, 400));
 

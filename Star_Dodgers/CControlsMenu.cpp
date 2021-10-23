@@ -40,9 +40,9 @@ CControlsMenu::CControlsMenu()
 	pageCreator->m_header = "Moving";
 	pageCreator->m_text = "The left joystick controls the players movement.";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/P1.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite0.png"))
 	{
-		std::cout << "failed to load P1.png" << std::endl;
+		std::cout << "failed to load PlayerSprite0.png" << std::endl;
 	}
 	m_pageList.push_back(pageCreator);
 
@@ -50,9 +50,9 @@ CControlsMenu::CControlsMenu()
 	pageCreator->m_header = "Dashing";
 	pageCreator->m_text = "         While Moving the player can press x to perform a short dash. \nThis can be used to avoid incoming balls or move quickly around the screen.";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/P2.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite1.png"))
 	{
-		std::cout << "failed to load P2.png" << std::endl;
+		std::cout << "failed to load PlayerSprite1.png" << std::endl;
 	}
 	m_pageList.push_back(pageCreator);
 
@@ -101,9 +101,9 @@ CControlsMenu::CControlsMenu()
 	pageCreator->m_header = "Controls";
 	pageCreator->m_text = "Left joystick moves the player \nRight joystick aims the ball \nRight trigger charges throw \nRight bumper quickly throws \nSquare curves to the left \nCircle curves to the right \nTriangle throws fast ball \nX performs a quick dash";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/P1.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite0.png"))
 	{
-		std::cout << "failed to load P1.png" << std::endl;
+		std::cout << "failed to load PlayerSprite0.png" << std::endl;
 	}
 	m_pageList.push_back(pageCreator);
 
@@ -112,9 +112,9 @@ CControlsMenu::CControlsMenu()
 	pageCreator->m_header = "Page3";
 	pageCreator->m_text = "Page3 text goes here";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/P2.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite1.png"))
 	{
-		std::cout << "failed to load P2.png" << std::endl;
+		std::cout << "failed to load PlayerSprite1.png" << std::endl;
 	}
 	m_pageList.push_back(pageCreator);
 

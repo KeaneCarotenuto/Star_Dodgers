@@ -20,16 +20,21 @@ public:
 	float f = 0.0f;
 	Team m_winningTeam = Team::UNDECIDED;
 	void GameOver(Team _winningTeam);
+	void WinningThrow(Team _throwingTeam, int points);
 
 private:
-	CBall* newBall;
-	CBall* newBall2;
+	
+	CBall* m_newBall;
+	CBall* m_newBall2;
 
 	std::vector<int> m_controllerIndex;
 	CUIBar* m_redScore, *m_blueScore;
 	CUIImage* m_uiFrameImg;
 	sf::Sprite m_starrySky;
 	CUITimer* m_timer;
+
+	int m_redWiningBalls;
+	int m_BlueWiningBalls;
 };
 
 #endif  // __CGAME_SCENE_H__
