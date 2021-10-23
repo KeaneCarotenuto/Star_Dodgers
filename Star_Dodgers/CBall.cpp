@@ -588,6 +588,7 @@ void CBall::ForcePickup(CPlayer* _player)
 	if (CTeamsManager::GetInstance()->GetScore(m_holder->GetTeam()) >= 100) {
 		CTeamsManager::GetInstance()->ResetScore(m_holder->GetTeam());
 		SetWinningBall();
+		
 	}
 
 	SetOwnerTeam(m_holder->GetTeam());
@@ -625,6 +626,7 @@ void CBall::ForceCatch(CPlayer* _player)
 /// </summary>
 void CBall::SetWinningBall()
 {
+	
 	m_goldenStarSFX.play();
 
 	m_isWinningBall = true;
@@ -801,6 +803,17 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 	}
 
 	if (didHit) {
+		switch (_player->GetTeam())
+		{
+		case Team::RED:
+			CGameManager::GetInstance()->WinningBall(Team::BLUE, 1);
+			break;
+		case Team::BLUE:
+			CGameManager::GetInstance()->WinningBall(Team::RED, 1);
+			break;
+		default:
+			break;
+		}
 		m_hurtSFX.play();
 	}
 }

@@ -1,10 +1,12 @@
 #pragma once
 #include "CSceneBase.h"
+#include "CTeamsManager.h"
 class CPostGameScene :
     public CSceneBase
 {
 public:
-	CPostGameScene();
+	
+	CPostGameScene(Team _winningTeam = Team::UNDECIDED, int _bluePoints = 0, int _redPoints = 0);
 	~CPostGameScene();
 
 	void OnButtonInput(GamepadButtonEvent _event);

@@ -52,6 +52,7 @@ public:
 	}
 	void DeleteNonActiveScenes();
 	void TeamWon(Team _winningTeam);
+	void WinningBall(Team _throwingTeam, int _points);
 
 private:
 	CGameManager();
