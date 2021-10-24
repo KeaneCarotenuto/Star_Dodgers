@@ -1,4 +1,9 @@
 #pragma once
+
+#ifndef __CPostGameScene__
+#define __CPostGameScene__
+
+
 #include "CSceneBase.h"
 #include "CTeamsManager.h"
 class CPostGameScene :
@@ -25,5 +30,6 @@ private:
 		MainMenu,
 		PlayAgain
 	};
+	OptionSelected m_currentOption;
 };
-
+#endif // !__CPostGameScene__

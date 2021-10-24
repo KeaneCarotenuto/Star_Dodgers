@@ -1,5 +1,6 @@
 #include "CPostGameScene.h"
 #include "CGameManager.h"
+#include "CLobby.h"
 #include<string>
 
 CPostGameScene::CPostGameScene(Team _winningTeam, int _bluePoints, int _redPoints)
@@ -36,7 +37,7 @@ CPostGameScene::CPostGameScene(Team _winningTeam, int _bluePoints, int _redPoint
 
 	m_playAgainButton = new sf::Text("Play Again", *font);
 	m_playAgainButton->setFillColor(sf::Color::White);
-	m_playAgainButton->setPosition(sf::Vector2f(200, 800));
+	m_playAgainButton->setPosition(sf::Vector2f(1920/2, 600));
 
 	//draw all of the components
 	CWindowUtilities::Draw(m_gameWinner);
@@ -50,14 +51,85 @@ CPostGameScene::CPostGameScene(Team _winningTeam, int _bluePoints, int _redPoint
 
 CPostGameScene::~CPostGameScene()
 {
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
+	{
+		if (CWindowUtilities::m_drawList[ele] == m_gameWinner)
+		{
+			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
+			// erase the element at the iterator and the 3 elements after it so that text is removed from the list
+			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
+			CWindowUtilities::m_drawList.erase(iter, iter + 4);
+			break;
+		}
+	}
+
+	//delete our pointers
+	delete m_gameWinner;
+	delete m_gameSummary;
+	delete m_menuButton;
+	delete m_playAgainButton;
 }
 
 void CPostGameScene::OnButtonInput(GamepadButtonEvent _event)
 {
+	switch (_event.button)
+	{
+	case Button::SOUTH:
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			switch (m_currentOption)
+			{
+			case CPostGameScene::OptionSelected::MainMenu:
+				CGameManager::GetInstance()->GetMasterController()->Unbind("PostGameMenu");
+				CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
+				
+				break;
+			case CPostGameScene::OptionSelected::PlayAgain:
+				CGameManager::GetInstance()->GetMasterController()->Unbind("PostGameMenu");
+				CGameManager::GetInstance()->ChangeActiveScene<CLobby>();
+				
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+	}
+	case Button::DPAD_RIGHT:
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			m_currentOption = OptionSelected::PlayAgain;
+		}
+		break;
+	}
+	case Button::DPAD_LEFT:
+	{
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			m_currentOption = OptionSelected::MainMenu;
+		}
+		break;
+	}
+	}
 }
 
 void CPostGameScene::Update(float _fDeltaTime)
 {
+	switch (m_currentOption)
+	{
+	case CPostGameScene::OptionSelected::MainMenu:
+		m_menuButton->setFillColor(sf::Color::Cyan);
+		m_playAgainButton->setFillColor(sf::Color::White);
+		break;
+	case CPostGameScene::OptionSelected::PlayAgain:
+		m_menuButton->setFillColor(sf::Color::White);
+		m_playAgainButton->setFillColor(sf::Color::Cyan);
+		break;
+	default:
+		break;
+	}
 }
 
 void CPostGameScene::FixedUpdate()
