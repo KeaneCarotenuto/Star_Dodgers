@@ -215,7 +215,6 @@ void CLobby::LateUpdate(float _fDeltaTime)
 			// unbind controllers
 			for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 			{
-				//CGameManager::GetInstance()->GetController(cont).get()->Unbind("Lobby");
 				CTeamsManager::GetInstance()->GetPlayer(cont)->UnbindController("Lobby");
 
 			}
@@ -227,11 +226,9 @@ void CLobby::LateUpdate(float _fDeltaTime)
 
 	if (m_canLoadMenu)
 	{
-		//CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
 		// unbind controllers
 		for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 		{
-			//CGameManager::GetInstance()->GetController(cont).get()->Unbind("Lobby");
 			CTeamsManager::GetInstance()->GetPlayer(cont)->UnbindController("Lobby");
 			CTeamsManager::GetInstance()->GetPlayer(cont)->StopRendering();
 		}
