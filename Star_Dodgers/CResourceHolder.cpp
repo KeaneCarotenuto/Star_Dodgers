@@ -46,6 +46,10 @@ void CResourceHolder::Initialise()
 	CreateTexture("UIBarRed.png");
 	CreateTexture("UIBarBlue.png");
 	CreateTexture("UIframeimg.png");
+	CreateTexture("LeftCurveIcon.png");
+	CreateTexture("RightCurveIcon.png");
+	CreateTexture("NormalThrowIcon.png");
+	CreateTexture("FastBallIcon.png");
 	CreateSoundBuffer("bullethit_cannon.wav");
 	CreateSoundBuffer("Throw.wav");
 	CreateSoundBuffer("Dash.wav");

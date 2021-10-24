@@ -171,12 +171,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		m_throwStyle = ThrowStyle::RightCurve;
 		break;
 	case Button::LEFT_SHOULDER:
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
-		}
 		break;
-
 	case Button::RIGHT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{

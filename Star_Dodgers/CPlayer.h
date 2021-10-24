@@ -46,6 +46,7 @@ public:
 
 	void SetTeam(Team _team);
 	Team GetTeam() { return(m_team); }
+	ThrowStyle GetThrowStyle() { return(m_throwStyle); }
 
 	void SetIsReady(bool _isReady) { m_isReadyToPlay = _isReady; }
 	bool IsPlayerReady() { return(m_isReadyToPlay); }
@@ -57,8 +58,6 @@ public:
 	// this function returns the width, height, top coord and right coord of the player sprite taking into account 
 	// scale, transforms and rotations
 	sf::Rect<float> GetRect() { return(m_aimSprite->getGlobalBounds()); }
-
-	ThrowStyle GetThrowStyle() { return m_throwStyle; };
 
 	void Dodge();
 

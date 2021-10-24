@@ -35,8 +35,8 @@ private:
 	CUITimer* m_timer;
 
 	CUIImage* m_playerIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
-	CUIImage* m_starIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
 	CUIImage* m_throwIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
+	CUIImage* m_starIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
 
 
 	int m_redWiningBalls;
