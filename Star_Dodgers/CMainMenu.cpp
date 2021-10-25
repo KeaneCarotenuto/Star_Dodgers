@@ -8,7 +8,7 @@ CMainMenu::CMainMenu()
 {
 	// bind master controller to input settings
 	m_selectedItem = 0;
-	m_canBindController = (CGameManager::GetInstance()->GetMasterController() == nullptr) ? true : true;
+	m_canBindController = (CGameManager::GetInstance()->GetMasterController() == nullptr) ? false : true;
 
 	// get font and set colours
 	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
@@ -109,6 +109,11 @@ void CMainMenu::Update(float _fDeltaTime)
 		m_controlsButton->setFillColor(m_neutral);
 		m_settingsButton->setFillColor(m_neutral);
 		m_quitButton->setFillColor(m_highlight);
+		break;
+	}
+	default:
+	{
+		std::cout << "menu error: m_selectedItem == " << m_selectedItem << " : out of range." << std::endl;
 		break;
 	}
 	}

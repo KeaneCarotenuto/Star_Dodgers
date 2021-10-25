@@ -14,8 +14,10 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 	SetAimSprite(_texName);
 	SetTeam(_team);
 
+	m_iconEle = _texName[12] - '0';
+
 	//m_aimSprite->setOrigin(0, 0);
-	m_velocitySprite->setTexture(*CResourceHolder::GetTexture("Move_Direction.png"));
+	//m_velocitySprite->setTexture(*CResourceHolder::GetTexture("Move_Direction.png"));
 	m_velocitySprite->setScale(0.2, 0.2);
 	m_velocitySprite->setOrigin(m_velocitySprite->getLocalBounds().width / 2.0f, m_velocitySprite->getLocalBounds().height / 2.0f);
 	m_aimSprite->setPosition(_pos);
@@ -169,12 +171,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		m_throwStyle = ThrowStyle::RightCurve;
 		break;
 	case Button::LEFT_SHOULDER:
-		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
-		{
-			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
-		}
 		break;
-
 	case Button::RIGHT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{

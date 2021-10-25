@@ -13,26 +13,58 @@ CGameScene::CGameScene()
 	int _bluePlayers = 0;
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
-		CGameManager::GetInstance()->GetController(i)->Bind(CTeamsManager::GetInstance()->GetPlayer(i).get(), "P" + std::to_string(i));
 		sf::Vector2f pos;
-		//CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
 		if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::BLUE)
 		{
 			_bluePlayers++;
 			pos = sf::Vector2f(1920 * 3 / 4, _bluePlayers * 1080 / 3);
+
+			// player icon
+			sf::Vector2f iconPos = (_bluePlayers == 1) ? sf::Vector2f(1795.f, 22.f) : sf::Vector2f(1795.f, 942.f);
+			std::string sprStr = "PlayerSprite" + std::to_string(CTeamsManager::GetInstance()->GetPlayer(i).get()->GetIconElement()) + ".png";
+			m_playerIconUI[i] = new CUIImage(2, iconPos, { .5f, .5f }, 0.f, CResourceHolder::GetTexture(sprStr));
+
+			// throw sprite
+			iconPos = (_bluePlayers == 1) ? sf::Vector2f(1680.f, 12.f) : sf::Vector2f(1665.f, 982.f);
+			switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
+			{
+			case ThrowStyle::Normal: { sprStr = "NormalThrowIcon.png"; break; }
+			case ThrowStyle::LeftCurve: { sprStr = "LeftCurveIcon.png"; break; }
+			case ThrowStyle::RightCurve: { sprStr = "RightCurveIcon.png"; break; }
+			case ThrowStyle::Fastball: { sprStr = "FastBallIcon.png"; break; }
+			case ThrowStyle::None: { /*fallthrough*/ }
+			default: { sprStr = "null"; break; }
+			}
+			m_throwIconUI[i] = (sprStr != "null") ? new CUIImage(2, iconPos, { .75f, .75f }, 0.f, CResourceHolder::GetTexture(sprStr)) : nullptr;
 		}
-		//CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
 		else if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::RED)
 		{
 			_redPlayers++;
 			pos = sf::Vector2f(1920 * 1 / 4,  (3 - _redPlayers) * 1080 / 3);
+
+			sf::Vector2f iconPos = (_redPlayers == 1) ? sf::Vector2f(25.f, 945.f) : sf::Vector2f(25.f, 22.f);
+			std::string sprStr = "PlayerSprite" + std::to_string(CTeamsManager::GetInstance()->GetPlayer(i).get()->GetIconElement()) + ".png";
+			m_playerIconUI[i] = new CUIImage(2, iconPos, { .5f, .5f }, 0.f, CResourceHolder::GetTexture(sprStr));
+
+			// throw sprite
+			iconPos = (_redPlayers == 1) ? sf::Vector2f(170.f, 982.f) : sf::Vector2f(170.f, 18.f);
+			switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
+			{
+			case ThrowStyle::Normal: { sprStr = "NormalThrowIcon.png"; break; }
+			case ThrowStyle::LeftCurve: { sprStr = "LeftCurveIcon.png"; break; }
+			case ThrowStyle::RightCurve: { sprStr = "RightCurveIcon.png"; break; }
+			case ThrowStyle::Fastball: { sprStr = "FastBallIcon.png"; break; }
+			case ThrowStyle::None: { /*fallthrough*/ }
+			default: { sprStr = "null"; break; }
+			}
+			m_throwIconUI[i] = (sprStr != "null") ? new CUIImage(2, iconPos, { .75f, .75f }, 0.f, CResourceHolder::GetTexture(sprStr)) : nullptr;
 		}
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->AddVelocitySpriteToDrawList();
 
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("Gameplay", dynamic_cast<IGamepadInput*>(this));
-		//m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
 	}
 
 	/*
@@ -85,6 +117,19 @@ CGameScene::CGameScene()
 	m_starrySky.setTexture(*CResourceHolder::GetTexture("UIframeimg.png"));
 	CWindowUtilities::Draw(&m_starrySky, CResourceHolder::GetShader("starry.glsl"));
 
+	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
+	{
+		CWindowUtilities::Draw(m_playerIconUI[i]->GetSprite());
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (m_throwIconUI[i] != nullptr)
+		{
+			CWindowUtilities::Draw(m_throwIconUI[i]->GetSprite());
+		}
+	}
+
 	m_timer = new CUITimer(1, {930.0f, 20.0f}, {2.0f, 2.0f}, 0.0f);
 	
 }
@@ -100,7 +145,7 @@ CGameScene::~CGameScene()
 
 	CObjectController::Destroy(m_newBall2);
 	m_newBall2 = nullptr;
-		
+
 	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
 		CTeamsManager::GetInstance()->GetPlayer(itt).get()->StopRendering();
@@ -124,16 +169,53 @@ CGameScene::~CGameScene()
 			break;
 		}
 	}
+
+	int throwEle = 0;
+	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
+	{
+		if (CWindowUtilities::m_drawList[ele] == m_playerIconUI[0]->GetSprite())
+		{
+			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
+			// erase the element at the iterator 
+			auto iter = CWindowUtilities::m_drawList.begin() + ele;
+			CWindowUtilities::m_drawList.erase(iter, iter + CTeamsManager::GetInstance()->GetPlayerCount());
+			continue;
+		}
+
+		if (CWindowUtilities::m_drawList[ele] == m_throwIconUI[throwEle]->GetSprite())
+		{
+			auto iter = CWindowUtilities::m_drawList.begin() + ele;
+			CWindowUtilities::m_drawList.erase(iter);
+			++throwEle;
+			continue;
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		delete m_playerIconUI[i];
+		delete m_throwIconUI[i];
+	}
 }
 
 void CGameScene::Update(float _fDeltaTime)
 {
 	CResourceHolder::GetShader("starry.glsl")->setUniform("iResolution", sf::Vector2f{1920.0f,1080.0f});
 	CResourceHolder::GetShader("starry.glsl")->setUniform("iTime", cmath::g_clock->getElapsedTime().asSeconds());
-	for (unsigned int cont = 0; cont < m_controllerIndex.size(); cont++)
+	
+	for (unsigned int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
-		
+		switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
+		{
+		case ThrowStyle::Normal: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("NormalThrowIcon.png")); break; }
+		case ThrowStyle::LeftCurve: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("LeftCurveIcon.png")); break; }
+		case ThrowStyle::RightCurve: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("RightCurveIcon.png")); break; }
+		case ThrowStyle::Fastball: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("FastBallIcon.png")); break; }
+		case ThrowStyle::None: { /*fallthrough*/ }
+		default: { m_throwIconUI[i] = nullptr; break; }
+		}
 	}
+
 	m_redScore->SetFill(100.0f, CTeamsManager::GetInstance()->GetScore(Team::RED));
 	m_blueScore->SetFill(100.0f, CTeamsManager::GetInstance()->GetScore(Team::BLUE));
 	
@@ -165,6 +247,7 @@ void CGameScene::OnButtonInput(GamepadButtonEvent _event)
 void CGameScene::GameOver(Team _winningTeam)
 {
 	std::cout << CTeamsManager::GetInstance()->GetScore(Team::RED);
+
 	// unbind controllers
 	for (int cont = 0; cont < CGameManager::GetInstance()->GetControllerCount(); cont++)
 	{

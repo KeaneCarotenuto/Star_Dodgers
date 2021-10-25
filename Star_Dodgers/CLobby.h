@@ -11,18 +11,47 @@
 // forward declare
 class CPlayer;
 
+/// <summary>
+/// this class manages all the objects in the lobby scene
+/// </summary>
 class CLobby : public CSceneBase, public IObserver
 {
 public:
 	CLobby();
 	~CLobby();
 
+	/// <summary>
+	/// this function is used to call update on all CGameObjects in this scene instane
+	/// </summary>
+	/// <param name="_fDeltaTime"></param>
 	void Update(float _fDeltaTime);
+
+	/// <summary>
+	/// this function is used to call fixed update on all CGameObjects in this scene instane
+	/// </summary>
 	void FixedUpdate();
+
+	/// <summary>
+	/// this function is used to call late update on all CGameObjects in this scene instane. this is also
+	/// where ChangeActiveScene is called and controllers are unbound
+	/// </summary>
+	/// <param name="_fDeltaTime"></param>
 	void LateUpdate(float _fDeltaTime);
 
+	/// <summary>
+	/// this function is called when a player is added/removed from a team and is used to handle the positioning of 
+	/// player icons and ready text
+	/// </summary>
+	/// <param name="_team1"></param>
+	/// <param name="_team2"></param>
 	void TeamChange(int _team1, int _team2);
-	//void TeamChange(Team _team1, Team _team2);
+
+	/// <summary>
+	/// this function is called when a new player joins the game. this function is used to bind the controller to the
+	/// correct input binding and add player to draw list
+	/// </summary>
+	/// <param name="_player"></param>
+	/// <param name="_controller"></param>
 	void NewPlayer(std::shared_ptr<CPlayer> _player, int _controller);
 
 	void OnButtonInput(GamepadButtonEvent _event);

@@ -6,16 +6,38 @@
 #include "IGamepadInput.h"
 #include "CSceneBase.h"
 
+/// <summary>
+/// this class manages the main menu scene and all its objects
+/// </summary>
 class CMainMenu : public CSceneBase
 {
 public:
 	CMainMenu();
 	~CMainMenu();
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_event"></param>
 	void OnButtonInput(GamepadButtonEvent _event);
+
+	/// <summary>
+	/// this function calls update on all CGameObjects managed by this scene
+	/// </summary>
+	/// <param name="_fDeltaTime"></param>
 	void Update(float _fDeltaTime);
+
+	/// <summary>
+	/// this function calls fixed update on all CGameObjects managed by this scene
+	/// </summary>
 	void FixedUpdate();
+
+	/// <summary>
+	/// this function calls late update on all CGameObjects managed by this scene
+	/// </summary>
+	/// <param name="_fDeltaTime"></param>
 	void LateUpdate(float _fDeltaTime);
+
 
 private:
 	bool m_canBindController = false;

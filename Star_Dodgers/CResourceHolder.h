@@ -8,6 +8,9 @@
 #include <SFML/Graphics/Font.hpp>
 #include <map>
 
+/// <summary>
+/// this class is used to create and store game assets and resources like images, textures, shaders, and fonts
+/// </summary>
 class CResourceHolder
 {
 public:

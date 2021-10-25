@@ -9,6 +9,7 @@ class CUIImage : public IUIElement
 {
 public:
     CUIImage(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, float _rotation, sf::Texture* _tex);
+    sf::Sprite* GetSprite() { return(&m_Sprite); }
 private:
     void DrawUI(sf::RenderWindow* _window);
     sf::Sprite m_Sprite;

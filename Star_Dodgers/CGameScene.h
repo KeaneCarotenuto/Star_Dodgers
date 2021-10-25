@@ -6,12 +6,12 @@
 #include "CSceneBase.h"
 #include "CMath.h"
 #include "CBall.h"
+#include <vector>
 
 class CGameScene : public CSceneBase
 {
 public:
 	CGameScene();
-	//CGameScene();
 	~CGameScene();
 
 	void Update(float _fDeltaTime);
@@ -33,6 +33,11 @@ private:
 	CUIImage* m_uiFrameImg;
 	sf::Sprite m_starrySky;
 	CUITimer* m_timer;
+
+	CUIImage* m_playerIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
+	CUIImage* m_throwIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
+	CUIImage* m_starIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
+
 
 	int m_redWiningBalls;
 	int m_BlueWiningBalls;
