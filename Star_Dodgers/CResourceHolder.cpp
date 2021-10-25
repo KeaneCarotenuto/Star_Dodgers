@@ -45,7 +45,8 @@ void CResourceHolder::Initialise()
 	CreateTexture("UIBarFrame.png");
 	CreateTexture("UIBarRed.png");
 	CreateTexture("UIBarBlue.png");
-	CreateTexture("UIframeimg.png");
+	CreateTexture("UIframeimg_2P.png");
+	CreateTexture("UIframeimg_4P.png");
 	CreateTexture("LeftCurveIcon.png");
 	CreateTexture("RightCurveIcon.png");
 	CreateTexture("NormalThrowIcon.png");

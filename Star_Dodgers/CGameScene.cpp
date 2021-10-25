@@ -110,11 +110,12 @@ CGameScene::CGameScene()
 	m_newBall2->SetVelocity({ 2,10 });
 
 	f = 0.2f;
-	m_uiFrameImg = new CUIImage(1, {0.0f, 0.0f}, {1.0f, 1.0f}, 0.0f, CResourceHolder::GetTexture("UIframeimg.png"));
+	std::string frameStr = (CTeamsManager::GetInstance()->GetPlayerCount() == 2) ? "UIframeimg_2P.png" : "UIframeimg_4P.png";
+	m_uiFrameImg = new CUIImage(1, {0.0f, 0.0f}, {1.0f, 1.0f}, 0.0f, CResourceHolder::GetTexture(frameStr));
 	m_redScore = new CUIBar(1, sf::Vector2f(10.0f, 775.0f), sf::Vector2f(5.0f, 3.0f), 270, CResourceHolder::GetTexture("UIBarRed.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
 	m_blueScore = new CUIBar(1, sf::Vector2f(1850.0f, 775.0f), sf::Vector2f(5.0f, 3.0f), 270, CResourceHolder::GetTexture("UIBarBlue.png"), CResourceHolder::GetTexture("UIBarFrame.png"));
 	
-	m_starrySky.setTexture(*CResourceHolder::GetTexture("UIframeimg.png"));
+	m_starrySky.setTexture(*CResourceHolder::GetTexture(frameStr));
 	CWindowUtilities::Draw(&m_starrySky, CResourceHolder::GetShader("starry.glsl"));
 
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
