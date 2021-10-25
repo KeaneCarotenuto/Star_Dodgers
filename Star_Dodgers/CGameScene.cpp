@@ -25,7 +25,7 @@ CGameScene::CGameScene()
 			m_playerIconUI[i] = new CUIImage(2, iconPos, { .5f, .5f }, 0.f, CResourceHolder::GetTexture(sprStr));
 
 			// throw sprite
-			iconPos = (_bluePlayers == 1) ? sf::Vector2f(1658.f, 18.f) : sf::Vector2f(1658.f, 982.f);
+			iconPos = (_bluePlayers == 1) ? sf::Vector2f(1680.f, 12.f) : sf::Vector2f(1665.f, 982.f);
 			switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
 			{
 			case ThrowStyle::Normal: { sprStr = "NormalThrowIcon.png"; break; }
@@ -47,7 +47,7 @@ CGameScene::CGameScene()
 			m_playerIconUI[i] = new CUIImage(2, iconPos, { .5f, .5f }, 0.f, CResourceHolder::GetTexture(sprStr));
 
 			// throw sprite
-			iconPos = (_redPlayers == 1) ? sf::Vector2f(190.f, 982.f) : sf::Vector2f(190.f, 18.f);
+			iconPos = (_redPlayers == 1) ? sf::Vector2f(170.f, 982.f) : sf::Vector2f(170.f, 18.f);
 			switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
 			{
 			case ThrowStyle::Normal: { sprStr = "NormalThrowIcon.png"; break; }
