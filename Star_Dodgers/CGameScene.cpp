@@ -102,12 +102,29 @@ CGameScene::CGameScene()
 	}
 	*/
 
-	m_newBall = new CBall();
-	m_newBall->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
-	m_newBall->SetVelocity({ -2,-10 });
-	m_newBall2 = new CBall();
-	m_newBall2->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
-	m_newBall2->SetVelocity({ 2,10 });
+	// m_newBall = new CBall();
+	// m_newBall->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
+	// m_newBall->SetVelocity({ -2,-10 });
+	// m_newBall2 = new CBall();
+	// m_newBall2->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
+	// m_newBall2->SetVelocity({ 2,10 });
+
+	
+	for (int i = 0; i < 10; i++)
+	{
+		CBall* b = new CBall();
+		b->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
+		b->SetVelocity({ sin((M_PIf32/10.0f)*i) * 10.0f,cos((M_PIf32/10.0f)*i) * 15.0f});
+		m_sceneBalls.push_back(b);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		CBall* b = new CBall();
+		b->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
+		b->SetVelocity({ -sin((M_PIf32/10.0f)*i) * 10.0f,cos((M_PIf32/10.0f)*i) * 15.0f});
+		m_sceneBalls.push_back(b);
+	}
+	
 
 	f = 0.2f;
 	std::string frameStr = (CTeamsManager::GetInstance()->GetPlayerCount() == 2) ? "UIframeimg_2P.png" : "UIframeimg_4P.png";
@@ -141,16 +158,18 @@ CGameScene::CGameScene()
 /// </summary>
 CGameScene::~CGameScene()
 {
-	CObjectController::Destroy(m_newBall);
-	m_newBall = nullptr;
-
-	CObjectController::Destroy(m_newBall2);
-	m_newBall2 = nullptr;
+	
 
 	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
 		CTeamsManager::GetInstance()->GetPlayer(itt).get()->StopRendering();
 	}
+
+	for (int i = 0; i < m_sceneBalls.size(); i++)
+	{
+		CObjectController::Destroy(m_sceneBalls[i]);
+	}
+	m_sceneBalls.clear();
 
 	delete m_redScore;
 	m_redScore = nullptr;

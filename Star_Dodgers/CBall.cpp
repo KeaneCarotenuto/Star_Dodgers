@@ -416,7 +416,7 @@ void CBall::PerformPower()
 				{
 					canSpawn = false;
 
-					float speedMulti = 2.0f;
+					float speedMulti = 10.0f;
 					const unsigned int maxRotations = 2;
 					for (int rotation = 0; rotation < maxRotations; rotation++) {
 						CBall* childBall = new CBall();
