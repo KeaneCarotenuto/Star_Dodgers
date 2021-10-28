@@ -321,7 +321,7 @@ void CBall::PerformPower()
 			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
 
 				for (CBall* _homingBall : m_childBalls) {
-					std::shared_ptr<CPlayer> closest = CTeamsManager::GetInstance()->GetNearestPlayer(_homingBall->GetPosition());
+					std::shared_ptr<CPlayer> closest = CTeamsManager::GetInstance()->GetNearestPlayer(_homingBall->GetPosition(), GetOwnerTeam() == Team::BLUE ? Team::RED : Team::BLUE);
 
 					if (closest) {
 						_homingBall->SetAcceleration(cmath::Normalize(closest->GetPosition() - _homingBall->GetPosition()) * 0.25f);
