@@ -904,6 +904,11 @@ void CBall::WallCollision()
 	}
 }
 
+/// <summary>
+/// Checks if the ball hits the midline from a specific side
+/// </summary>
+/// <param name="_onThisSide"></param>
+/// <returns></returns>
 bool CBall::HitMidline(Team _onThisSide)
 {
 	switch (_onThisSide)
