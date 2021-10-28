@@ -7,8 +7,8 @@ uniform vec2 iResolution;
 uniform float iTime;
 //uniform float iTimeDelta
 
-float iSpeed = 50.0;
-float iDensity = 1.0;
+float iSpeed = 100.0;
+float iDensity = 3.0;
 float iStarSize = 4.0;
 
 
@@ -29,8 +29,8 @@ void main( void )
 
 
     float isStar = (pow(rand(fpos), 100.0 / iDensity)) * sin((iTime/(100.0/iSpeed)) * (rand(filteredRes) * (3.14159)));
-    float nebula = (rand(fpos) ) * 0.2;
-	gl_FragColor = vec4(max(isStar, (sin(nebula) + 1.0)/8.0), isStar, max(isStar, (cos(nebula) + 1.0)/8.0), 1.0);
+    float nebula = (rand(fpos) * sin((rand(filteredRes) * (3.14159)))) * 0.1;
+	gl_FragColor = vec4(max(isStar, nebula), isStar, max(isStar, nebula * 2.0), 1.0);
     
 }
 	
