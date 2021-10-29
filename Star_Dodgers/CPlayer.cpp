@@ -132,9 +132,32 @@ void CPlayer::FixedUpdate()
 	sf::Vector2f desiredVelocityAngle;
 	m_desiredVelocity = m_controller.get()->GetLeftStick();
 
+	PerformWallCollision();
+
 	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
 	m_velocitySprite->setPosition(GetPosition());
 }
+
+void CPlayer::PerformWallCollision()
+{
+	if ((m_desiredVelocity.x > 0 &&
+		(GetPosition().x + GetAimSprite()->getGlobalBounds().width / 2.0f >= CResourceHolder::GetWindow()->getSize().x ||
+			GetTeam() == Team::RED ? GetPosition().x + GetAimSprite()->getGlobalBounds().width / 2.0f >= CResourceHolder::GetWindow()->getSize().x / 2.0f : false)) ||
+		(m_desiredVelocity.x < 0 &&
+			(GetPosition().x - GetAimSprite()->getGlobalBounds().width / 2.0f <= 0 ||
+				GetTeam() == Team::BLUE ? GetPosition().x - GetAimSprite()->getGlobalBounds().width / 2.0f <= CResourceHolder::GetWindow()->getSize().x / 2.0f : false))
+		)
+	{
+		m_desiredVelocity = { 0, m_desiredVelocity.y };
+	}
+
+	if ((m_desiredVelocity.y > 0 && GetPosition().y + GetAimSprite()->getGlobalBounds().height / 2.0f >= CResourceHolder::GetWindow()->getSize().y) ||
+		(m_desiredVelocity.y < 0 && GetPosition().y - GetAimSprite()->getGlobalBounds().height / 2.0f <= 0))
+	{
+		m_desiredVelocity = { m_desiredVelocity.x,0 };
+	}
+}
+
 
 void CPlayer::LateUpdate(float _fDeltaTime)
 {
