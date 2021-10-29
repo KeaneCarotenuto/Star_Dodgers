@@ -170,6 +170,8 @@ CLobby::~CLobby()
 		m_playerReadyText[i] = 0;
 	}
 
+	CWindowUtilities::m_drawList.empty();
+
 	CTeamsManager::GetInstance()->RemoveObserver(this);
 }
 

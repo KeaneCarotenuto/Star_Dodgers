@@ -214,6 +214,12 @@ CGameScene::~CGameScene()
 		CWindowUtilities::m_drawList.erase(position);
 	}
 	delete m_midLine;
+	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
+	{
+		CTeamsManager::GetInstance()->GetPlayer(i)->StopRendering();
+		
+		CTeamsManager::GetInstance()->GetPlayer(i)->UnbindController("Gameplay");
+	}
 }
 
 /// <summary>
