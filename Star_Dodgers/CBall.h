@@ -10,7 +10,9 @@
 #include "CPostProcessing.h"
 #include <memory>
 
-
+/// <summary>
+/// Class that manages all ball behaviour
+/// </summary>
 class CBall : public CGameObject
 {
 public:

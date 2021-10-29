@@ -10,14 +10,20 @@
 #define M_PIf32 3.14159f
 #endif // !M_PIf32
 
-
+/// <summary>
+/// Constructs the game scene
+/// </summary>
 CGameScene::CGameScene()
 {
 	int _redPlayers = 0;
 	int _bluePlayers = 0;
+
+	//instantiate all players
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
 		sf::Vector2f pos;
+
+		//blue team
 		if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::BLUE)
 		{
 			_bluePlayers++;
@@ -41,11 +47,12 @@ CGameScene::CGameScene()
 			}
 			m_throwIconUI[i] = (sprStr != "null") ? new CUIImage(2, iconPos, { .75f, .75f }, 0.f, CResourceHolder::GetTexture(sprStr)) : nullptr;
 		}
-		else if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::RED)
+		else if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::RED) //Red Team
 		{
 			_redPlayers++;
 			pos = sf::Vector2f(1920 * 1 / 4,  (3 - _redPlayers) * 1080 / 3);
 
+			//sprite
 			sf::Vector2f iconPos = (_redPlayers == 1) ? sf::Vector2f(25.f, 945.f) : sf::Vector2f(25.f, 22.f);
 			std::string sprStr = "PlayerSprite" + std::to_string(CTeamsManager::GetInstance()->GetPlayer(i).get()->GetIconElement()) + ".png";
 			m_playerIconUI[i] = new CUIImage(2, iconPos, { .5f, .5f }, 0.f, CResourceHolder::GetTexture(sprStr));
@@ -63,6 +70,8 @@ CGameScene::CGameScene()
 			}
 			m_throwIconUI[i] = (sprStr != "null") ? new CUIImage(2, iconPos, { .75f, .75f }, 0.f, CResourceHolder::GetTexture(sprStr)) : nullptr;
 		}
+
+		//Set player values
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->AddVelocitySpriteToDrawList();
@@ -71,16 +80,7 @@ CGameScene::CGameScene()
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("Gameplay", dynamic_cast<IGamepadInput*>(this));
 	}
 
-	
-
-	// m_newBall = new CBall();
-	// m_newBall->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
-	// m_newBall->SetVelocity({ -2,-10 });
-	// m_newBall2 = new CBall();
-	// m_newBall2->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
-	// m_newBall2->SetVelocity({ 2,10 });
-
-	
+	//Create balls
 	for (int i = 0; i < 10; i++)
 	{
 		CBall* b = new CBall();
@@ -96,7 +96,7 @@ CGameScene::CGameScene()
 		m_sceneBalls.push_back(b);
 	}
 	
-
+	//Create UI
 	f = 0.2f;
 	std::string frameStr = (CTeamsManager::GetInstance()->GetPlayerCount() == 2) ? "UIframeimg_2P.png" : "UIframeimg_4P.png";
 	m_uiFrameImg = new CUIImage(1, {0.0f, 0.0f}, {1.0f, 1.0f}, 0.0f, CResourceHolder::GetTexture(frameStr));
@@ -106,6 +106,7 @@ CGameScene::CGameScene()
 	m_starrySky.setTexture(*CResourceHolder::GetTexture(frameStr));
 	CWindowUtilities::Draw(&m_starrySky, CResourceHolder::GetShader("starry.glsl"));
 
+	//add sprites to draw list
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
 		CWindowUtilities::Draw(m_playerIconUI[i]->GetSprite());
@@ -215,11 +216,17 @@ CGameScene::~CGameScene()
 	delete m_midLine;
 }
 
+/// <summary>
+/// Update function for game scene
+/// </summary>
+/// <param name="_fDeltaTime"></param>
 void CGameScene::Update(float _fDeltaTime)
 {
+	//Does background shader
 	CResourceHolder::GetShader("starry.glsl")->setUniform("iResolution", sf::Vector2f{1920.0f,1080.0f});
 	CResourceHolder::GetShader("starry.glsl")->setUniform("iTime", cmath::g_clock->getElapsedTime().asSeconds());
 	
+	//Updates UI for all players
 	for (unsigned int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
 		switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
@@ -233,6 +240,7 @@ void CGameScene::Update(float _fDeltaTime)
 		}
 	}
 
+	//Update score bars
 	m_redScore->SetFill(100.0f, CTeamsManager::GetInstance()->GetScore(Team::RED));
 	m_blueScore->SetFill(100.0f, CTeamsManager::GetInstance()->GetScore(Team::BLUE));
 	
@@ -243,8 +251,13 @@ void CGameScene::FixedUpdate()
 
 }
 
+/// <summary>
+/// Late update
+/// </summary>
+/// <param name="_fDeltaTime"></param>
 void CGameScene::LateUpdate(float _fDeltaTime)
 {
+	//check for win
 	if (m_winningTeam != Team::UNDECIDED)
 	{
 		GameOver(m_winningTeam);
@@ -273,6 +286,11 @@ void CGameScene::GameOver(Team _winningTeam)
 	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>(_winningTeam, m_BlueWiningBalls, m_redWiningBalls);
 }
 
+/// <summary>
+/// Check who got the winning ball
+/// </summary>
+/// <param name="_throwingTeam"></param>
+/// <param name="_points"></param>
 void CGameScene::WinningThrow(Team _throwingTeam, int _points)
 {
 	switch (_throwingTeam)

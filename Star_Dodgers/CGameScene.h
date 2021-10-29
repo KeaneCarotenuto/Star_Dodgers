@@ -8,6 +8,9 @@
 #include "CBall.h"
 #include <vector>
 
+/// <summary>
+/// Class for managing the game scene, things like players, balls, and UI
+/// </summary>
 class CGameScene : public CSceneBase
 {
 public:
