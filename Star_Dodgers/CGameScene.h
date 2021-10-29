@@ -34,6 +34,8 @@ private:
 	sf::Sprite m_starrySky;
 	CUITimer* m_timer;
 
+	sf::VertexArray* m_midLine = nullptr;
+
 	CUIImage* m_playerIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
 	CUIImage* m_throwIconUI[4] = { nullptr, nullptr, nullptr, nullptr };
 	CUIImage* m_starIconUI[4] = { nullptr, nullptr, nullptr, nullptr };

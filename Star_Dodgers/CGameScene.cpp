@@ -100,6 +100,19 @@ CGameScene::CGameScene()
 
 	m_timer = new CUITimer(1, {930.0f, 20.0f}, {2.0f, 2.0f}, 0.0f);
 	
+	//Create midline
+	m_midLine = new sf::VertexArray(sf::PrimitiveType::Quads, 4);
+	(*m_midLine)[0].position = { CResourceHolder::GetWindowSize().x / 2.0f - 5.0f, 0 };
+	(*m_midLine)[1].position = { CResourceHolder::GetWindowSize().x / 2.0f - 5.0f, (float)CResourceHolder::GetWindowSize().y };
+	(*m_midLine)[2].position = { CResourceHolder::GetWindowSize().x / 2.0f + 5.0f, (float)CResourceHolder::GetWindowSize().y };
+	(*m_midLine)[3].position = { CResourceHolder::GetWindowSize().x / 2.0f + 5.0f, 0 };
+
+	(*m_midLine)[0].color = sf::Color::Color(255, 255, 255, 100);
+	(*m_midLine)[1].color = sf::Color::Color(255, 255, 255, 100);
+	(*m_midLine)[2].color = sf::Color::Color(255, 255, 255, 100);
+	(*m_midLine)[3].color = sf::Color::Color(255, 255, 255, 100);
+
+	CWindowUtilities::Draw(m_midLine);
 }
 
 
@@ -172,6 +185,12 @@ CGameScene::~CGameScene()
 		delete m_throwIconUI[i];
 	}
 	
+	//Remove midline
+	std::vector<sf::Drawable*>::iterator position = std::find(CWindowUtilities::m_drawList.begin(), CWindowUtilities::m_drawList.end(), m_midLine);
+	if (position != CWindowUtilities::m_drawList.end()) {
+		CWindowUtilities::m_drawList.erase(position);
+	}
+	delete m_midLine;
 }
 
 void CGameScene::Update(float _fDeltaTime)
