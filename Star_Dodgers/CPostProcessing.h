@@ -8,11 +8,7 @@
 //==========================================================
 //   File Name  : CPostProcessing.h
 //----------------------------------------------------------
-<<<<<<< HEAD
-//  Description : 
-=======
 //  Description : Class implementing post processing features using GLSL shaders
->>>>>>> Nerys
 //----------------------------------------------------------
 //    Author    : Nerys Thamm
 //----------------------------------------------------------

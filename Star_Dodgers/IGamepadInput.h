@@ -6,11 +6,7 @@
 //----------------------------------------------------------
 // (c) 2021 Media Design School
 //==========================================================
-<<<<<<< HEAD
 //   File Name  : IGamepadInput.h
-=======
-//   File Name  : IGamepadInput
->>>>>>> Nerys
 //----------------------------------------------------------
 //  Description : Interface for Implementing Gamepad input callback funtions
 //----------------------------------------------------------
