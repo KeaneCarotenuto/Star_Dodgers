@@ -1,11 +1,15 @@
 #include "CPlayer.h"
-
 #include "CTeamsManager.h"
 #include "CResourceHolder.h"
 #include <map>
 #include "CGameScene.h"
 #include "CPostGameScene.h"
 #include "CControlsMenu.h"
+
+#ifndef M_PIf32
+#define M_PIf32 3.14159f
+#endif // !M_PIf32
+
 
 CGameScene::CGameScene()
 {
@@ -81,14 +85,14 @@ CGameScene::CGameScene()
 	{
 		CBall* b = new CBall();
 		b->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
-		b->SetVelocity({ sin((M_PIf32/10.0f)*i) * 10.0f,cos((M_PIf32/10.0f)*i) * 15.0f});
+		b->SetVelocity({ sin((M_PIf32/10.0f)*i) * 5.0f,cos((M_PIf32/10.0f)*i) * 5.0f});
 		m_sceneBalls.push_back(b);
 	}
 	for (int i = 0; i < 10; i++)
 	{
 		CBall* b = new CBall();
 		b->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
-		b->SetVelocity({ -sin((M_PIf32/10.0f)*i) * 10.0f,cos((M_PIf32/10.0f)*i) * 15.0f});
+		b->SetVelocity({ -sin((M_PIf32/10.0f)*i) * 5.0f,cos((M_PIf32/10.0f)*i) * 5.0f});
 		m_sceneBalls.push_back(b);
 	}
 	
