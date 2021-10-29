@@ -162,6 +162,8 @@ CGameScene::~CGameScene()
 	m_blueScore = nullptr;
 	delete m_uiFrameImg;
 	m_uiFrameImg = nullptr;
+	delete 	m_timer;
+	m_timer = nullptr;
 	CWindowUtilities::m_drawList;
 
 	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawListShader.size(); ele++)
@@ -199,6 +201,7 @@ CGameScene::~CGameScene()
 			}
 		}
 	}
+
 	CWindowUtilities::m_drawList;
 	
 
@@ -218,6 +221,7 @@ CGameScene::~CGameScene()
 	{
 		CTeamsManager::GetInstance()->GetPlayer(i)->StopRendering();
 		
+		CTeamsManager::GetInstance()->GetPlayer(i)->UnbindController("P" + std::to_string(i));
 		CTeamsManager::GetInstance()->GetPlayer(i)->UnbindController("Gameplay");
 	}
 }
