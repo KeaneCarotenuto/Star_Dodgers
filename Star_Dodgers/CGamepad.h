@@ -8,11 +8,15 @@
 //==========================================================
 //   File Name  : CGamepad.h
 //----------------------------------------------------------
+<<<<<<< HEAD
 //  Description : Manages gamepad input
+=======
+//  Description : Wrapper for SFML gamepad input to add extra functionality
+>>>>>>> Nerys
 //----------------------------------------------------------
-//    Author    : 
+//    Author    : Nerys Thamm
 //----------------------------------------------------------
-//    E-mail    : 
+//    E-mail    : nerys.thamm@mds.ac.nz
 //==========================================================
 
 #ifndef CGAMEPAD_H

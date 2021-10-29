@@ -6,13 +6,17 @@
 //----------------------------------------------------------
 // (c) 2021 Media Design School
 //==========================================================
+<<<<<<< HEAD
 //   File Name  : IGamepadInput.h
+=======
+//   File Name  : IGamepadInput
+>>>>>>> Nerys
 //----------------------------------------------------------
-//  Description :
+//  Description : Interface for Implementing Gamepad input callback funtions
 //----------------------------------------------------------
-//    Author    : 
+//    Author    : Nerys Thamm
 //----------------------------------------------------------
-//    E-mail    : 
+//    E-mail    : nerys.thamm@mds.ac.nz
 //==========================================================
 
 #ifndef __IGAMEPAD_INPUT_H__
