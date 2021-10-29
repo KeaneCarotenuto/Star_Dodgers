@@ -6,13 +6,13 @@
 //----------------------------------------------------------
 // (c) 2021 Media Design School
 //==========================================================
-//   File Name  : 
+//   File Name  : CPostGameScene.h
 //----------------------------------------------------------
-//  Description :
+//  Description : The Scene the loads after the game concludes and tells the players who won 
 //----------------------------------------------------------
-//    Author    : 
+//    Author    : Jacob Sullivan
 //----------------------------------------------------------
-//    E-mail    : 
+//    E-mail    : Jacob.Sullivan@mds.ac.nz
 //==========================================================
 
 #pragma once
