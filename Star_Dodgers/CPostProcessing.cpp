@@ -27,6 +27,11 @@ void CPostProcessing::AddScreenShake(sf::Vector2f _amplitude, sf::Vector2f _freq
     m_currScreenShakeEffect.m_duration = std::max(m_currScreenShakeEffect.m_duration, _duration);
 }
 
+/// <summary>
+/// Adds a Chromatic Abberation effect to the post processing for the specified duration.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CPostProcessing::AddChromaAberration(float _magnitude, float _duration) {
     m_chromaAberrationMagnitude = std::max(m_chromaAberrationMagnitude, _magnitude);
     m_chromaAberrationDuration = std::max(m_chromaAberrationDuration, _duration);

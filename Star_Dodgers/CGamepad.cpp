@@ -1,6 +1,11 @@
 #include "CGamepad.h"
 #include "CPrint.h"
 
+/// <summary>
+/// Constructor
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 CGamepad::CGamepad(int _gamepadIndex)
 {
     m_GamepadIndex = _gamepadIndex;
@@ -20,6 +25,11 @@ CGamepad::CGamepad(int _gamepadIndex)
         m_XInputEnabled = true;
     }
 }
+/// <summary>
+/// Gets the position of the left joystick.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Position of the left joystick as Vector2f</returns>
 sf::Vector2f CGamepad::GetLeftStick()
 {
     float x = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_STICK_X : (sf::Joystick::Axis)DUALSHOCK::LEFT_STICK_X) / 100.f;
@@ -35,6 +45,11 @@ sf::Vector2f CGamepad::GetLeftStick()
 
     return sf::Vector2f(x, y);
 }
+/// <summary>
+/// Gets the position of the right joystick.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Position of the right joystick as Vector2f</returns>
 sf::Vector2f CGamepad::GetRightStick()
 {
     float x = sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_STICK_X : (sf::Joystick::Axis)DUALSHOCK::RIGHT_STICK_X) / 100.f;
@@ -49,19 +64,42 @@ sf::Vector2f CGamepad::GetRightStick()
     }
     return sf::Vector2f(x, y);
 }
+
+/// <summary>
+/// Gets the position of the left trigger.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Position of the left trigger as float</returns>
 float CGamepad::GetLeftTrigger()
 {
     return ((sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::LEFT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::LEFT_TRIGGER) / 100.f) + 1) / 2;
 }
+
+/// <summary>
+/// Gets the position of the right trigger.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Position of the right trigger as float</returns>
 float CGamepad::GetRightTrigger()
 {
     return ((sf::Joystick::getAxisPosition(m_GamepadIndex, m_XInputEnabled ? (sf::Joystick::Axis)XINPUT::RIGHT_TRIGGER : (sf::Joystick::Axis)DUALSHOCK::RIGHT_TRIGGER) / 100.f) + 1) / 2;
 }
+
+/// <summary>
+/// Gets the pressed state of a button
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Returns true if currently pressed</returns>
 bool CGamepad::GetButtonPressed(Button _button)
 {
     return m_PressedThisFrame[(int)_button];
 }
 
+/// <summary>
+/// Gets if a button was pressed this frame
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Returns true if the button was pressed this frame</returns>
 bool CGamepad::GetButtonDown(Button _button)
 {
     switch (_button)
@@ -117,25 +155,51 @@ bool CGamepad::GetButtonDown(Button _button)
         break;
     }
 }
+/// <summary>
+/// Gets if a button was released this frame
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns>Returns true if released this frame</returns>
 bool CGamepad::GetButtonReleased(Button _button)
 {
     return m_ReleasedThisFrame[(int)_button];
 }
+
+/// <summary>
+/// Binds an Input callback to a Gamepad
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CGamepad::Bind(IGamepadInput *_objectToBind, std::string _name)
 {
     m_Bindings.emplace(_name, _objectToBind);
 }
+/// <summary>
+/// Unbinds an Input callback from a Gamepad
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CGamepad::Unbind(std::string _name)
 {
     m_toUnbind.push_back(_name);
     //m_Bindings.erase(_name);
 }
 
+/// <summary>
+/// Toggles XInput mode (For Xbox and generic controllers) Default is Dualshock mode
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CGamepad::ToggleXInput()
 {
     m_XInputEnabled = !m_XInputEnabled;
 }
 
+/// <summary>
+/// Updates the stored states of all Gamepad controls
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CGamepad::Update(float _fDeltaTime)
 {
     for (int i = 0; i < 17; i++)
