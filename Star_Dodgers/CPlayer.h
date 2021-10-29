@@ -29,6 +29,8 @@ public:
 	void FixedUpdate();
 	void LateUpdate(float _fDeltaTime);
 
+	void PerformWallCollision();
+
 	void OnButtonInput(GamepadButtonEvent _event);
 
 	void SetController(std::shared_ptr<CGamepad> _controller) { m_controller = _controller; }
@@ -52,7 +54,7 @@ public:
 	bool IsPlayerReady() { return(m_isReadyToPlay); }
 
 	void SetPosition(sf::Vector2f _pos) { m_aimSprite->setPosition(_pos); m_velocitySprite->setPosition(_pos - sf::Vector2f(5, 5)); }
-	//void SetPosition(float _x, float _y) { m_aimSprite->setPosition(_x, _y); m_velocitySprite->setPosition(_x, _y); }
+	void SetPosition(float _x, float _y) { m_aimSprite->setPosition({ _x,_y }); m_velocitySprite->setPosition(sf::Vector2f(_x,_y) - sf::Vector2f(5, 5)); }
 	sf::Vector2f GetPosition() { return(m_aimSprite->getPosition()); }
 	void SetSize(sf::Vector2f _size);
 	// this function returns the width, height, top coord and right coord of the player sprite taking into account 
