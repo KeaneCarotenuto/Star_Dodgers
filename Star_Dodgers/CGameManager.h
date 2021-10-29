@@ -24,84 +24,20 @@ class CGameManager : IObservable
 public:
 	~CGameManager();
 	
-	/// <summary>
-	/// this function is used to access this singleton from outside the class
-	/// </summary>
-	/// <returns></returns>
 	static CGameManager* GetInstance();
-
-	/// <summary>
-	/// this function is used to first set up this singleton. it checks to see if any pre-existing controllers
-	/// that were connected before the game was launced need to be linked to a player
-	/// </summary>
 	void Initialise();
-
-	/// <summary>
-	/// this function is called when a joystick is connected. this is what initialises the creation of new players if
-	/// new players are allowed to be added. once the controller has been connected, this function
-	/// calls the NotifyObservers function to alert observers that a controller has been connected
-	/// </summary>
-	/// <param name="_jsID"></param>
+	
 	void OnJoystickConnect(int _jsID);
-
-	/// <summary>
-	/// this function is called when a joystick is disconnected. once the controller has been disconnected, this function
-	/// calls the NotifyObservers function to alert observers that a controller has been disconnected
-	/// </summary>
-	/// <param name="_jsID"></param>
 	void OnJoystickDisconnect(int _jsID);
-
-	/// <summary>
-	/// this function returns the number of active controllers connected to the game - the number of controllers that 
-	/// are connected to players
-	/// </summary>
-	/// <returns></returns>
+	
 	int GetControllerCount();
-
-	/// <summary>
-	/// this function is used to set the master controller - the controller that is used to navigate menus when more than
-	/// one player is connected
-	/// </summary>
-	/// <param name="_master"></param>
 	void SetMasterController(std::shared_ptr<CGamepad> _master);
-
-	/// <summary>
-	/// this function is used to set the master controller - the controller that is used to navigate menus when more than
-	/// one player is connected
-	/// </summary>
-	/// <param name="_controllerNum"></param>
 	void SetMasterController(int _controllerNum);
-
-	/// <summary>
-	/// this function is used to get a pointer to the mastercontroller
-	/// </summary>
-	/// <returns></returns>
 	std::shared_ptr<CGamepad> GetMasterController();
-
-	/// <summary>
-	/// this function is used to acess a specific controller through its zero based index - the order it joined the game in
-	/// </summary>
-	/// <param name="_controllerNum"></param>
-	/// <returns></returns>
 	std::shared_ptr<CGamepad> GetController(int _controllerNum);
 
-	/// <summary>
-	/// this function adds an observer to listen for when a controller is connected or disconnected
-	/// </summary>
-	/// <param name="_observer"></param>
 	void AddObserver(IObserver* _observer);
-
-	/// <summary>
-	/// this function removes an observer
-	/// </summary>
-	/// <param name="_observer"></param>
 	void RemoveObserver(IObserver* _observer);
-
-	/// <summary>
-	/// this function calls observers of this singleton to alert them to the connecting and disconnecting of joysticks
-	/// </summary>
-	/// <param name="_controllerNum"></param>
-	/// <param name="_isConnected"></param>
 	void NotifyObservers(int _controllerNum, bool _isConnected);
 
 	/// <summary>
@@ -123,9 +59,7 @@ public:
 		m_activeScene = new NewScene(_param...); // set new activeScene
 	}
 
-	/// <summary>
-	/// this function is used to delete the non active scene after the scene has been changed with ChangeActiveSccene.
-	/// </summary>
+
 	void DeleteNonActiveScenes();
 	void TeamWon(Team _winningTeam);
 	void WinningBall(Team _throwingTeam, int _points);

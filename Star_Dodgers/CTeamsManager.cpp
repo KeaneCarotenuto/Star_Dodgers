@@ -16,7 +16,10 @@ CTeamsManager::~CTeamsManager()
 // static variables
 CTeamsManager* CTeamsManager::m_teamsManagerInstance = nullptr;
 
-// returns an pointer to a single instance of CTeamsManager
+/// <summary>
+/// this function returns the instance of this singleton for access outside the class files
+/// </summary>
+/// <returns></returns>
 CTeamsManager* CTeamsManager::GetInstance()
 {
 	if (m_teamsManagerInstance == nullptr)
@@ -27,6 +30,11 @@ CTeamsManager* CTeamsManager::GetInstance()
 	return(m_teamsManagerInstance);
 }
 
+/// <summary>
+/// this function is used to add/remove players from teams. function checks status of team to ensure player can be added
+/// before calling NotifyObservers to get player created
+/// </summary>
+/// <returns></returns>
 void CTeamsManager::AddToTeam(std::shared_ptr<CPlayer> _player, Team _newTeam)
 {
 	// convert teams into ints to update observers
@@ -47,13 +55,18 @@ void CTeamsManager::AddToTeam(std::shared_ptr<CPlayer> _player, Team _newTeam)
 	}
 }
 
-// this function returns the number of elements in a specified team 
+/// <summary>
+/// this function is used to get the number of players in a specified team
+/// </summary>
+/// <param name="_team"></param>
 int CTeamsManager::GetTeamCount(Team _team)
 {
 	return(GetTeam(_team).size());
 }
 
-// this function returns the specified team in a vector
+/// <summary>
+/// this function returns a vector of pointers to player objects of a specific team
+/// </summary>
 std::vector<std::shared_ptr<CPlayer>> CTeamsManager::GetTeam(Team _team)
 {
 	std::vector<std::shared_ptr<CPlayer>> teamVec;
@@ -67,7 +80,10 @@ std::vector<std::shared_ptr<CPlayer>> CTeamsManager::GetTeam(Team _team)
 	return(teamVec);
 }
 
-// returns a shared pointer to a player instance based on controller index
+/// <summary>
+/// this function returns a player based on a controller index - the controller linked to the player. the index is
+/// the order in whidh the controller joined the game
+/// </summary>
 std::shared_ptr<CPlayer> CTeamsManager::GetPlayer(int _controllerIndex)
 {
 	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = m_allPlayers.find(_controllerIndex);
@@ -82,7 +98,9 @@ std::shared_ptr<CPlayer> CTeamsManager::GetPlayer(int _controllerIndex)
 	}
 }
 
-// removes player from all included vectors and maps then calls destructor
+/// <summary>
+/// this function is used to remove a player from the game by erasing it from the all players map
+/// </summary>
 void CTeamsManager::RemovePlayer(std::shared_ptr<CPlayer> _player, int _controllerIndex)
 {
 	int nextEle = _controllerIndex + 1;
@@ -105,7 +123,9 @@ int CTeamsManager::GetPlayerCount()
 	return(m_allPlayers.size());
 }
 
-// this function checks the ready status of all the players and returns the result
+/// <summary>
+/// this function returns a bool, and is used to check if all players are ready to begin playing the game from the lobby
+/// </summary>
 bool CTeamsManager::AreAllPlayersReady()
 {
 	for (unsigned int ele = 0; ele < m_allPlayers.size(); ele++)
@@ -119,6 +139,12 @@ bool CTeamsManager::AreAllPlayersReady()
 	return(true);
 }
 
+/// <summary>
+/// Returns the nearest player
+/// </summary>
+/// <param name="_point"></param>
+/// <param name="_team"></param>
+/// <returns></returns>
 std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Team _team)
 {
 	std::shared_ptr<CPlayer> closest = nullptr;
@@ -148,24 +174,13 @@ std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Te
 		}
 	}
 
-	/*
-	std::map<int, std::shared_ptr<CPlayer>> tempMap = {};
-	if (_team == Team::UNDECIDED) {
-		tempMap.insert(m_redTeam.begin(), m_redTeam.end());
-		tempMap.insert(m_blueTeam.begin(), m_blueTeam.end());
-	}
-
-	for (std::pair<int, std::shared_ptr<CPlayer>> _playerPair : _team == Team::RED ? m_redTeam : _team == Team::BLUE ? m_blueTeam : tempMap) {
-		if (!_playerPair.second) continue;
-		if (!closest || cmath::Distance(_playerPair.second->GetPosition(), _point) < cmath::Distance(closest->GetPosition(), _point)) {
-			closest = _playerPair.second;
-		}
-	}*/
-
 	return closest;
 }
 
-// updates players and teams based on game state and controller states
+/// <summary>
+/// this function is called when a controller connects or disconnects from the game. it is used to add and remove players
+/// from the game or bring up the pause screen
+/// </summary>
 void CTeamsManager::JoystickStatusChange(bool _isJoinableScene, int _controllerNum, bool _isConnected)
 {
 	// check if this controller is connected to a pre-existing player
@@ -230,13 +245,17 @@ void CTeamsManager::JoystickStatusChange(bool _isJoinableScene, int _controllerN
 	}
 }
 
-// this function adds a observer to be notified of changes to any of the teamMaps
+/// <summary>
+/// this function is used to add observers to this singleton for when a new player is added or a player changes teams
+/// </summary>
 void CTeamsManager::AddObserver(IObserver* _observer)
 {
 	m_observers.push_back(_observer);
 }
 
-// this function removes a observer of all of the teamMaps
+/// <summary>
+/// this function is used to remove observers from this singleton
+/// </summary>
 void CTeamsManager::RemoveObserver(IObserver* _observer)
 {
 	int watch = -1;
@@ -251,6 +270,11 @@ void CTeamsManager::RemoveObserver(IObserver* _observer)
 	}
 }
 
+/// <summary>
+/// Adds score to team
+/// </summary>
+/// <param name="_team"></param>
+/// <param name="_amount"></param>
 void CTeamsManager::AddScore(Team _team, float _amount)
 {
 	switch (_team)
@@ -273,6 +297,10 @@ void CTeamsManager::AddScore(Team _team, float _amount)
 	std::cout << "\n\nSCORES:\nRED: " << m_redTeamScore << "\nBLUE: " << m_blueTeamScore << "\n";
 }
 
+/// <summary>
+/// Resets the score of the given team
+/// </summary>
+/// <param name="_team"></param>
 void CTeamsManager::ResetScore(Team _team)
 {
 	switch (_team)
@@ -293,6 +321,11 @@ void CTeamsManager::ResetScore(Team _team)
 	}
 }
 
+/// <summary>
+/// Returns the score of the given team
+/// </summary>
+/// <param name="_team"></param>
+/// <returns></returns>
 float CTeamsManager::GetScore(Team _team)
 {
 	switch (_team)
@@ -317,7 +350,9 @@ float CTeamsManager::GetScore(Team _team)
 	return 0;
 }
 
-// this function tells all observers of the teamMaps to call TeamChange - notifies observers that a player has changed teams
+/// <summary>
+/// this function is used to notify obervers that a player has changed teams
+/// </summary>
 void CTeamsManager::NotifyObservers(int _team1, int _team2)
 {
 	std::vector<unsigned int> nullElements;
@@ -342,7 +377,9 @@ void CTeamsManager::NotifyObservers(int _team1, int _team2)
 	}
 }
 
-// this function tells all observers of the teamMaps to call NewPlayer - notifies observers that a new player has joined the game
+/// <summary>
+/// this function is used to notify observers that a player has connected or disconnected from the game
+/// </summary>
 void CTeamsManager::NotifyObservers(std::shared_ptr<CPlayer> _player, int _controller)
 {
 	std::vector<unsigned int> nullElements;

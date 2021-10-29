@@ -7,6 +7,9 @@
 #include "CGameManager.h"
 #include "CGameScene.h"
 
+/// <summary>
+/// Constructor
+/// </summary>
 CGameManager::CGameManager() 
 {
 	m_controllerCount = 0;
@@ -26,7 +29,10 @@ CGameManager::~CGameManager()
 //static variables
 CGameManager* CGameManager::m_gameManagerInstance = nullptr;
 
-// returns a pointer to a single instance of CGameManager
+/// <summary>
+/// this function is used to access this singleton from outside the class
+/// </summary>
+/// <returns></returns>
 CGameManager* CGameManager::GetInstance()
 {
 	if (m_gameManagerInstance == nullptr)
@@ -36,8 +42,10 @@ CGameManager* CGameManager::GetInstance()
 
 	return(m_gameManagerInstance);
 }
-
-// this function ensures that all starting settings are correct and that all connected controllers are detected
+/// <summary>
+/// this function is used to first set up this singleton. it checks to see if any pre-existing controllers
+/// that were connected before the game was launced need to be linked to a player
+/// </summary>
 void CGameManager::Initialise()
 {
 	for (unsigned int joystick = 0; joystick < 8; joystick++)
@@ -55,8 +63,12 @@ void CGameManager::Initialise()
 	}
 }
 
-// this function manages the event of a joystick connecting to the game and calls notify watchers. manages situations such as player reconnecting controller
-// and new controllers connecting to game.
+/// <summary>
+/// this function is called when a joystick is connected. this is what initialises the creation of new players if
+/// new players are allowed to be added. once the controller has been connected, this function
+/// calls the NotifyObservers function to alert observers that a controller has been connected
+/// </summary>
+/// <param name="_jsID"></param>
 void CGameManager::OnJoystickConnect(int _jsID)
 {
 	for (int i = 0; i < m_controllerCount; i++)
@@ -92,7 +104,11 @@ void CGameManager::OnJoystickConnect(int _jsID)
 	}
 }
 
-// this function is used to manage controllers disconnecting from game and calls notify watchers
+/// <summary>
+/// this function is called when a joystick is disconnected. once the controller has been disconnected, this function
+/// calls the NotifyObservers function to alert observers that a controller has been disconnected
+/// </summary>
+/// <param name="_jsID"></param>
 void CGameManager::OnJoystickDisconnect(int _jsID)
 {
 	std::cout << "controller[" << _jsID << "] was disconnected.";
@@ -118,43 +134,68 @@ void CGameManager::OnJoystickDisconnect(int _jsID)
 	// reset master controller in event current master controller disconnects
 }
 
-// this function returns m_controllerCount
+/// <summary>
+/// this function returns the number of active controllers connected to the game - the number of controllers that 
+/// are connected to players
+/// </summary>
+/// <returns></returns>
 int CGameManager::GetControllerCount()
 {
 	return(m_controllerCount);
 }
 
-// sets a controller as a master controller using a shared_ptr of that controller
+/// <summary>
+/// this function is used to set the master controller - the controller that is used to navigate menus when more than
+/// one player is connected
+/// </summary>
+/// <param name="_master"></param>
 void CGameManager::SetMasterController(std::shared_ptr<CGamepad> _master)
 {
 	m_masterController = _master;
 }
 
-// sets a controller as the masterController using its assigned int to find then assigne it
+/// <summary>
+/// this function is used to set the master controller - the controller that is used to navigate menus when more than
+/// one player is connected
+/// </summary>
+/// <param name="_controllerNum"></param>
 void CGameManager::SetMasterController(int _controllerNum)
 {
 	m_masterController = m_connectedControllers[_controllerNum];
 }
 
-// gets the current master controller
+/// <summary>
+/// this function is used to get a pointer to the mastercontroller
+/// </summary>
+/// <returns></returns>
 std::shared_ptr<CGamepad> CGameManager::GetMasterController()
 {
 	return(m_masterController);
 }
 
-// returns a pointer to a specified controller
+/// <summary>
+/// this function is used to acess a specific controller through its zero based index - the order it joined the game in
+/// </summary>
+/// <param name="_controllerNum"></param>
+/// <returns></returns>
 std::shared_ptr<CGamepad> CGameManager::GetController(int _controllerNum)
 {
 	return(m_connectedControllers[_controllerNum]);
 }
 
-// this function adds a observer to be notified of changes to the m_connectedControllers vector
+/// <summary>
+/// this function adds an observer to listen for when a controller is connected or disconnected
+/// </summary>
+/// <param name="_observer"></param>
 void CGameManager::AddObserver(IObserver* _observer)
 {
 	m_observers.push_back(_observer);
 }
 
-// this function removes a observer of m_connectedControllers vector
+/// <summary>
+/// this function removes an observer
+/// </summary>
+/// <param name="_observer"></param>
 void CGameManager::RemoveObserver(IObserver* _observer)
 {
 	unsigned int watch = -1;
@@ -169,7 +210,11 @@ void CGameManager::RemoveObserver(IObserver* _observer)
 	}
 }
 
-// this function notifies/updates all the observers of the m_connectedControllers vector
+/// <summary>
+/// this function calls observers of this singleton to alert them to the connecting and disconnecting of joysticks
+/// </summary>
+/// <param name="_controllerNum"></param>
+/// <param name="_isConnected"></param>
 void CGameManager::NotifyObservers(int _controllerNum, bool _isConnected)
 {
 	std::vector<unsigned int> nullElements;
@@ -194,7 +239,9 @@ void CGameManager::NotifyObservers(int _controllerNum, bool _isConnected)
 	}
 }
 
-// deletes / destorys the non acticve scene in the scenesToClear vector
+/// <summary>
+/// this function is used to delete the non active scene after the scene has been changed with ChangeActiveSccene.
+/// </summary>
 void CGameManager::DeleteNonActiveScenes()
 {
 	while(m_scenesToDestroy.size() > 0)
