@@ -67,40 +67,7 @@ CGameScene::CGameScene()
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("Gameplay", dynamic_cast<IGamepadInput*>(this));
 	}
 
-	/*
-	for (int i = 0; i < _playerCount; i++)
-	{
-		Team team = (((i + 1) % 2) == 0) ? Team::RED : Team::BLUE;
-		std::string playerLabel = "P" + std::to_string(i + 1);
-		sf::Vector2f pos(rand() % (CResourceHolder::GetWindowSize().x - 50), rand() % (CResourceHolder::GetWindowSize().y - 50));
-		std::shared_ptr<CPlayer> newPlayer(new CPlayer(i, playerLabel + ".png", team, pos));
-		CTeamsManager::GetInstance()->AddToTeam(newPlayer, team);
-		CGameManager::GetInstance()->GetController(i).get()->Bind(dynamic_cast<IGamepadInput*>(newPlayer.get()), playerLabel);
-		CWindowUtilities::Draw(newPlayer.get()->GetAimSprite());
-	}
-
-	std::map<int, std::shared_ptr<CPlayer>>::iterator iter = CTeamsManager::GetInstance()->GetTeam(Team::RED).begin();
-	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::RED).end())
-	{
-		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-		iter->second.get()->AddVelocitySpriteToDrawList();
-		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-		// setup UI
-		++iter;
-	}
-
-	iter = CTeamsManager::GetInstance()->GetTeam(Team::BLUE).begin();
-	while (iter != CTeamsManager::GetInstance()->GetTeam(Team::BLUE).end())
-	{
-		iter->second.get()->SetSize(sf::Vector2f(50, 50));
-		iter->second.get()->AddVelocitySpriteToDrawList();
-		CGameManager::GetInstance()->GetController(iter->second.get()->GetControllerIndex()).get()->Bind(dynamic_cast<IGamepadInput*>(this), "Gameplay");
-		m_controllerIndex.push_back(iter->second.get()->GetControllerIndex());
-		// setup UI
-		++iter;
-	}
-	*/
+	
 
 	m_newBall = new CBall();
 	m_newBall->SetPosition(sf::Vector2f(1920 / 2, 1080 / 2));
@@ -141,16 +108,17 @@ CGameScene::CGameScene()
 /// </summary>
 CGameScene::~CGameScene()
 {
+	CWindowUtilities::m_drawList;
 	CObjectController::Destroy(m_newBall);
 	m_newBall = nullptr;
 
 	CObjectController::Destroy(m_newBall2);
 	m_newBall2 = nullptr;
 
-	for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
+	/*for (int itt = CTeamsManager::GetInstance()->GetPlayerCount() - 1; itt >= 0; itt--)
 	{
 		CTeamsManager::GetInstance()->GetPlayer(itt).get()->StopRendering();
-	}
+	}*/
 
 	delete m_redScore;
 	m_redScore = nullptr;
@@ -158,6 +126,7 @@ CGameScene::~CGameScene()
 	m_blueScore = nullptr;
 	delete m_uiFrameImg;
 	m_uiFrameImg = nullptr;
+	CWindowUtilities::m_drawList;
 
 	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawListShader.size(); ele++)
 	{
@@ -170,33 +139,39 @@ CGameScene::~CGameScene()
 			break;
 		}
 	}
+	CWindowUtilities::m_drawList;
 
 	int throwEle = 0;
-	for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
+	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
-		if (CWindowUtilities::m_drawList[ele] == m_playerIconUI[0]->GetSprite())
+		for (unsigned int ele = 0; ele < CWindowUtilities::m_drawList.size(); ele++)
 		{
-			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
-			// erase the element at the iterator 
-			auto iter = CWindowUtilities::m_drawList.begin() + ele;
-			CWindowUtilities::m_drawList.erase(iter, iter + CTeamsManager::GetInstance()->GetPlayerCount());
-			continue;
-		}
+			if (CWindowUtilities::m_drawList[ele] == m_playerIconUI[i]->GetSprite())
+			{
+				// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
+				// erase the element at the iterator 
+				auto iter = CWindowUtilities::m_drawList.begin() + ele;
+				CWindowUtilities::m_drawList.erase(iter);
+				//continue;
 
-		if (CWindowUtilities::m_drawList[ele] == m_throwIconUI[throwEle]->GetSprite())
-		{
-			auto iter = CWindowUtilities::m_drawList.begin() + ele;
-			CWindowUtilities::m_drawList.erase(iter);
-			++throwEle;
-			continue;
+			}
+			if (CWindowUtilities::m_drawList[ele] == m_throwIconUI[i]->GetSprite())
+			{
+				auto iter = CWindowUtilities::m_drawList.begin() + ele;
+				CWindowUtilities::m_drawList.erase(iter);
+				continue;
+			}
 		}
 	}
+	CWindowUtilities::m_drawList;
+	
 
 	for (int i = 0; i < 4; i++)
 	{
 		delete m_playerIconUI[i];
 		delete m_throwIconUI[i];
 	}
+	
 }
 
 void CGameScene::Update(float _fDeltaTime)
