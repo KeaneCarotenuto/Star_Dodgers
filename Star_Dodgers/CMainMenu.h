@@ -42,14 +42,13 @@ public:
 private:
 	bool m_canBindController = false;
 	int m_selectedItem;
-	const int m_totalItems = 4;
+	const int m_totalItems = 3;
 
 	sf::Color m_highlight;
 	sf::Color m_neutral;
 
 	sf::Text *m_playButton;
 	sf::Text *m_controlsButton;
-	sf::Text *m_settingsButton;
 	sf::Text *m_quitButton;
 
 	sf::Sound m_moveSFX, m_selectSFX, m_cancelSFX;
