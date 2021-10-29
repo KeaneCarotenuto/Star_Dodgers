@@ -27,7 +27,7 @@ private:
 	
 	CBall* m_newBall;
 	CBall* m_newBall2;
-
+	std::vector<CBall*> m_sceneBalls;
 	std::vector<int> m_controllerIndex;
 	CUIBar* m_redScore, *m_blueScore;
 	CUIImage* m_uiFrameImg;

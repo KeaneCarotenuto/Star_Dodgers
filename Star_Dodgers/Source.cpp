@@ -84,11 +84,11 @@ int main()
 		CResourceHolder::GetWindow()->clear();
 		for (unsigned int i = 0; i < CWindowUtilities::m_drawListShader.size(); i++)
     	{ 
-			ppBuffer.draw(*CWindowUtilities::m_drawListShader[i].first, CWindowUtilities::m_drawListShader[i].second);
+			if(CWindowUtilities::m_drawListShader[i].first != nullptr) ppBuffer.draw(*CWindowUtilities::m_drawListShader[i].first, CWindowUtilities::m_drawListShader[i].second);
 		}
 		for (unsigned int i = 0; i < CWindowUtilities::m_drawList.size(); i++)
     	{ 
-			ppBuffer.draw(*CWindowUtilities::m_drawList[i]);
+			if(CWindowUtilities::m_drawList[i] != nullptr) ppBuffer.draw(*CWindowUtilities::m_drawList[i]);
 		}
 		CPostProcessing::GetInstance()->ApplyPostProcessing(ppBuffer.getTexture(), *CResourceHolder::GetWindow());
 		//CResourceHolder::GetWindow()->draw();
