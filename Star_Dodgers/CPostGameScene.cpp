@@ -1,3 +1,19 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//----------------------------------------------------------
+// (c) 2021 Media Design School
+//==========================================================
+//   File Name  : CPostGameScene.cpp
+//----------------------------------------------------------
+//  Description : the game scene after the game has concluded
+//----------------------------------------------------------
+//    Author    : Jacob Sullivan
+//----------------------------------------------------------
+//    E-mail    : Jacob.Sullivan@mds.ac.nz
+//==========================================================
+
 #include "CPostGameScene.h"
 #include "CGameManager.h"
 #include "CLobby.h"

@@ -1,3 +1,19 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//----------------------------------------------------------
+// (c) 2021 Media Design School
+//==========================================================
+//   File Name  : CResourceHolder.cpp
+//----------------------------------------------------------
+//  Description : holds all of the recourses that are needed in multiple loctaions
+//----------------------------------------------------------
+//    Author    : 
+//----------------------------------------------------------
+//    E-mail    : 
+//==========================================================
+
 #include <iostream>
 #include "CResourceHolder.h"
 
@@ -12,7 +28,9 @@ std::map<std::string, sf::Font *> CResourceHolder::m_fontMap;
 std::map<std::string, sf::Shader *> CResourceHolder::m_shaderMap;
 std::map<std::string, sf::SoundBuffer *> CResourceHolder::m_soundBufferMap;
 
-// create resources that will be used later in the project
+/// <summary>
+/// Initialises all of the recources needed in the project
+/// </summary>
 void CResourceHolder::Initialise()
 {
 	float titlebarHeight = 25;
@@ -65,21 +83,30 @@ void CResourceHolder::Initialise()
 
 	CreateShader("starry.glsl", sf::Shader::Fragment);
 	CreateShader("screenshake.glsl", sf::Shader::Fragment);
-
-	
-	
 }
 
+/// <summary>
+/// Gets the render window that is stored in the m_window pointer
+/// </summary>
+/// <returns>returns the m_window pointer</returns>
 sf::RenderWindow *CResourceHolder::GetWindow()
 {
 	return (m_window);
 }
 
+/// <summary>
+/// Gets the size of the window
+/// </summary>
+/// <returns>returns a vector2u with window size</returns>
 sf::Vector2u CResourceHolder::GetWindowSize()
 {
 	return(m_window->getSize());
 }
 
+/// <summary>
+/// Creates a image with the given name then adds it to the map of created images
+/// </summary>
+/// <param name="_name">the name/path of the image in the images folder</param>
 void CResourceHolder::CreateImage(std::string _name)
 {
 	std::string path = "Resources/Images/";
@@ -90,7 +117,7 @@ void CResourceHolder::CreateImage(std::string _name)
 	{
 		std::cout << "Image: " << _name << " has already been created. " << std::endl;
     
-  }
+	}
 	else
 	{
 		sf::Image *newImage = new sf::Image();
@@ -99,6 +126,11 @@ void CResourceHolder::CreateImage(std::string _name)
 	}
 }
 
+/// <summary>
+/// get the image from the map with the given name
+/// </summary>
+/// <param name="_name">The name used at creation of the image</param>
+/// <returns>the image at the map location or a nullptr</returns>
 sf::Image *CResourceHolder::GetImage(std::string _name)
 {
 	// make sure image is in map
@@ -114,6 +146,10 @@ sf::Image *CResourceHolder::GetImage(std::string _name)
 	}
 }
 
+/// <summary>
+/// creates a texture with the name given and adding it to the texture map
+/// </summary>
+/// <param name="_name">location/ name of the image with respect to the image folder</param>
 void CResourceHolder::CreateTexture(std::string _name)
 {
 	std::string path = "Resources/Images/";
@@ -132,6 +168,11 @@ void CResourceHolder::CreateTexture(std::string _name)
 	}
 }
 
+/// <summary>
+/// gets the texture at the map location 
+/// </summary>
+/// <param name="_name"></param>
+/// <returns></returns>
 sf::Texture* CResourceHolder::GetTexture(std::string _name)
 {
 	// make sure texture is in map
@@ -147,6 +188,10 @@ sf::Texture* CResourceHolder::GetTexture(std::string _name)
 	}
 }
 
+/// <summary>
+/// creates a font with the given name and stores it on the map 
+/// </summary>
+/// <param name="_name">the image path/name in respect to the fonts folder</param>
 void CResourceHolder::CreateFont(std::string _name)
 {
 	std::string path = "Resources/Fonts/";
@@ -165,6 +210,11 @@ void CResourceHolder::CreateFont(std::string _name)
 	}
 }
 
+/// <summary>
+/// gets the font at the map location of name
+/// </summary>
+/// <param name="_name">the map lookup for the font </param>
+/// <returns>the font at the map location or a nullptr</returns>
 sf::Font *CResourceHolder::GetFont(std::string _name)
 {
 	// make sure font is in map
