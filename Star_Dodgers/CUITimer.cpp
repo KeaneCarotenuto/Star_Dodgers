@@ -10,7 +10,7 @@ CUITimer::CUITimer(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, flo
     m_text.setPosition(_position);
     m_text.setRotation(_rotation);
     m_text.setScale(_scale);
-    m_text.setFont(*CResourceHolder::GetFont("comic.ttf"));
+    m_text.setFont(*CResourceHolder::GetFont("chintzys.ttf"));
     
     m_timeElapsed = 0.0f;
     m_clock.restart();

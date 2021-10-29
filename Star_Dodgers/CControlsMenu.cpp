@@ -127,7 +127,7 @@ CControlsMenu::CControlsMenu()
 	m_pageList.push_back(pageCreator);
 
 	// get font
-	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
+	sf::Font* font = CResourceHolder::GetFont("chintzys.ttf");
 	
 
 	// create the transistion header

@@ -11,7 +11,7 @@ CMainMenu::CMainMenu()
 	m_canBindController = (CGameManager::GetInstance()->GetMasterController() == nullptr) ? false : true;
 
 	// get font and set colours
-	sf::Font *font = CResourceHolder::GetFont("comic.ttf");
+	sf::Font *font = CResourceHolder::GetFont("chintzys.ttf");
 	m_highlight = sf::Color::Cyan;
 	m_neutral = sf::Color::White;
 

@@ -19,7 +19,7 @@ CLobby::CLobby()
 	m_lobbySegmentsLeft[0] = (m_lobby.width / 3.0f) + 1.0f;
 	m_lobbySegmentsLeft[2] = ((m_lobby.width * 2.0f) / 3.0f) + 2.0f;
 
-	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
+	sf::Font* font = CResourceHolder::GetFont("chintzys.ttf");
 	m_neutral = sf::Color(125, 125, 125, 150);
 
 	m_title = new sf::Text("Join Game", *font, 50);
@@ -170,7 +170,7 @@ CLobby::~CLobby()
 		m_playerReadyText[i] = 0;
 	}
 
-	CWindowUtilities::m_drawList.empty();
+	
 
 	CTeamsManager::GetInstance()->RemoveObserver(this);
 }

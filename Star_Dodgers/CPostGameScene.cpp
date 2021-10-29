@@ -22,7 +22,7 @@
 CPostGameScene::CPostGameScene(Team _winningTeam, int _bluePoints, int _redPoints)
 {
 	// get font
-	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
+	sf::Font* font = CResourceHolder::GetFont("chintzys.ttf");
 	switch (_winningTeam)
 	{
 	case Team::UNDECIDED:

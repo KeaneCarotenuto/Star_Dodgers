@@ -80,6 +80,7 @@ void CResourceHolder::Initialise()
 	CreateSoundBuffer("MenuCancel.wav");
 	CreateSoundBuffer("MenuMove.wav");
 	CreateFont("comic.ttf");
+	CreateFont("chintzys.ttf");
 
 	CreateShader("starry.glsl", sf::Shader::Fragment);
 	CreateShader("screenshake.glsl", sf::Shader::Fragment);
