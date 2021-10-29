@@ -1,6 +1,11 @@
 #include "CUIBar.h"
 #include"CMath.h"
 
+/// <summary>
+/// Constructor
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 CUIBar::CUIBar(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, float _rotation, sf::Texture* _barTex, sf::Texture* _bgTex) 
 {
     SetZIndex(_Zindex);
@@ -17,6 +22,11 @@ CUIBar::CUIBar(int _Zindex, sf::Vector2f _position, sf::Vector2f _scale, float _
 
 }
 
+/// <summary>
+/// Draws the UI to the screen
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CUIBar::DrawUI(sf::RenderWindow* _window) {
    
     m_value = cmath::Clamp(m_value, 0.0f, 1.0f);
@@ -26,6 +36,11 @@ void CUIBar::DrawUI(sf::RenderWindow* _window) {
     _window->draw(m_bgSprite);
 }
 
+/// <summary>
+/// Sets the percentage of the bar which is filled, using the current and maximum possible value.
+/// <para>Author: Nerys</para>
+/// </summary>
+/// <returns></returns>
 void CUIBar::SetFill(float _max, float _val) 
 {
     if (_val == 0.0f || _max == 0.0f)
