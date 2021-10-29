@@ -40,7 +40,7 @@ CLobby::CLobby()
 		sf::Color colour;
 		if (i == 0) { label = "Undecided"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
 		else if (i == 1) { label = "Red Team"; colour = sf::Color::Red; }
-		else { label = "Blue Team"; colour = sf::Color::Blue; }
+		else { label = "Blue Team"; colour = sf::Color(0, 255, 255, 150); }
 
 		m_teamLabels[i] = new sf::Text(label, *font, 30);
 		float xPos = m_lobbySegmentsLeft[i] + ((sectionWidth - m_teamLabels[i]->getGlobalBounds().width) / 2.0f); // middle of section

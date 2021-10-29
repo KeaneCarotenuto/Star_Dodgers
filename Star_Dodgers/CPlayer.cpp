@@ -294,7 +294,7 @@ void CPlayer::SetTeam(Team _team)
 	}
 	case Team::BLUE:
 	{
-		m_aimSprite->setColor(sf::Color(0, 0, 255, 150));
+		m_aimSprite->setColor(sf::Color(0, 255, 255, 150));
 		break;
 	}
 	}
