@@ -86,46 +86,6 @@ CControlsMenu::CControlsMenu()
 	}
 	m_pageList.push_back(pageCreator);
 
-	pageCreator = new PageInfo;
-	pageCreator->m_header = "Rules";
-	pageCreator->m_text = "Hit an opponent to score a point\nScore 10 points to charge a winning ball \nHit a winning ball and your team clames victory\nMiss it and you have to charge up again \n \nThrow buttons are used to pick up balls \nThe ball will change to your colour when thrown \nCatch a ball right before being hit to gain a powerup \nPowerups can get you easy points but are a risky play";
-	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/Players.png"))
-	{
-		std::cout << "failed to load Players.png" << std::endl;
-	}
-	m_pageList.push_back(pageCreator);
-
-	//Second page
-	pageCreator = new PageInfo;
-	pageCreator->m_header = "Controls";
-	pageCreator->m_text = "Left joystick moves the player \nRight joystick aims the ball \nRight trigger charges throw \nRight bumper quickly throws \nSquare curves to the left \nCircle curves to the right \nTriangle throws fast ball \nX performs a quick dash";
-	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite0.png"))
-	{
-		std::cout << "failed to load PlayerSprite0.png" << std::endl;
-	}
-	m_pageList.push_back(pageCreator);
-
-	//Third page
-	pageCreator = new PageInfo;
-	pageCreator->m_header = "Page3";
-	pageCreator->m_text = "Page3 text goes here";
-	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite1.png"))
-	{
-		std::cout << "failed to load PlayerSprite1.png" << std::endl;
-	}
-	m_pageList.push_back(pageCreator);
-
-	//Fourth page
-	pageCreator = new PageInfo;
-	pageCreator->m_header = "Page4";
-	pageCreator->m_text = "Page4 text goes here";
-	pageCreator->m_image = new sf::Texture();
-
-	m_pageList.push_back(pageCreator);
-
 	// get font
 	sf::Font* font = CResourceHolder::GetFont("comic.ttf");
 	
