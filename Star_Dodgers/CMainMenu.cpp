@@ -17,17 +17,26 @@ CMainMenu::CMainMenu()
 
 	// create buttons and set positions
 	m_playButton = new sf::Text("Play", *font);
-	m_playButton->setPosition(50, 50);
+	m_playButton->setCharacterSize(40);
+	m_playButton->setPosition(((CResourceHolder::GetWindowSize().x / 2) - (m_playButton->getGlobalBounds().width / 2)), 300);
 	m_playButton->setFillColor(m_neutral);
 
 	m_controlsButton = new sf::Text("Controls", *font);
-	m_controlsButton->setPosition(50, 250);
+	m_controlsButton->setCharacterSize(40);
+	m_controlsButton->setPosition(((CResourceHolder::GetWindowSize().x / 2) - (m_controlsButton->getGlobalBounds().width / 2)), 475);
 	m_controlsButton->setFillColor(m_neutral);
 
 
 	m_quitButton = new sf::Text("Quit", *font);
-	m_quitButton->setPosition(50, 450);
+	m_quitButton->setCharacterSize(40);
+	m_quitButton->setPosition(((CResourceHolder::GetWindowSize().x / 2) - (m_quitButton->getGlobalBounds().width / 2)), 650);
 	m_quitButton->setFillColor(m_neutral);
+
+	
+	m_title = new sf::Text("Star Dodgers", *font);
+	m_title->setFillColor(m_neutral);
+	m_title->setCharacterSize(60);
+	m_title->setPosition(((CResourceHolder::GetWindowSize().x / 2) - (m_title->getGlobalBounds().width / 2)), 50);
 
 	m_moveSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuMove.wav"));
 	m_selectSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuSelect.wav"));
@@ -36,6 +45,8 @@ CMainMenu::CMainMenu()
 	CWindowUtilities::Draw(m_playButton);
 	CWindowUtilities::Draw(m_controlsButton);
 	CWindowUtilities::Draw(m_quitButton);
+	CWindowUtilities::Draw(m_title);
+
 }
 
 CMainMenu::~CMainMenu()
@@ -47,7 +58,7 @@ CMainMenu::~CMainMenu()
 			// if play button is found in ToDrawList, create an iterator pointing to the position of the play button then
 			// erase the element at the iterator and the 3 elements after it so that all buttons are removed from the list
 			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
-			CWindowUtilities::m_drawList.erase(iter, iter + 3);
+			CWindowUtilities::m_drawList.erase(iter, iter + 4);
 			break;
 		}
 	}

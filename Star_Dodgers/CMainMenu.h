@@ -50,6 +50,7 @@ private:
 	sf::Text *m_playButton;
 	sf::Text *m_controlsButton;
 	sf::Text *m_quitButton;
+	sf::Text* m_title;
 
 	sf::Sound m_moveSFX, m_selectSFX, m_cancelSFX;
 };
