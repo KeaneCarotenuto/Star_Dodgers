@@ -63,6 +63,8 @@ public:
 	void AddAimSpriteToDrawlist() { CWindowUtilities::Draw(m_aimSprite); }
 	void StopRendering();
 
+	float GetCurrentAimAngle() { return m_currentAimAngle; };
+
 	void SetTeam(Team _team);
 	Team GetTeam() { return(m_team); }
 	ThrowStyle GetThrowStyle() { return(m_throwStyle); }
