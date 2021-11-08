@@ -183,7 +183,7 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		m_throwStyle = ThrowStyle::LeftCurve;
 		break;
 	case Button::SOUTH: 
-		if (m_dodgeCooldown <= 0.0f) //If Cooldown finished, begin dodge
+		if (m_dodgeCooldown <= 0.0f && m_dodgeTimer	<= 0.0f) //If Cooldown finished, begin dodge
 		{
 			m_dodgeTimer = 0.2f;
 			m_dashSFX.play();

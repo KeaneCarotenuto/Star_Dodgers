@@ -331,7 +331,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		{
 		case Button::DPAD_LEFT:
 		{
-			m_moveSFX.play();
+			
 			switch (playerPtr->GetTeam())
 			{
 			case Team::UNDECIDED:
@@ -349,7 +349,7 @@ void CLobby::OnButtonInput(GamepadButtonEvent _event)
 		}
 		case Button::DPAD_RIGHT:
 		{
-			m_moveSFX.play();
+			
 			switch (playerPtr->GetTeam())
 			{
 			case Team::UNDECIDED:

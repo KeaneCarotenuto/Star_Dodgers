@@ -53,6 +53,10 @@ void CPostProcessing::Update() {
     else
     {
         m_currScreenShakeEffect.m_amplitude -= (deltaTime * (m_currScreenShakeEffect.m_amplitude / m_currScreenShakeEffect.m_duration));
+        //Clamp amplitude between a min of 0.0 and max of 1.0
+        m_currScreenShakeEffect.m_amplitude = sf::Vector2f(std::max(m_currScreenShakeEffect.m_amplitude.x, 0.0f), std::max(m_currScreenShakeEffect.m_amplitude.y, 0.0f));
+        m_currScreenShakeEffect.m_amplitude = sf::Vector2f(std::min(m_currScreenShakeEffect.m_amplitude.x, 1.0f), std::min(m_currScreenShakeEffect.m_amplitude.y, 1.0f));
+       
     }
     
     if ((m_chromaAberrationDuration -= deltaTime) > 0.0f)

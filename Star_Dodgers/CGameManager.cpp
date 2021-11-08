@@ -22,6 +22,9 @@ CGameManager::CGameManager()
 	m_isJoinableScene = true;  // can players join the game during this scene
 }
 
+/// <summary>
+/// Destructor
+/// </summary>
 CGameManager::~CGameManager() 
 {
 }
