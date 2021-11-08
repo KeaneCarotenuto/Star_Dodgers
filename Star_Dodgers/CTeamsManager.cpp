@@ -145,7 +145,7 @@ bool CTeamsManager::AreAllPlayersReady()
 /// <param name="_point"></param>
 /// <param name="_team"></param>
 /// <returns></returns>
-std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Team _team)
+std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Team _team, std::vector<CPlayer*> _exclude)
 {
 	std::shared_ptr<CPlayer> closest = nullptr;
 
@@ -170,7 +170,13 @@ std::shared_ptr<CPlayer> CTeamsManager::GetNearestPlayer(sf::Vector2f _point, Te
 	{
 		if (!tempMap[p]) continue;
 		if (!closest || cmath::Distance(tempMap[p]->GetPosition(), _point) < cmath::Distance(closest->GetPosition(), _point)) {
-			closest = tempMap[p];
+			std::vector<CPlayer*>::iterator it = std::find(_exclude.begin(), _exclude.end(), tempMap[p].get());
+			if (it != _exclude.end()) {
+
+			}
+			else {
+				closest = tempMap[p];
+			}
 		}
 	}
 

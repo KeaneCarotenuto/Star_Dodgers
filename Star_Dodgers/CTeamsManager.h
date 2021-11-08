@@ -66,7 +66,7 @@ public:
 
 	bool AreAllPlayersReady();
 
-	std::shared_ptr<CPlayer> GetNearestPlayer(sf::Vector2f _point, Team _team = Team::UNDECIDED);
+	std::shared_ptr<CPlayer> GetNearestPlayer(sf::Vector2f _point, Team _team = Team::UNDECIDED, std::vector<CPlayer*> _exclude = {nullptr});
 
 	/// <summary>
 	/// this function is a debug function used to skip from main menu to game scene reguardless of how many players have

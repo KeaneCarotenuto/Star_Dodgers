@@ -321,7 +321,7 @@ void CBall::PerformPower()
 			if (cmath::g_clock->getElapsedTime().asSeconds() - m_powerActivationTime <= m_powerDuration) {
 
 				for (CBall* _homingBall : m_childBalls) {
-					std::shared_ptr<CPlayer> closest = CTeamsManager::GetInstance()->GetNearestPlayer(_homingBall->GetPosition(), GetOwnerTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+					std::shared_ptr<CPlayer> closest = CTeamsManager::GetInstance()->GetNearestPlayer(_homingBall->GetPosition(), GetOwnerTeam() == Team::BLUE ? Team::RED : Team::BLUE, m_hitPlayers);
 
 					if (closest) {
 						_homingBall->SetAcceleration(cmath::Normalize(closest->GetPosition() - _homingBall->GetPosition()) * 0.25f);
@@ -648,49 +648,47 @@ void CBall::Throw(float _speed)
 
 	m_throwStyle = m_holder->GetThrowStyle();
 
-	if (cmath::Mag(m_holder->GetAim()) >= 0.01f) {
+	m_initialDirection = m_holder->GetAim();
+	float currentAim = m_holder->GetCurrentAimAngle();
 
-		m_initialDirection = m_holder->GetAim();
+	//calculate aim vector using the currentAim angle
+	sf::Vector2f aimVector = cmath::Normalize(sf::Vector2f(cos(cmath::Radians(currentAim)), sin(cmath::Radians(currentAim))));
 
-		switch (m_throwStyle)
-		{
-		case ThrowStyle::Fastball:
-			SetVelocity(cmath::Normalize(m_holder->GetAim()) * _speed);
-			break;
+	switch (m_throwStyle)
+	{
+	case ThrowStyle::Fastball:
+		SetVelocity(aimVector * _speed);
+		break;
 
-		case ThrowStyle::LeftCurve:
-			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, 45));
-			break;
+	case ThrowStyle::LeftCurve:
+		SetVelocity(cmath::Rotate(aimVector * _speed, 45));
+		break;
 
-		case ThrowStyle::RightCurve:
-			SetVelocity(cmath::Rotate(cmath::Normalize(m_holder->GetAim()) * _speed, -45));
-			break;
+	case ThrowStyle::RightCurve:
+		SetVelocity(cmath::Rotate(aimVector * _speed, -45));
+		break;
 
-		default:
-			break;
-		}
-
-		switch (m_power)
-		{
-		case CBall::BallPower::None:
-			break;
-		case CBall::BallPower::Homing:
-			break;
-		case CBall::BallPower::Exploding:
-			SetVelocity(GetVelocity() * 0.5f);
-			break;
-		case CBall::BallPower::BulletHell:
-			break;
-		case CBall::BallPower::SuperFast:
-			SetVelocity(GetVelocity() * 2.0f);
-			ActivatePower();
-			break;
-		default:
-			break;
-		}
+	default:
+		break;
 	}
-	else {
-		SetVelocity({ (float)(5 - rand() % 10), (float)(5 - rand() % 10) });
+
+	switch (m_power)
+	{
+	case CBall::BallPower::None:
+		break;
+	case CBall::BallPower::Homing:
+		break;
+	case CBall::BallPower::Exploding:
+		SetVelocity(GetVelocity() * 0.5f);
+		break;
+	case CBall::BallPower::BulletHell:
+		break;
+	case CBall::BallPower::SuperFast:
+		SetVelocity(GetVelocity() * 2.0f);
+		ActivatePower();
+		break;
+	default:
+		break;
 	}
 
 
@@ -770,7 +768,18 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 
 			didHit = true;
 
-			ResetBall();
+			if (m_parent) {
+				std::vector<CBall*>::iterator it = std::find(m_parent->m_childBalls.begin(), m_parent->m_childBalls.end(), this);
+				if (it != m_parent->m_childBalls.end()) {
+					m_parent->m_childBalls.erase(it);
+				}
+
+				CObjectController::Destroy(this);
+			}
+			else {
+				ResetBall();
+			}
+
 			break;
 
 		case CBall::BallPower::Homing:
@@ -795,6 +804,8 @@ void CBall::SpecificPlayerCollision(CPlayer* _player)
 			didHit = true;
 			CPostProcessing::GetInstance()->AddScreenShake(cmath::Abs(GetVelocity()), sf::Vector2f{50.0f,50.0f}, 0.5f);
 			CPostProcessing::GetInstance()->AddChromaAberration(0.0015f, 0.3f);
+
+			ResetBall();
 			break;
 
 		default:

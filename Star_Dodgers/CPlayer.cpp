@@ -102,21 +102,25 @@ void CPlayer::Update(float _fDeltaTime)
             m_speed = 180.0f;
         }
     }
-
-    m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
-    if (cmath::Mag(m_desiredAim) >= 0.01f)
-    {
-        float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
-        newAimAngle *= 180.0f;
-        newAimAngle /= PI;
-        m_currentAimAngle = newAimAngle;
-    }
 	
+	m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
 
     float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
     newVelAngle *= 180.0f;
     newVelAngle /= PI;
-    m_currentVelocityAngle = newVelAngle;
+	m_currentVelocityAngle = newVelAngle;
+
+	
+	if (cmath::Mag(m_desiredAim) >= 0.02f)
+	{
+		float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
+		newAimAngle *= 180.0f;
+		newAimAngle /= PI;
+		m_currentAimAngle = newAimAngle;
+	}
+	else if (cmath::Mag(m_desiredVelocity) >= 0.02f){
+		m_currentAimAngle = m_currentVelocityAngle;
+	}
 
     m_aimSprite->setRotation(m_currentAimAngle + 90);
     m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
@@ -194,7 +198,12 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 		m_throwStyle = ThrowStyle::RightCurve;
 		break;
 	case Button::LEFT_SHOULDER:
+		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
+		{
+			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
+		}
 		break;
+
 	case Button::RIGHT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
