@@ -614,7 +614,7 @@ void CBall::ForceCatch(CPlayer* _player)
 		SetWinningBall();
 	}
 	else {
-		m_power = static_cast<BallPower>(1 + (rand() % 4));
+		m_power = BallPower::BulletHell;
 		m_powerupSFX.play();
 	}
 
