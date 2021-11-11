@@ -27,38 +27,18 @@ CControlsMenu::CControlsMenu()
 
 	//First page
 	auto pageCreator = new PageInfo;
-	pageCreator->m_header = "Players";
-	pageCreator->m_text = " These are all of the players in the game.\nEach player takes control of one of these.";
+	pageCreator->m_header = "Controls";
+	pageCreator->m_text = "";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/Players.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Gameplay_Controls.png"))
 	{
-		std::cout << "failed to load Players.png" << std::endl;
+		std::cout << "failed to load Gameplay_Controls.png" << std::endl;
 	}
 	m_pageList.push_back(pageCreator);
 
 	pageCreator = new PageInfo;
-	pageCreator->m_header = "Moving";
-	pageCreator->m_text = "The left joystick controls the players movement.";
-	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite0.png"))
-	{
-		std::cout << "failed to load PlayerSprite0.png" << std::endl;
-	}
-	m_pageList.push_back(pageCreator);
-
-	pageCreator = new PageInfo;
-	pageCreator->m_header = "Dashing";
-	pageCreator->m_text = "         While Moving the player can press x to perform a short dash. \nThis can be used to avoid incoming balls or move quickly around the screen.";
-	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/PlayerSprite1.png"))
-	{
-		std::cout << "failed to load PlayerSprite1.png" << std::endl;
-	}
-	m_pageList.push_back(pageCreator);
-
-	pageCreator = new PageInfo;
-	pageCreator->m_header = "Stars";
-	pageCreator->m_text = "                 This is a Star.\n These are the how you score points";
+	pageCreator->m_header = "Star";
+	pageCreator->m_text = "Hit a star to score points";
 	pageCreator->m_image = new sf::Texture();
 	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball.png"))
 	{
@@ -67,20 +47,30 @@ CControlsMenu::CControlsMenu()
 	m_pageList.push_back(pageCreator);
 
 	pageCreator = new PageInfo;
-	pageCreator->m_header = "Thowing";
-	pageCreator->m_text = "Stars can be thrown quickly with R1\n     Stars can be charged with R2";
+	pageCreator->m_header = "Powerup Stars";
+	pageCreator->m_text = "Catch an incoming ball to get a powered star";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball_Rainbow.png"))
 	{
-		std::cout << "failed to load Ball.png" << std::endl;
+		std::cout << "failed to load Ball_Rainbow.png" << std::endl;
 	}
 	m_pageList.push_back(pageCreator);
 
 	pageCreator = new PageInfo;
-	pageCreator->m_header = "Augmented Thows";
-	pageCreator->m_text = "Stars can be augmented to move in different ways\n     This is done using Square, Triangle and circle";
+	pageCreator->m_header = "Points";
+	pageCreator->m_text = "Fill your teams score bar to make the next star a winning Star";
 	pageCreator->m_image = new sf::Texture();
-	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball.png"))
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/UIBarBlue.png"))
+	{
+		std::cout << "failed to load UIBarBlue.png" << std::endl;
+	}
+	m_pageList.push_back(pageCreator);
+
+	pageCreator = new PageInfo;
+	pageCreator->m_header = "Winning Star";
+	pageCreator->m_text = "Hit the opposing team with a winning star to win the game";
+	pageCreator->m_image = new sf::Texture();
+	if (!pageCreator->m_image->loadFromFile("Resources/Images/Ball_Yellow.png"))
 	{
 		std::cout << "failed to load Ball.png" << std::endl;
 	}
@@ -128,6 +118,33 @@ CControlsMenu::CControlsMenu()
 	m_returnPrompt->setFillColor(sf::Color::White);
 	m_returnPrompt->setOrigin(sf::Vector2f(m_returnPrompt->getGlobalBounds().width / 2, m_returnPrompt->getGlobalBounds().height / 2));
 
+	//load the arrow prompts
+	downArrow = new sf::Texture;
+	downArrow->loadFromFile("Resources/Images/DownButton.png");
+
+	m_nextImagePrompt = new sf::Sprite();
+	m_nextImagePrompt->setTexture(*downArrow);
+	m_nextImagePrompt->setScale(sf::Vector2f(0.02,0.02));
+	m_nextImagePrompt->setPosition(sf::Vector2f(1800, 920));
+	m_nextImagePrompt->setRotation(-90);
+
+	m_nextTextPrompt = new sf::Text;
+	m_nextTextPrompt->setFont(*font);
+	m_nextTextPrompt->setString("Next");
+	m_nextTextPrompt->setPosition(sf::Vector2f(1700, 880));
+
+	m_backImagePrompt = new sf::Sprite();
+	m_backImagePrompt->setTexture(*downArrow);
+	m_backImagePrompt->setScale(sf::Vector2f(0.02, 0.02));
+	m_backImagePrompt->setPosition(sf::Vector2f(120, 880));
+	m_backImagePrompt->setRotation(90);
+
+	m_backTextPrompt = new sf::Text;
+	m_backTextPrompt->setFont(*font);
+	m_backTextPrompt->setString("Previous");
+	m_backTextPrompt->setPosition(sf::Vector2f(170, 880));
+	
+
 	//draw all of the components
 	CWindowUtilities::Draw(m_pageOneHeader);
 	CWindowUtilities::Draw(m_pageOneImage);
@@ -136,6 +153,11 @@ CControlsMenu::CControlsMenu()
 	CWindowUtilities::Draw(m_pageTwoImage);
 	CWindowUtilities::Draw(m_pageTwoText);
 	CWindowUtilities::Draw(m_returnPrompt);
+
+	CWindowUtilities::Draw(m_nextImagePrompt);
+	CWindowUtilities::Draw(m_nextTextPrompt);
+	CWindowUtilities::Draw(m_backImagePrompt);
+	CWindowUtilities::Draw(m_backTextPrompt);
 
 	//bind the controller
 	CGameManager::GetInstance()->GetMasterController()->Bind(dynamic_cast<IGamepadInput*>(this), "ControlsMenu");
@@ -154,7 +176,7 @@ CControlsMenu::~CControlsMenu()
 			// if controls header is found in ToDrawList, create an iterator pointing to the position of it then
 			// erase the element at the iterator and the 3 elements after it so that text is removed from the list
 			std::vector<sf::Drawable*>::iterator iter = CWindowUtilities::m_drawList.begin() + ele;
-			CWindowUtilities::m_drawList.erase(iter, iter + 7);
+			CWindowUtilities::m_drawList.erase(iter, iter + 11);
 			break;
 		}
 	}
@@ -165,6 +187,12 @@ CControlsMenu::~CControlsMenu()
 	delete m_pageTwoHeader;
 	delete m_pageTwoText;
 	delete m_returnPrompt;
+
+	delete m_nextImagePrompt;
+	delete m_nextTextPrompt;
+	delete m_backImagePrompt; 
+	delete m_backTextPrompt;
+	delete downArrow;
 }
 
 /// <summary>
