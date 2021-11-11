@@ -87,6 +87,10 @@ private:
 	sf::Text* m_teamLabels[3] = { nullptr, nullptr, nullptr };
 	sf::VertexArray* m_teamSeperators[2] = { nullptr, nullptr };
 	sf::Text* m_playerReadyText[4] = { nullptr, nullptr, nullptr, nullptr };
+	sf::Texture* m_downArrow;
+	sf::Sprite* m_changeTeamRight;
+	sf::Sprite* m_changeTeamLeft;
+	sf::Text* m_changeTeamPrompt;
 
 	sf::Rect<float> m_lobby;             // the area where player icons are displayed
 	float m_lobbySegmentsLeft[3];     // position of lobby segement top left

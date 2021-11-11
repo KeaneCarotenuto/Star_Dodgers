@@ -9,7 +9,7 @@ CPlayer::CPlayer(int _controllerIndex, std::string _texName, Team _team, sf::Vec
 {
 	m_aimSprite = new sf::Sprite();
 	m_velocitySprite = new sf::Sprite();
-
+	m_inGame = false;
 	SetController(_controllerIndex);
 	SetAimSprite(_texName);
 	SetTeam(_team);
@@ -61,85 +61,91 @@ CPlayer::~CPlayer()
 
 void CPlayer::Update(float _fDeltaTime)
 {
-	sf::Vector2f desiredVelocityAngle;
-    m_desiredVelocity = m_controller.get()->GetLeftStick();
-
-    // when dodge timer finishes - set cooldown
-    if (m_dodgeTimer < 0.0f)
-    {
-        m_dodgeCooldown = 2.0f;
-        m_dodgeTimer = 0.0f;
-    }
-
-    if (m_controller.get()->GetLeftTrigger() > 0.3f) // begin charge
-    {
-        m_isChargingThrow = true;
-        m_throwCharge += _fDeltaTime;
-    }
-
-    if ((m_controller.get()->GetLeftTrigger() < 0.3f) && (m_isChargingThrow))
-    {
-        // release throw
-        m_isChargingThrow = false;
-        m_throwCharge = 0.0f;
-    }
-
-    if (!m_isChargingThrow)
-    {
-        // if not currently dodging or charging, move as normal
-        if (m_dodgeTimer == 0.0f)
-        {
-            m_dodgeCooldown -= _fDeltaTime;
-            m_desiredVelocity = m_controller.get()->GetLeftStick();
-            desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
-            m_speed = 60.0f;
-        }
-        else // dodge
-        {
-            m_dodgeTimer -= _fDeltaTime;
-            m_desiredVelocity = m_lastVelocity;
-            desiredVelocityAngle = m_lastVelocity * m_leftAnalogStickSensitivity;
-            m_speed = 180.0f;
-        }
-    }
-	
-	m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
-
-    float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
-    newVelAngle *= 180.0f;
-    newVelAngle /= PI;
-	m_currentVelocityAngle = newVelAngle;
-
-	
-	if (cmath::Mag(m_desiredAim) >= 0.02f)
+	if (m_inGame)
 	{
-		float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
-		newAimAngle *= 180.0f;
-		newAimAngle /= PI;
-		m_currentAimAngle = newAimAngle;
-	}
-	else if (cmath::Mag(m_desiredVelocity) >= 0.02f){
-		m_currentAimAngle = m_currentVelocityAngle;
-	}
+		sf::Vector2f desiredVelocityAngle;
+		m_desiredVelocity = m_controller.get()->GetLeftStick();
 
-    m_aimSprite->setRotation(m_currentAimAngle + 90);
-    m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
+		// when dodge timer finishes - set cooldown
+		if (m_dodgeTimer < 0.0f)
+		{
+			m_dodgeCooldown = 2.0f;
+			m_dodgeTimer = 0.0f;
+		}
 
-    if (m_desiredVelocity != sf::Vector2f(0, 0))
-    {
-        m_lastVelocity = m_desiredVelocity;
-    }
+		if (m_controller.get()->GetLeftTrigger() > 0.3f) // begin charge
+		{
+			m_isChargingThrow = true;
+			m_throwCharge += _fDeltaTime;
+		}
+
+		if ((m_controller.get()->GetLeftTrigger() < 0.3f) && (m_isChargingThrow))
+		{
+			// release throw
+			m_isChargingThrow = false;
+			m_throwCharge = 0.0f;
+		}
+
+		if (!m_isChargingThrow)
+		{
+			// if not currently dodging or charging, move as normal
+			if (m_dodgeTimer == 0.0f)
+			{
+				m_dodgeCooldown -= _fDeltaTime;
+				m_desiredVelocity = m_controller.get()->GetLeftStick();
+				desiredVelocityAngle = m_controller.get()->GetLeftStick() * m_leftAnalogStickSensitivity;
+				m_speed = 60.0f;
+			}
+			else // dodge
+			{
+				m_dodgeTimer -= _fDeltaTime;
+				m_desiredVelocity = m_lastVelocity;
+				desiredVelocityAngle = m_lastVelocity * m_leftAnalogStickSensitivity;
+				m_speed = 180.0f;
+			}
+		}
+
+		m_desiredAim = m_controller.get()->GetRightStick() * m_rightAnalogStickSensitivity;
+
+		float newVelAngle = atan2f(m_desiredVelocity.y, m_desiredVelocity.x);
+		newVelAngle *= 180.0f;
+		newVelAngle /= PI;
+		m_currentVelocityAngle = newVelAngle;
+
+
+		if (cmath::Mag(m_desiredAim) >= 0.02f)
+		{
+			float newAimAngle = atan2f(m_desiredAim.y, m_desiredAim.x);
+			newAimAngle *= 180.0f;
+			newAimAngle /= PI;
+			m_currentAimAngle = newAimAngle;
+		}
+		else if (cmath::Mag(m_desiredVelocity) >= 0.02f) {
+			m_currentAimAngle = m_currentVelocityAngle;
+		}
+
+		m_aimSprite->setRotation(m_currentAimAngle + 90);
+		m_velocitySprite->setRotation(m_currentVelocityAngle + 90);
+
+		if (m_desiredVelocity != sf::Vector2f(0, 0))
+		{
+			m_lastVelocity = m_desiredVelocity;
+		}
+	}
 }
 
 void CPlayer::FixedUpdate()
 {
-	sf::Vector2f desiredVelocityAngle;
-	m_desiredVelocity = m_controller.get()->GetLeftStick();
+	if (m_inGame)
+	{
+		sf::Vector2f desiredVelocityAngle;
+		m_desiredVelocity = m_controller.get()->GetLeftStick();
 
-	PerformWallCollision();
+		PerformWallCollision();
 
-	SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
-	m_velocitySprite->setPosition(GetPosition());
+		SetPosition(GetPosition() + m_desiredVelocity * m_speed * m_leftAnalogStickSensitivity);
+		m_velocitySprite->setPosition(GetPosition());
+	}
 }
 
 void CPlayer::PerformWallCollision()
@@ -197,12 +203,12 @@ void CPlayer::OnButtonInput(GamepadButtonEvent _event)
 	case Button::WEST:
 		m_throwStyle = ThrowStyle::RightCurve;
 		break;
-	case Button::LEFT_SHOULDER:
+	/*case Button::LEFT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)
 		{
 			SetTeam(GetTeam() == Team::BLUE ? Team::RED : Team::BLUE);
 		}
-		break;
+		break;*/
 
 	case Button::RIGHT_SHOULDER:
 		if (_event.type == GamepadButtonEvent::EventType::PRESSED)

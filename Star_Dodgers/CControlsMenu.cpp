@@ -119,11 +119,11 @@ CControlsMenu::CControlsMenu()
 	m_returnPrompt->setOrigin(sf::Vector2f(m_returnPrompt->getGlobalBounds().width / 2, m_returnPrompt->getGlobalBounds().height / 2));
 
 	//load the arrow prompts
-	downArrow = new sf::Texture;
-	downArrow->loadFromFile("Resources/Images/DownButton.png");
+	m_downArrow = new sf::Texture;
+	m_downArrow->loadFromFile("Resources/Images/DownButton.png");
 
 	m_nextImagePrompt = new sf::Sprite();
-	m_nextImagePrompt->setTexture(*downArrow);
+	m_nextImagePrompt->setTexture(*m_downArrow);
 	m_nextImagePrompt->setScale(sf::Vector2f(0.02,0.02));
 	m_nextImagePrompt->setPosition(sf::Vector2f(1800, 920));
 	m_nextImagePrompt->setRotation(-90);
@@ -134,7 +134,7 @@ CControlsMenu::CControlsMenu()
 	m_nextTextPrompt->setPosition(sf::Vector2f(1700, 880));
 
 	m_backImagePrompt = new sf::Sprite();
-	m_backImagePrompt->setTexture(*downArrow);
+	m_backImagePrompt->setTexture(*m_downArrow);
 	m_backImagePrompt->setScale(sf::Vector2f(0.02, 0.02));
 	m_backImagePrompt->setPosition(sf::Vector2f(120, 880));
 	m_backImagePrompt->setRotation(90);
@@ -192,7 +192,7 @@ CControlsMenu::~CControlsMenu()
 	delete m_nextTextPrompt;
 	delete m_backImagePrompt; 
 	delete m_backTextPrompt;
-	delete downArrow;
+	delete m_downArrow;
 }
 
 /// <summary>

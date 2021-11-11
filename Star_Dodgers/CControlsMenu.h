@@ -56,7 +56,7 @@ private:
 	sf::RectangleShape* m_pageTwoImage;
 	sf::Text* m_pageTwoText;
 	
-	sf::Texture* downArrow;
+	sf::Texture* m_downArrow;
 	sf::Sprite* m_nextImagePrompt;
 	sf::Text* m_nextTextPrompt;
 	sf::Sprite* m_backImagePrompt;

@@ -22,7 +22,7 @@ CGameScene::CGameScene()
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
 		sf::Vector2f pos;
-
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->m_inGame = true;
 		//blue team
 		if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::BLUE)
 		{
@@ -202,9 +202,6 @@ CGameScene::~CGameScene()
 		}
 	}
 
-	CWindowUtilities::m_drawList;
-	
-
 	for (int i = 0; i < 4; i++)
 	{
 		delete m_playerIconUI[i];
@@ -220,7 +217,9 @@ CGameScene::~CGameScene()
 	for (int i = 0; i < CTeamsManager::GetInstance()->GetPlayerCount(); i++)
 	{
 		CTeamsManager::GetInstance()->GetPlayer(i)->StopRendering();
-		
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetIsReady(false);
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetTeam(Team::UNDECIDED);
+		CTeamsManager::GetInstance()->GetPlayer(i).get()->m_inGame = false;
 		CTeamsManager::GetInstance()->GetPlayer(i)->UnbindController("P" + std::to_string(i));
 		CTeamsManager::GetInstance()->GetPlayer(i)->UnbindController("Gameplay");
 	}
@@ -242,8 +241,8 @@ void CGameScene::Update(float _fDeltaTime)
 		switch (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetThrowStyle())
 		{
 		case ThrowStyle::Normal: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("NormalThrowIcon.png")); break; }
-		case ThrowStyle::LeftCurve: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("LeftCurveIcon.png")); break; }
-		case ThrowStyle::RightCurve: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("RightCurveIcon.png")); break; }
+		case ThrowStyle::RightCurve: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("LeftCurveIcon.png")); break; }
+		case ThrowStyle::LeftCurve: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("RightCurveIcon.png")); break; }
 		case ThrowStyle::Fastball: { m_throwIconUI[i]->GetSprite()->setTexture(*CResourceHolder::GetTexture("FastBallIcon.png")); break; }
 		case ThrowStyle::None: { /*fallthrough*/ }
 		default: { m_throwIconUI[i] = nullptr; break; }

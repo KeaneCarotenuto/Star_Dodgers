@@ -83,6 +83,7 @@ public:
 	void Dodge();
 
 	sf::Vector2f GetAim() { return m_desiredAim; };
+	bool m_inGame;
 
 private:
 	std::shared_ptr<CGamepad> m_controller;

@@ -50,6 +50,29 @@ CLobby::CLobby()
 		CWindowUtilities::Draw(m_teamLabels[i]);
 	}
 
+	m_downArrow = new sf::Texture;
+	m_downArrow->loadFromFile("Resources/Images/DownButton.png");
+
+	m_changeTeamRight = new sf::Sprite();
+	m_changeTeamRight->setTexture(*m_downArrow);
+	m_changeTeamRight->setScale(sf::Vector2f(0.02, 0.02));
+	m_changeTeamRight->setPosition(sf::Vector2f(600, 985));
+	m_changeTeamRight->setRotation(-90);
+	CWindowUtilities::Draw(m_changeTeamRight);
+
+	m_changeTeamPrompt = new sf::Text;
+	m_changeTeamPrompt->setFont(*font);
+	m_changeTeamPrompt->setString("Change Teams");
+	m_changeTeamPrompt->setPosition(sf::Vector2f(400, 940));
+	CWindowUtilities::Draw(m_changeTeamPrompt);
+
+	m_changeTeamLeft = new sf::Sprite();
+	m_changeTeamLeft->setTexture(*m_downArrow);
+	m_changeTeamLeft->setScale(sf::Vector2f(0.02, 0.02));
+	m_changeTeamLeft->setPosition(sf::Vector2f(385, 945));
+	m_changeTeamLeft->setRotation(90);
+	CWindowUtilities::Draw(m_changeTeamLeft);
+
 	// lines between team sections
 	for (int i = 0; i < 2; i++)
 	{
@@ -122,7 +145,7 @@ CLobby::~CLobby()
 			// if title text is found in m_drawList, create an iterator pointing to the position of the title then
 			// erase the element at the iterator and all the elements up to the last team seperator are erased
 			iter += ele;
-			CWindowUtilities::m_drawList.erase(iter, iter + 10);
+			CWindowUtilities::m_drawList.erase(iter, iter + 13);
 			ele -= 1;
 			continue;
 		}
@@ -136,7 +159,10 @@ CLobby::~CLobby()
 			continue;
 		}
 	}
-
+	delete m_downArrow;
+	delete m_changeTeamRight;
+	delete m_changeTeamPrompt;
+	delete m_changeTeamLeft;
 	delete m_title;               
 	m_title = 0;
 

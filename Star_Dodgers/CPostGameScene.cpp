@@ -21,6 +21,7 @@
 
 CPostGameScene::CPostGameScene(Team _winningTeam, int _bluePoints, int _redPoints)
 {
+	CWindowUtilities::m_drawList.clear();
 	// get font
 	sf::Font* font = CResourceHolder::GetFont("chintzys.ttf");
 	switch (_winningTeam)
@@ -97,6 +98,7 @@ void CPostGameScene::OnButtonInput(GamepadButtonEvent _event)
 			switch (m_currentOption)
 			{
 			case CPostGameScene::OptionSelected::MainMenu:
+				//instantiate all players
 				CGameManager::GetInstance()->GetMasterController()->Unbind("PostGameMenu");
 				CGameManager::GetInstance()->ChangeActiveScene<CMainMenu>();
 				

@@ -54,16 +54,16 @@ int main()
 				CResourceHolder::GetWindow()->close();
 			}
 
-			// skip straight to game mode - creates players based on number of controllers that are connected
-			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
-			{
-				CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
-			}
-			// skip straight to game mode - creates players based on number of controllers that are connected
-			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::L))
-			{
-				CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>();
-			}
+			//// skip straight to game mode - creates players based on number of controllers that are connected
+			//if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::G))
+			//{
+			//	CGameManager::GetInstance()->ChangeActiveScene<CGameScene>();
+			//}
+			//// skip straight to game mode - creates players based on number of controllers that are connected
+			//if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Key::L))
+			//{
+			//	CGameManager::GetInstance()->ChangeActiveScene<CPostGameScene>();
+			//}
 
 			// if a joystick is disconnected. wait for it to be reconnected or exit game
 			if (event.type == sf::Event::JoystickDisconnected)
