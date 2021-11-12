@@ -64,6 +64,10 @@ void CPostProcessing::Update() {
         m_chromaAberrationMagnitude -= (deltaTime * (m_chromaAberrationMagnitude / m_chromaAberrationDuration));
         if (m_chromaAberrationMagnitude < 0.0f) m_chromaAberrationMagnitude = 0.0f;
     }
+    else {
+        m_chromaAberrationMagnitude = 0;
+        m_chromaAberrationDuration = 0;
+    }
     
     
     
