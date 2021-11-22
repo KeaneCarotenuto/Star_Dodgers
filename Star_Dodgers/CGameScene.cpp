@@ -46,6 +46,7 @@ CGameScene::CGameScene()
 			default: { sprStr = "null"; break; }
 			}
 			m_throwIconUI[i] = (sprStr != "null") ? new CUIImage(2, iconPos, { .75f, .75f }, 0.f, CResourceHolder::GetTexture(sprStr)) : nullptr;
+			CTeamsManager::GetInstance()->GetPlayer(i).get()->SetCurrentAimAngle(180);
 		}
 		else if (CTeamsManager::GetInstance()->GetPlayer(i).get()->GetTeam() == Team::RED) //Red Team
 		{
@@ -69,11 +70,13 @@ CGameScene::CGameScene()
 			default: { sprStr = "null"; break; }
 			}
 			m_throwIconUI[i] = (sprStr != "null") ? new CUIImage(2, iconPos, { .75f, .75f }, 0.f, CResourceHolder::GetTexture(sprStr)) : nullptr;
+			CTeamsManager::GetInstance()->GetPlayer(i).get()->SetCurrentAimAngle(0);
 		}
 
 		//Set player values
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetPosition(pos);
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->SetSize(sf::Vector2f(50, 50));
+		
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->AddVelocitySpriteToDrawList();
 
 		CTeamsManager::GetInstance()->GetPlayer(i).get()->BindController("P" + std::to_string(i), nullptr);
@@ -135,6 +138,8 @@ CGameScene::CGameScene()
 	(*m_midLine)[3].color = sf::Color(255, 255, 255, 100);
 
 	CWindowUtilities::Draw(m_midLine);
+
+
 }
 
 

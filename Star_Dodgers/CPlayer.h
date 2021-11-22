@@ -64,6 +64,7 @@ public:
 	void StopRendering();
 
 	float GetCurrentAimAngle() { return m_currentAimAngle; };
+	void SetCurrentAimAngle(float _newAngle) { m_currentAimAngle = _newAngle; };
 
 	void SetTeam(Team _team);
 	Team GetTeam() { return(m_team); }
@@ -71,6 +72,7 @@ public:
 
 	void SetIsReady(bool _isReady) { m_isReadyToPlay = _isReady; }
 	bool IsPlayerReady() { return(m_isReadyToPlay); }
+
 
 	void SetPosition(sf::Vector2f _pos) { m_aimSprite->setPosition(_pos); m_velocitySprite->setPosition(_pos - sf::Vector2f(5, 5)); }
 	void SetPosition(float _x, float _y) { m_aimSprite->setPosition({ _x,_y }); m_velocitySprite->setPosition(sf::Vector2f(_x,_y) - sf::Vector2f(5, 5)); }
@@ -100,8 +102,8 @@ private:
 	sf::Vector2f m_desiredVelocity;
 	sf::Vector2f m_lastVelocity;  // velocity before analog stick stopped being triggered
 	sf::Vector2f m_desiredAim;
-	float m_currentAimAngle = 0.0f;
-	float m_currentVelocityAngle = 0.0f;
+	float m_currentAimAngle = 90.0f;
+	float m_currentVelocityAngle = 90.0f;
 
 	float m_dodgeTimer = 0.0f;
 	float m_dodgeCooldown = 0.0f;

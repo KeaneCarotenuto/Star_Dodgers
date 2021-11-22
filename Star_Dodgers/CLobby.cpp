@@ -39,8 +39,16 @@ CLobby::CLobby()
 		std::string label;
 		sf::Color colour;
 		if (i == 0) { label = "Undecided"; colour = sf::Color(m_neutral.r, m_neutral.g, m_neutral.b, 255); }
-		else if (i == 1) { label = "Red Team"; colour = sf::Color::Red; }
-		else { label = "Blue Team"; colour = sf::Color(0, 255, 255, 150); }
+		else if (i == 1)
+		{ 
+			label = "Red Team";
+			colour = sf::Color::Red;
+		}
+		else 
+		{ 
+			label = "Blue Team";
+			colour = sf::Color(0, 255, 255, 150);
+		}
 
 		m_teamLabels[i] = new sf::Text(label, *font, 30);
 		float xPos = m_lobbySegmentsLeft[i] + ((sectionWidth - m_teamLabels[i]->getGlobalBounds().width) / 2.0f); // middle of section
@@ -118,6 +126,7 @@ CLobby::CLobby()
 	{
 		CWindowUtilities::Draw(m_playerReadyText[i]);
 	}
+
 
 	m_moveSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuMove.wav"));
 	m_selectSFX.setBuffer(*CResourceHolder::GetSoundBuffer("MenuSelect.wav"));
@@ -342,7 +351,7 @@ void CLobby::NewPlayer(std::shared_ptr<CPlayer> _player, int _controller)
 	_player.get()->BindController("Lobby", dynamic_cast<IGamepadInput*>(this));
 
 	_player.get()->AddAimSpriteToDrawlist();
-
+	
 	TeamChange((int)_player.get()->GetTeam(), (int)_player.get()->GetTeam());
 }
 

@@ -299,16 +299,19 @@ void CPlayer::SetTeam(Team _team)
 	{
 	case Team::UNDECIDED:
 	{
+		m_aimSprite->setRotation(0);
 		m_aimSprite->setColor(sf::Color(125, 125, 125, 150));
 		break;
 	}
 	case Team::RED:
 	{
+		m_aimSprite->setRotation(0);
 		m_aimSprite->setColor(sf::Color(255, 0, 0, 150));
 		break;
 	}
 	case Team::BLUE:
 	{
+		m_aimSprite->setRotation(0);
 		m_aimSprite->setColor(sf::Color(0, 255, 255, 150));
 		break;
 	}
